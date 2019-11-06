@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
-class User {
+export class User {
     constructor(name){
         this.username = name
         //this.get_username = function() {return this.username}
@@ -19,15 +19,16 @@ class User {
     }
 
      set_username(name) {
-       this.username = name 
+         this.username = name
+         return true
     }
 
 }
 
-class Event {
+export class Event {
 }
 
-class Community {
+export class Community {
 }
 
 const user = new User("asdf1")
