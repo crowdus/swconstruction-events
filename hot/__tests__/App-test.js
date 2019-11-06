@@ -22,64 +22,93 @@ test('name!', function () {
 
 
 test('community name!', function () {
-    const community = new Community("", 0)
-    expect(community.get_name()).toBe('')
-    expect(community.set_name("asdf")).toBeTruthy()
-    expect(community.get_name()).toBe('asdf')
-    expect(community.set_name(0)).toBeFalsy()
+    const c = new Community("community1", 0)
+    expect(c.get_name()).toBe("community1")
+    expect(c.set_name("")).toBeFalsy()
+    expect(c.get_name()).toBe("community1")
+    expect(c.set_name(0)).toBeFalsy()
+    expect(c.get_name()).toBe("community1")
+    expect(c.set_name(null)).toBeFalsy()
+    expect(c.get_name()).toBe("community1")
+    expect(c.set_name("0")).toBeFalsy()
+    expect(c.get_name()).toBe("0")
+    const dup = new Community("duplicate", 0)
+    expect(dup.set_name("community1")).toBeFalsy()
+    expect(dup.get_name()).toBe("duplicate")
 });
 
 test('community privacy!', function () {
-    const community = new Community("", 0)
-    expect(community.get_privacy()).toBe(0)
-    expect(community.set_privacy("asdf")).toBeFalsy()
-    expect(community.get_privacy()).toBe(0)
-    expect(community.set_privacy(0)).toBeTruthy()
-    expect(community.get_privacy()).toBe(0)
-    expect(community.set_privacy(1)).toBeTruthy()
-    expect(community.get_privacy()).toBe(1)
+    const c = new Community("name", 0)
+    expect(c.get_privacy()).toBe(0)
+    expect(c.set_privacy("asdf")).toBeFalsy()
+    expect(c.get_privacy()).toBe(0)
+    expect(c.set_privacy(0)).toBeTruthy()
+    expect(c.get_privacy()).toBe(0)
+    expect(c.set_privacy(1)).toBeTruthy()
+    expect(c.get_privacy()).toBe(1)
 });
 
 test('member functionality!!', function () {
-    const community = new Community("", 0)
-    const evt = new Event("", "", "", "", "", "")
-    const user = new User("")
-    expect(community.get_members()).toHaveLength(0)
-    expect(community.add_member(user)).toBeTruthy()
-    expect(community.add_member(user)).toBeFalsy()
-    expect(community.add_member(evt)).toBeFalsy()
-    expect(community.get_members()).toHaveLength(1)
-    expect(community.set_members([])).toBeTruthy()
-    expect(community.get_members()).toHaveLength(0)
-    expect(community.set_members([user])).toBeTruthy()
-    expect(community.set_members([evt])).toBeFalsy()
-    expect(community.get_members()).toHaveLength(1)
-    expect(community.is_member(user)).toBeTruthy()
-    expect(community.remove_member(user)).toBeTruthy()
-    expect(community.remove_member(user)).toBeFalsy()
-    expect(community.is_member(user)).toBeFalsy()
+    const c = new Community("name", 0)
+    const date = new Date('2020-01-01T01:01:01')
+    const evt = new Event("name1", "desc", date, "Ida Noyes", "science")
+    const user = new User("ross")
+
+    //basic user add
+    expect(c.get_members()).toHaveLength(0)
+    expect(c.add_member(user)).toBeTruthy()
+    expect(c.add_member(user)).toBeFalsy()
+    expect(c.get_members()).toHaveLength(1)
+
+    //adding bad member types
+    expect(c.add_member(evt)).toBeFalsy()
+    expect(c.get_members()).toHaveLength(1)
+    expect(c.add_member("string is bad")).toBeFalsy()
+    expect(c.get_members()).toHaveLength(1)    
+    expect(c.add_member(9)).toBeFalsy()
+    expect(c.get_members()).toHaveLength(1)
+
+    //check member existence
+    expect(c.is_member(user)).toBeTruthy()
+    expect(c.remove_member(user)).toBeTruthy()
+    expect(c.is_member(user)).toBeFalsy()   
+    expect(c.remove_member(user)).toBeFalsy()
+    expect(c.is_member(user)).toBeFalsy()
 });
 
 
-test('event functionality!!', function () {
-    const community = new Community("", 0)
-    const evt = new Event("", "", "", "", "", "")
-    const user = new User("")
-    expect(community.get_events()).toHaveLength(0)
-    expect(community.add_event(evt)).toBeTruthy()
-    expect(community.add_event(evt)).toBeFalsy()
-    expect(community.add_event(user)).toBeFalsy()
-    expect(community.get_events()).toHaveLength(1)
-    expect(community.set_events([])).toBeTruthy()
-    expect(community.get_events()).toHaveLength(0)
-    expect(community.set_events([evt])).toBeTruthy()
-    expect(community.set_events([user])).toBeFalsy()
-    expect(community.get_events()).toHaveLength(1)
-    expect(community.is_event(evt)).toBeTruthy()
-    expect(community.remove_event(evt)).toBeTruthy()
-    expect(community.remove_event(evt)).toBeFalsy()
-    expect(community.is_event(evt)).toBeFalsy()
-    expect(community.create_event("", "", "", "", "", "")).toBeTruthy()
-    expect(community.get_events()).toHaveLength(2)
+test('event functionality!!!', function () {
+    const c = new Community("name", 0)
+    const date = new Date('2020-01-01T01:01:01')
+    const evt = new Event("name1", "desc", date, "Ida Noyes", "science")
+    const user = new User("ross")
+
+    //basic event add
+    expect(c.get_events()).toHaveLength(0)
+    expect(c.add_event(evt)).toBeTruthy()
+    expect(c.add_event(evt)).toBeFalsy()
+    expect(c.get_events()).toHaveLength(1)
+
+    //adding bad event types
+    expect(c.add_event(user)).toBeFalsy()
+    expect(c.get_events()).toHaveLength(1)
+    expect(c.add_event("string is bad")).toBeFalsy()
+    expect(c.get_events()).toHaveLength(1)    
+    expect(c.add_event(9)).toBeFalsy()
+    expect(c.get_events()).toHaveLength(1)
+
+    //check event existence
+    expect(c.is_event(evt)).toBeTruthy()
+    expect(c.remove_event(evt)).toBeTruthy()
+    expect(c.is_event(evt)).toBeFalsy()   
+    expect(c.remove_event(evt)).toBeFalsy()
+    expect(c.is_event(evt)).toBeFalsy()
+
+    //test event creation through community class
+    const d = new Date('2020-01-01T01:01:01')
+    expect(c.create_event("", "", "", "", "", "")).toBeFalsy()
+    expect(c.get_events()).toHaveLength(0)
+    expect(c.create_event("blergh", "description", d, "Ida Noyes", "javascript")).toBeFalsy()
+    expect(c.get_events()).toHaveLength(1)
 });
 
