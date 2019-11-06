@@ -26,9 +26,35 @@ export class User {
 }
 
 export class Event {
+    constructor(name, desc, date, time, loc, tag) {
+    }
 }
 
 export class Community {
+
+    constructor(name, privacy) {
+        this.name = name
+        this.privacy = privacy
+        this.events = []
+        this.members = []
+    }
+
+    get_events() { return this.events }
+    set_events(evts) { this.events = evts; return false; }
+    get_members() { return this.members }
+    set_members(members) { this.members = members; return false; }
+    get_name() { return this.name }
+    set_name(name) { this.name = name; return false; }
+    get_privacy() { return this.privacy }
+    set_privacy(privacy) { this.privacy = privacy; return false; }
+
+    add_member(member) {}
+    remove_member(member) {}
+    is_member(member) {}
+    add_event(evt) {}
+    create_event(evt) {}
+    is_event(evt) {}
+
 }
 
 const user = new User("asdf1")
