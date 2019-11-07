@@ -40,25 +40,23 @@ export class Community {
     }
 
     get_events() { return this.events }
-    set_events(evts) { this.events = evts; return false; }
+    set_events(evts) { this.events = evts; return true; }
     get_members() { return this.members }
-    set_members(members) { this.members = members; return false; }
+    set_members(members) { this.members = members; return true; }
     get_name() { return this.name }
-    set_name(name) { this.name = name; return false; }
+    set_name(name) { this.name = name; return true; }
     get_privacy() { return this.privacy }
-    set_privacy(privacy) { this.privacy = privacy; return false; }
+    set_privacy(privacy) { this.privacy = privacy; return true; }
 
-    add_member(member) {}
-    remove_member(member) {}
-    is_member(member) {}
-    add_event(evt) {}
-    create_event(evt) {}
-    is_event(evt) {}
+    add_member(member) {return true;}
+    remove_member(member) {return true;}
+    is_member(member) {return true;}
+    add_event(evt) {return true;}
+    create_event(evt) {return true;}
+    is_event(evt) {return true;}
 
 }
 
-const user = new User("asdf1")
-user.set_username("asdf")
 
 export default class Intro extends Component {
     render() {
