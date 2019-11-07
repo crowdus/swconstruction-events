@@ -9,26 +9,52 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
 export class User {
-    constructor(name) {
-        this.username = name
-            //this.get_username = function() {return this.username}
+    constructor(userID, username, firstname, lastname, email, datejoined, password, friends) {
+        this.userID = userID;
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.datejoined = datejoined;
+        this.password = password;
+        this.followed = friends;
     }
 
-    get_username() {
+    getUserID() {}
+    get_UserName() {
         return this.username
     }
-
-    set_username(name) {
+    getFirstName() {}
+    getLastName() {}
+    getEmail() {}
+    getDateJoined() {}
+    getPassword() {}
+    setUserID(_userID) {}
+    setUserName(name) {
         this.username = name
         return true
     }
+    setFirstName(_firstname) {}
+    setLastName(_lastname) {}
+    setEmail(_email) {}
+    setDateJoined(_date) {}
+    setPassword(_password) {}
+    followFriend(_username) {
+        // get person based on username
+        // follow friends based on username
+        return true;
+    }
 
+    unfollowFriend(_username) {
+        // todo
+        return true;
+    }
+
+    followFriends(usernames) {}
+    unfollowFriends(usernames) {}
+    saveEvent(event, status) {}
 }
 
-//adding extra attributes (time/date)
-//not implement send invite
-//add address instead of loc field
-//set event info
 
 export class Event {
     MAX_TAGS = 5
@@ -150,12 +176,12 @@ export class Community {
     get_privacy() { return this.privacy }
     set_privacy(privacy) { this.privacy = privacy; return true; }
 
-    add_member(member) {return true;}
-    remove_member(member) {return true;}
-    is_member(member) {return true;}
-    add_event(evt) {return true;}
-    create_event(evt) {return true;}
-    is_event(evt) {return true;}
+    add_member(member) { return true; }
+    remove_member(member) { return true; }
+    is_member(member) { return true; }
+    add_event(evt) { return true; }
+    create_event(evt) { return true; }
+    is_event(evt) { return true; }
 
 }
 

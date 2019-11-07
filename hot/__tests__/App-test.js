@@ -13,8 +13,223 @@ import { App, Event, Community, User } from '../App';
 //renderer.create(<App />);
 //});
 
-// Event Tests ----------------------------------
+// ---------- User Tests ---------------------------
+var bobby = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
+var alice = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
+var calvin = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
+var david = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
 
+function reset() {
+    bobby = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
+    alice = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
+    calvin = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
+    david = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
+}
+
+describe('testing getters and setters', () => {
+    beforeAll(() => {
+        reset();
+    });
+
+
+    test('testing get/set UserID', () => {
+        // will check for repeat UserIDs
+        // check for integer input only
+        expect(bobby.setUserID(0)).toBe(false);
+        expect(bobby.setUserID("hi")).toBe(false);
+        expect(bobby.getUserID()).toBe(0);
+        expect(bobby.setUserID(1111)).toBe(true);
+        expect(bobby.getUserID()).toBe(1111);
+        expect(bobby.setUserID("#%^&#")).toBe(false);
+        expect(bobby.setUserID("11#c")).toBe(false);
+        expect(bobby.getUserID()).toBe(1111);
+
+        // check for repeated userID
+        expect(alice.setUserID(1111)).toBe(false);
+        expect(alice.getUserID()).toBe(0);
+        expect(alice.setUserID(1112)).toBe(true);
+        expect(alice.getUserID()).toBe(1112);
+
+    });
+
+    test('testing get/set UserName', () => {
+        // will check for repeated UserNames
+        // can contain alphabet only/ alphabet + number
+        expect(bobby.setUserName("")).toBe(false);
+        expect(bobby.setUserName("iambobby!")).toBe(false);
+        expect(bobby.getUserName()).toBe("");
+        expect(bobby.setUserName("bobbyiscool")).toBe(true);
+        expect(bobby.getUserName()).toBe("bobbyiscool");
+        expect(bobby.setUserName("bobby1234")).toBe(true);
+        expect(bobby.getUserName()).toBe("bobby1234");
+        expect(bobby.setUserName("2357>#$%")).toBe(false);
+        expect(bobby.setUserName(32795)).toBe(false);
+        expect(bobby.getUserName()).toBe("bobby1234");
+
+        // check for repeated username
+        expect(alice.setUserName("bobby1234")).toBe(false);
+        expect(alice.getUserName()).toBe("");
+        expect(alice.setUserName("alice")).toBe(true);
+        expect(alice.getUserName()).toBe("alice");
+
+    });
+
+    test("testing get/set FirstName", () => {
+        // check for alphanumeric input only
+        // do not need to check for repeated firstname
+        expect(bobby.setFirstName("")).toBe(false);
+        expect(bobby.setFirstName("iambobby!")).toBe(false);
+        expect(bobby.getFirstName()).toBe("");
+        expect(bobby.setFirstName("bobbyiscool")).toBe(true);
+        expect(bobby.getFirstName()).toBe("bobbyiscool");
+        expect(bobby.setFirstname("bobby1234")).toBe(true);
+        expect(bobby.getFirstName()).toBe("bobby1234");
+        expect(bobby.setFirstName("2357>#$%")).toBe(false);
+        expect(bobby.setFirstName(32795)).toBe(false);
+        expect(bobby.getFirstName()).toBe("bobby1234");
+
+        expect(alice.setFirstName("bobby1234")).toBe(true);
+        expect(alice.getFirstName()).toBe("bobby1234");
+    });
+
+
+    test("testing get/set LastName", () => {
+        // check for alphanumeric input only
+        // do not need to check for repeated firstname
+        expect(bobby.setLastName("")).toBe(false);
+        expect(bobby.setLastName("iambobby!")).toBe(false);
+        expect(bobby.getLastName()).toBe("");
+        expect(bobby.setLastName("bobbyiscool")).toBe(true);
+        expect(bobby.getLastName()).toBe("bobbyiscool");
+        expect(bobby.setLastName("bobby1234")).toBe(true);
+        expect(bobby.getLastName()).toBe("bobby1234");
+        expect(bobby.setLastName("2357>#$%")).toBe(false);
+        expect(bobby.setLastName(32795)).toBe(false);
+        expect(bobby.getLastName()).toBe("bobby1234");
+
+        expect(alice.setLastName("bobby1234")).toBe(true);
+        expect(alice.getLastName()).toBe("bobby1234");
+    });
+
+    test("testing get/set Email", () => {
+        // check for the correct email address format, i.e. whether it contains @
+        // check for valid email address
+        expect(bobby.setEmail("")).toBe(false);
+        expect(bobby.setEmail("bobby@uchicago.edu")).toBe(true);
+        expect(bobby.getEmail()).toBe("bobby@uchicago.edu");
+        expect(bobby.setEmail("bobbyfewhogbw32")).toBe(false);
+        expect(bobby.setEmail("giww23#@%$@^@#")).toBe(false);
+        expect(bobby.setEmail("bobby@gsnail.com")).toBe(false);
+        expect(bobby.getEmail()).toBe("bobby@uchicago.edu");
+
+        expect(alice.setEmail("bobby@uchicago.edu")).toBe(true);
+        expect(alice.setEmail("alicegmail.com")).toBe(false);
+        expect(alice.getEmail()).toBe("bobby@uchicago.edu");
+    });
+
+    test("testing set/get Date", () => {
+        // check for valid date input
+        // in the format of YYYY-MM-DD
+        // test for corner cases: invalid format, invalid month/day
+        expect(bobby.setDateJoined("")).toBe(false);
+        expect(bobby.setDateJoined("2019-11-15")).toBe(true);
+        expect(bobby.getDateJoined()).toBe("2019-11-15");
+        expect(bobby.setDateJoined("2019-2-30")).toBe(false);
+        expect(bobby.setDateJoined("2019-13-01")).toBe(false);
+        expect(bobby.setDateJoined("12-01-2019")).toBe(false);
+        expect(bobby.setDateJoined("25-12-2019")).toBe(false);
+    });
+
+    test("testing set/get password", () => {
+        // password must contain one lower case and one upper case and a number
+        // test for normal cases and passwords that include special symbols
+        // test for corner cases, i.e. does not contain upper case
+        // does not contain lower case
+        // does not contain number
+        expect(bobby.setPassword("")).toBe(false);
+        expect(bobby.setPassword("2019Iambobby")).toBe(true);
+        expect(bobby.getPassword()).toBe("2019Iambobby");
+        expect(bobby.setPassword("2019iambobby")).toBe(false);
+        expect(bobby.setPassword("Iambobby")).toBe(false);
+        expect(bobby.setPassword("2019Iambobby!")).toBe(true);
+        expect(bobby.setPassword("2019IAMBOBBY")).tobe(false);
+        expect(bobby.getPassword()).toBe("2019Iambobby!");
+    });
+
+});
+
+describe('testing friend invitation', () => {
+    beforeAll(() => {
+        reset();
+    });
+
+    test('testing follow/ unfollow', () => {
+        // get person based on username and follow the user
+        // first test following one friend only
+        expect(bobby.setUserName("bobbyiscool")).toBe(true);
+        expect(alice.setUserName("alice1234")).toBe(true);
+        expect(calvin.setUserName("calvin")).toBe(true);
+        expect(david.setUserName("david")).toBe(true);
+
+        // let bobby follows one other friend
+        // check for unexisting username
+        // a person cannot follow himself
+        // if a person has already follow a friend, it should return false
+        // a person can follow back the person who follows him
+        expect(bobby.followFriend("")).toBe(false);
+        expect(bobby.followFriend("alice1234")).toBe(true);
+        expect(bobby.followFriend("hellobobby")).toBe(false);
+        expect(bobby.followFriend("bobbyiscool")).toBe(false);
+        expect(bobby.followFriend("alice1234")).toBe(false);
+        expect(alice.followFriend("bobbyiscool")).toBe(true);
+        expect(alice.followFriend(1256)).toBe(false);
+
+        // noe test the function of unfollowing friend
+        // check for unexisting username
+        // a person cannot unfollow himself
+        // only people that are followed can be unfollowed
+        expect(bobby.unfollowFriend("")).toBe(false);
+        expect(bobby.unfollowFriend("alice1234")).toBe(true);
+        expect(bobby.unfollowFriend("bobbyiscool")).toBe(false);
+        expect(bobby.unfollowFriend("calvin")).toBe(false);
+        expect(bobby.unfollowFriend("hellobobby")).toBe(false);
+        expect(bobby.followFriend("alice1234")).toBe(true);
+        expect(bobby.unfollowFriend("alice1234")).toBe(false);
+        expect(bobby.unfollowFriend(1234)).toBe(false);
+
+
+        // check the function of following a list of friends
+        expect(bobby.followFriends([])).toBe([]);
+        expect(bobby.followFriends(["alice1234", "calvin"])).toBe([]);
+        expect(bobby.followFriends(["david", "calvin"])).tobe(["calvin"]);
+        bobby.unfollowFriend("david");
+        expect(bobby.followFriends(["bobbyiscool", "heybobby", "david", 1234])).toBe(["bobbyiscool", "heybobby", 1234]);
+
+
+        // check the function of unfollowing a list of friends
+        expect(bobby.unfollowFriends([])).toBe([]);
+        expect(bobby.unfollowFriends(["alice1234", "calvin", "david"])).toBe([]);
+        expect(bobby.unfollowFriends(["heybobby", "bobbyiscool"])).toBe(["heybobby", "bobbyiscool"]);
+        expect(bobby.unfollowFriends([1234, "heybobby"])).toBe([1234, "heybobby"]);
+
+
+    });
+});
+
+test('user save events', () => {
+    const date = new Date('2020-01-01T01:01:01')
+    const evt = new Event("name1", "desc", date, "Ida Noyes", "science")
+    const user = new User("ross")
+        // a user cannot save an event with the same status multiple times
+        // but a user can change the status
+    expect(user.saveEvent(evt, "interested")).toBe(true);
+    expect(user.saveEvent(evt, "interested")).toBe(false);
+    expect(user.saveEvent(evt, "going")).toBe(true);
+
+})
+
+
+// ---------- Event Tests ---------------------------
 function n_str(n) {
     var ret = ""
     for (i = 0; i < n; i++) {
@@ -179,8 +394,7 @@ test('get check ins!', function() {
     expect(event.get_check_ins()).toBe(["going1", "going2", "int1"])
 })
 
-// Community Tests ------------------------------
-
+// ---------- Community Tests ---------------------------
 test('name!', function() {
     const user = new User("")
     expect(user.get_username()).toBe('')
