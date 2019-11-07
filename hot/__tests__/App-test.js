@@ -30,7 +30,7 @@ test('community name!', function () {
     expect(c.get_name()).toBe("community1")
     expect(c.set_name(null)).toBeFalsy()
     expect(c.get_name()).toBe("community1")
-    expect(c.set_name("0")).toBeFalsy()
+    expect(c.set_name("0")).toBeTruthy()
     expect(c.get_name()).toBe("0")
     const dup = new Community("duplicate", 0)
     expect(dup.set_name("community1")).toBeFalsy()
