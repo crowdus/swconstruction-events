@@ -46,7 +46,6 @@ export class Event {
 
     get_name() { return this.name }
     get_desc() { return this.desc }
-    get_date() { return this.date }
     get_start_date() { return this.start_date }
     get_end_date() { return this.end_date }
     get_address() { return this.address }
@@ -105,7 +104,13 @@ export class Event {
     }
 
     set_boost() {
-        this.isBoosted = true;
+        this.isBoosted = true
+        return true
+    }
+
+    add_admin(admin) {
+        this.admins.push(admin)
+        return true
     }
 
     get_interested_people() {
