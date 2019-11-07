@@ -8,6 +8,6 @@ Setup:
 ``` npm install ```
 
 To Run:
-`` npm test ```
+``` npm test ```
 
 Thanks!
