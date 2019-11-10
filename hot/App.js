@@ -6,7 +6,7 @@
  * @flow
  */
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 export class User {
     constructor(userID, username, firstname, lastname, email, datejoined, password, friends) {
@@ -154,8 +154,7 @@ export class Event {
         // (relevant only after event past)
         return []
     }
-
-
+    
 }
 
 export class Community {
@@ -185,20 +184,59 @@ export class Community {
 
 }
 
+e = new Event("asdf", "desc", new Date("2019-12-17T03:24:00"), new Date("2019-12-17T03:24:00"), "addr", "tags", null);
+e1 = new Event("asdf1", "desc", new Date("2019-12-17T03:24:00"), new Date("2019-12-17T03:24:00"), "addr", "tags", null);
+
+function ScrollEventUI({e}) {
+    return (
+        <View style={styles.evt_card}>
+            <Text style={styles.evt_title}>{e.get_name()}</Text>
+            <Text style={styles.evt_date}>{e.get_start_date().toString()} - {e.get_end_date().toString()}</Text>
+            <Text style={styles.evt_addr}>{e.get_address()}</Text>
+            <Text style={styles.evt_desc}>{e.get_desc()}</Text>
+            <Text style={styles.evt_tags}>{e.get_tags()}</Text>
+        </View>
+    );
+}
 
 export default class Intro extends Component {
+
     render() {
-        /*
         return (
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <Text>
-                This is a React Native snapshot test.
-            </Text>
-              <Text>
-                 This is a React Native snapshot test. {user.get_username()}
-              </Text>
-            </View>
+            <SafeAreaView style={styles.container}>
+                <FlatList
+                    data={[e, e1, e, e, e, e, e, e, e, e]}
+                    renderItem={({item}) => <ScrollEventUI e={item}/> }
+                    keyExtractor={item => item.get_name()}
+                />
+            </SafeAreaView>
         );
-        */
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: 100,
+    },
+    evt_card: {
+        padding: 10,
+        marginBottom: 10,
+        backgroundColor: "#eee"
+    },
+    evt_title: {
+        fontSize:22
+    },
+    evt_date: {
+
+    },
+    evt_addr: {
+
+    },
+    evt_desc: {
+        fontSize:18
+    },
+    evt_tags: {
+
+    }
+});
