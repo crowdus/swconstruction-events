@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 export class User {
-    constructor(userID, username, firstname, lastname, email, datejoined, password, friends) {
+    constructor(userID, username, firstname, lastname, email, datejoined, password, followers) {
         if (userID.match(/^[0-9a-zA-Z]/)){
           if(!finduser(userID)){
             this.userID = userID;
@@ -42,7 +42,7 @@ export class User {
           this.password = password;
         }
 
-        this.followed = friends;
+        this.followed = followers;
     }
 
     getUserID() {
