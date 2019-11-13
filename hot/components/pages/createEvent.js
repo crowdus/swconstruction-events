@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-nat
 import t from 'tcomb-form-native';
 import Event from '../classes/event.js'
 
+/* Create Form Structure for the form builder library*/
 const Form = t.form.Form;
 
 const event = t.struct({
@@ -12,32 +13,73 @@ const event = t.struct({
   address: t.String,
   start_date: t.Date,
   end_date: t.Date,
-  tags: t.String,
-  admins: t.String
+  tags: t.maybe(t.String),
+  admins: t.maybe(t.String)
 });
 
-var options={}
+/* Set Form Placeholders and input validation settings */
+const currTime = new Date()
+var options = {
+  fields: {
+    name: {
+      placeholder: 'Hot Chocolate Study Break',
+      label: 'Event Name',
+      maxLength: 100
+    },
+    description: {
+      placeholder: 'Meet us over Hot Cocoa!',
+      maxLength: 1000,
+      multiline: true,
+      numberOfLines: 2
+    },
+    address: {
+      placeholder: "123 Main Street",
+      maxLength: 500,
+      multiline: true,
+      numberOfLines: 2
+    },
+    start_date: {
+      initialDate: currTime,
+      minimumDate: currTime,
+      minuteInterval: 10,
+    },
+    end_date: {
+      minimumDate: currTime,
+      minuteInterval: 10,
+    },
+    tags: {
+      placeholder: "study,chocolate,..."
+    },
+    admins: {
+      placeholder: "user1,user2,..."
+    }
+  }
+}
 
-export default class CreateEvent extends Component {
-  /*
+export default class CreateEvent extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      formSubmitted: false,
-      formStatus = ""
-    }
-  }*/
+  }
 
+  /* onForm Submit function */
   onPress = () => {
-    // getValue() gets the values of the form
     var value = this.refs.form.getValue();
     if (value) { 
-      var createdEvent = new Event(value)
-      if (createdEvent) {
-        console.log(createdEvent.props.name)
+      var newEvent = new Event()
+      var valid = newEvent.consHelper(value)
+      if (valid) {
+        console.log("success!")
+        console.log(newEvent)
+        // redirect to newly created event page
+      }
+      else {
+        // reset form
+        console.log(newEvent)
+        console.log("Error! Try Again") 
       }
     }
     else{
+      // reset form
       console.log("Form Error")
     }
   }
@@ -55,7 +97,9 @@ export default class CreateEvent extends Component {
           <Text style={styles.buttonText}>Create</Text>
         </TouchableHighlight>
 
-  
+        <Text onPress={this.onPress}>
+          {this.props.formStatus}
+        </Text>
 
         </ScrollView>
       </View>
