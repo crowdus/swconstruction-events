@@ -13,11 +13,13 @@ export default class LogIn extends React.Component {
       "username": "",
       "code": ""
     }
+    this.props=props
   }
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
-      <View>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>
           Welcome to Hot! {"\n\n"}
           Enter Username:
@@ -41,7 +43,7 @@ export default class LogIn extends React.Component {
         <Button
           title="Log In"
           color="#f194ff"
-          onPress={() => Alert.alert('Incorrect access code')}
+          onPress={function () { navigate('Feed')}}
         />
       </View>
       </View>

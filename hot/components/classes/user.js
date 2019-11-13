@@ -6,7 +6,12 @@
  * @flow
  */
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+=======
+import { Text, View } from 'react-native';
+import Followable from './followable';
+>>>>>>> fa5cf53501e21a3fa9620d39ad513e53dcad0730
 
 export class User {
     constructor(userID, username, firstname, lastname, email, datejoined, password, friends) {
