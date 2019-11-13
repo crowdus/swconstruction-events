@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import Followable from 'followable';
 
 export default class Event extends Followable {
   MAX_TAGS = 5
