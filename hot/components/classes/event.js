@@ -23,6 +23,8 @@ export default class Event extends Followable {
   /* 
     Constructor Helper function
     (Parses and Validates Data from form creation)
+    Returns True if valid and modifies object
+    Returns False if invalid
   */
   consHelper(values) {
     // Validate Data: check if Dates are valid
@@ -45,7 +47,6 @@ export default class Event extends Followable {
             this.add_tag(tag) /* TODO: make these sets instead of arrays */
         }
     }
-
     // Parse Admin Data to set
     if (values.admins != "") {
         adArray = values.admins.split(/[ ,]+/)
