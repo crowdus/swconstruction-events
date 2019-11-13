@@ -132,12 +132,12 @@ describe('testing getters and setters', () => {
         // in the format of YYYY-MM-DD
         // test for corner cases: invalid format, invalid month/day
         expect(bobby.setDateJoined("")).toBe(false);
-        expect(bobby.setDateJoined("2019-11-15")).toBe(true);
-        expect(bobby.getDateJoined()).toBe("2019-11-15");
-        expect(bobby.setDateJoined("2019-2-30")).toBe(false);
-        expect(bobby.setDateJoined("2019-13-01")).toBe(false);
-        expect(bobby.setDateJoined("12-01-2019")).toBe(false);
-        expect(bobby.setDateJoined("25-12-2019")).toBe(false);
+        expect(bobby.setDateJoined(2019, 10, 15)).toBe(true);
+        expect(bobby.getDateJoined()).toBe(new Date("October 24, 2019"));
+        expect(bobby.setDateJoined(2019, 2, 30)).toBe(false);
+        expect(bobby.setDateJoined(2019, 13, 1)).toBe(false);
+        expect(bobby.setDateJoined(12, 01, 2019)).toBe(false);
+        expect(bobby.setDateJoined(25, 12, 2019)).toBe(false);
     });
 
     test("testing set/get password", () => {
