@@ -14,7 +14,23 @@ function TagUI({t}) {
     );
 }
 
-function ScrollEventUI({e}) {
+function ScrollHeader({usr}) {
+    // machine icon (account info button)
+    // globe icon (nearby)
+    // crowd icon (subscribed)
+    // single person icon (going/interested/admin)
+    // plus icon (create event)
+    return (
+        <Header
+        placement="left"
+        leftComponent={{ icon: 'menu', color: '#fff' }}
+        centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+        rightComponent={{ icon: 'home', color: '#fff' }}
+        />
+    )
+}
+
+function ScrollViewEvent({e}) {
     return (
         <View style={styles.evt_card}>
             <Text style={styles.evt_title}>{e.get_name()}</Text>
@@ -42,7 +58,7 @@ export default class Feed extends Component {
             <SafeAreaView style={styles.container}>
                 <FlatList
                     data={[e, e1]}
-                    renderItem={({item}) => <ScrollEventUI e={item}/> }
+                    renderItem={({item}) => <ScrollViewEvent e={item}/> }
                     keyExtractor={item => item.get_name()}
                 />
             </SafeAreaView>
