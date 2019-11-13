@@ -53,15 +53,6 @@ export class User {
     followFriends(usernames) {}
     unfollowFriends(usernames) {}
     saveEvent(event, status) {}
-
-    get_interested_events(){
-	//calculate the events that user clicked interested to using the UserID
-	return []
-    }
-    get_going_events(){
-	//calculate the events that user clicked going to using the UserID
-	return []
-    }
 }
 
 
