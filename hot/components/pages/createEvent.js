@@ -3,14 +3,15 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-native';
 import t from 'tcomb-form-native';
 import Event from '../classes/event.js'
+import Core, {BASE_URL,fetch_headers } from '../classes/core'
 
 /* Create Form Structure for the form builder library*/
 const Form = t.form.Form;
 
 const event = t.struct({
   name: t.String,
-  description: t.String,
-  address: t.String,
+  desc: t.String,
+  addr: t.String,
   start_date: t.Date,
   end_date: t.Date,
   tags: t.maybe(t.String),
@@ -24,15 +25,17 @@ var options = {
     name: {
       placeholder: 'Hot Chocolate Study Break',
       label: 'Event Name',
-      maxLength: 100
+      maxLength: 128
     },
     description: {
+      label: 'Event Description',
       placeholder: 'Meet us over Hot Cocoa!',
       maxLength: 1000,
       multiline: true,
       numberOfLines: 2
     },
-    address: {
+    addr: {
+      label: 'Address',
       placeholder: "123 Main Street",
       maxLength: 500,
       multiline: true,
@@ -54,7 +57,23 @@ var options = {
       placeholder: "user1,user2,..."
     }
   }
-}
+};
+
+function add_event_to_database(event){
+  fetch(`${BASE_URL}/events`, {
+    method: 'POST',
+    headers: fetch_headers,
+    body: JSON.stringify(event)
+  })
+  .then((responseID) => {
+    eventID = responseID.text()
+    return eventID
+  })
+  .catch((error) => {
+    console.error(error);
+    return 0 //valid ID is a hexadecimal, so 0 is ALWAYS invalid
+  });   
+};
 
 export default class CreateEvent extends React.Component {
   constructor(props){
@@ -68,9 +87,11 @@ export default class CreateEvent extends React.Component {
       var newEvent = new Event()
       var valid = newEvent.consHelper(value)
       if (valid) {
+        // Add event to database
         console.log("success!")
+        add_event_to_database(newEvent)
         console.log(newEvent)
-        // redirect to newly created event page
+        // Redirect to Newly Created event page
       }
       else {
         // reset form

@@ -27,7 +27,7 @@ export default class App extends Component {
     var eventx = new Event(values)
     return (
       <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-        {this.state.Current == 'Login' ? <LogIn></LogIn> : <EventView event={eventx}></EventView> }
+        {this.state.Current == 'Login' ? <LogIn></LogIn> : <CreateEvent></CreateEvent> }
       </View>
     );
   }

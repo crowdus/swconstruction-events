@@ -5,19 +5,18 @@ import Followable from './followable';
 const MAX_TAGS = 5
 
 export default class Event extends Followable {
-  constructor(props) {
-    super(props);
-    // Unwrap from properties
-    this.name = this.props.name
-    this.desc = this.props.desc
-    this.start_date = this.props.start_date
-    this.end_date = this.props.end_date
-    this.address = this.props.address
 
-    this.isBoosted = false;
-    this.tags = new Set();
-    this.admins = new Set();
-    this.admins.add("user1") //TODO: change to user's username
+  constructor(name, desc, start, end, addr, tags, admin) {
+    // initialize fields
+    this.name = name
+    this.desc = desc
+    this.start_date = new Date(start)
+    this.end_date = new Date(end)
+    this.addr = addr
+    this.isBoosted = false
+    this.tags = tags
+    this.admins = ["user1"] //TODO: change to user's username
+    
   }
 
   /* 
@@ -35,20 +34,20 @@ export default class Event extends Followable {
     }
     // Set Values
     this.set_name(values.name)
-    this.set_address(values.address)
+    this.set_address(values.addr)
     this.set_desc(values.description)
-    this.set_end_date(values.end_date)
-    this.set_start_date(values.start_date)
+    this.set_end_date(end_date)
+    this.set_start_date(start_date)
 
     // Parse Tag Data to set
-    if (values.tags != "") {
+    if (values.tags != null) {
         tagArray = values.tags.split(/[ ,]+/)
         for (var tag of tagArray) {
             this.add_tag(tag) /* TODO: make these sets instead of arrays */
         }
     }
     // Parse Admin Data to set
-    if (values.admins != "") {
+    if (values.admins != null) {
         adArray = values.admins.split(/[ ,]+/)
         for (var ad of adArray) {
             this.add_admin(ad)
@@ -62,23 +61,33 @@ export default class Event extends Followable {
   get_desc() { return this.desc }
   get_start_date() { return this.start_date }
   get_end_date() { return this.end_date }
-  get_address() { return this.address }
+  get_address() { return this.addr }
   get_tags() { return this.tags }
   isBoosted() { return this.isBoosted }
   get_admins() { return this.admins }
 
   set_name(new_name) {
-      var new_len = new_name.length
-      if (new_len > 0 && new_len <= 128) {
-          this.name = new_name
-          return true
-      }
-      return false
+    var new_len = new_name.length
+    if (new_len > 0 && new_len <= 128) {
+        this.name = new_name
+        return true
+    }
+    return false
   }
 
   set_desc(new_desc) {
-      this.desc = new_desc
-      return true
+    this.desc = new_desc
+    return true
+  }
+  
+  set_start_date(start) {
+    this.start_date = start
+    return true
+  }
+
+  set_end_date(end) {
+    this.end_date = end
+    return true
   }
 
   change_start_date(new_date) {

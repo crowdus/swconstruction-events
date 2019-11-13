@@ -5,17 +5,19 @@ import User from './user'
 
 /* Core - core functionality that aren't class specific */
 
-const BASE_URL = 'https://hot-backend.herokuapp.com'
+export const BASE_URL = 'https://hot-backend.herokuapp.com'
+export const fetch_headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+}
+
 
 // Returns event object given an event ID
 export function get_event_from_id(eventid) {
   /* Make call to our API */
   fetch(`${BASE_URL}/events/${eventid}`, {
     method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
+    headers: fetch_headers,
   })
   .then((response) => response.json())
   .then((responseJson) => {
