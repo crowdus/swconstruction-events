@@ -4,7 +4,13 @@
 
 import 'react-native';
 import React from 'react';
-import { App, Event, Community, User } from '../App';
+import Event from '../components/classes/event.js';
+import User from '../components/classes/user.js';
+import Tag from '../components/classes/tag.js';
+import Followable from '../components/classes/followable.js';
+// import Home from '../components/pages/home.js';
+// import LogIn from '../components/pages/login';
+// import Feed from '../components/pages/feed.js';
 
 // Note: test renderer must be required after react-native.
 //import renderer from 'react-test-renderer';
@@ -14,7 +20,7 @@ import { App, Event, Community, User } from '../App';
 //});
 
 // ---------- User Tests ---------------------------
-var bobby = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
+var bobby = User(0, "", "", "", "", (new Date('2019-01-02')), '');
 var alice = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
 var calvin = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
 var david = new User(0, "", "", "", "", (new Date('2019-01-02')), '');
@@ -171,52 +177,33 @@ describe('testing friend invitation', () => {
         expect(calvin.setUserName("calvin")).toBe(true);
         expect(david.setUserName("david")).toBe(true);
 
-        // let bobby follows one other friend
+        // let bobby follow one other friend
         // check for unexisting username
         // a person cannot follow himself
-        // if a person has already follow a friend, it should return false
         // a person can follow back the person who follows him
-        expect(bobby.followFriend("")).toBe(false);
-        expect(bobby.followFriend("alice1234")).toBe(true);
-        expect(bobby.followFriend("hellobobby")).toBe(false);
-        expect(bobby.followFriend("bobbyiscool")).toBe(false);
-        expect(bobby.followFriend("alice1234")).toBe(false);
-        expect(alice.followFriend("bobbyiscool")).toBe(true);
-        expect(alice.followFriend(1256)).toBe(false);
+        expect(bobby.follow_user("")).toBe(false);
+        expect(bobby.follow_user("alice1234")).toBe(true);
+        expect(alice.follow_user("hellobobby")).toBe(false);
+        expect(bobby.follow_user("bobbyiscool")).toBe(false);
+        expect(alice.follow_user("bobbyiscool")).toBe(true);
+        expect(alice.follow_user(1256)).toBe(false);
 
         // noe test the function of unfollowing friend
         // check for unexisting username
         // a person cannot unfollow himself
         // only people that are followed can be unfollowed
-        expect(bobby.unfollowFriend("")).toBe(false);
-        expect(bobby.unfollowFriend("alice1234")).toBe(true);
-        expect(bobby.unfollowFriend("bobbyiscool")).toBe(false);
-        expect(bobby.unfollowFriend("calvin")).toBe(false);
-        expect(bobby.unfollowFriend("hellobobby")).toBe(false);
-        expect(bobby.followFriend("alice1234")).toBe(true);
-        expect(bobby.unfollowFriend("alice1234")).toBe(false);
-        expect(bobby.unfollowFriend(1234)).toBe(false);
-
-
-        // check the function of following a list of friends
-        expect(bobby.followFriends([])).toBe([]);
-        expect(bobby.followFriends(["alice1234", "calvin"])).toBe([]);
-        expect(bobby.followFriends(["david", "calvin"])).tobe(["calvin"]);
-        bobby.unfollowFriend("david");
-        expect(bobby.followFriends(["bobbyiscool", "heybobby", "david", 1234])).toBe(["bobbyiscool", "heybobby", 1234]);
-
-
-        // check the function of unfollowing a list of friends
-        expect(bobby.unfollowFriends([])).toBe([]);
-        expect(bobby.unfollowFriends(["alice1234", "calvin", "david"])).toBe([]);
-        expect(bobby.unfollowFriends(["heybobby", "bobbyiscool"])).toBe(["heybobby", "bobbyiscool"]);
-        expect(bobby.unfollowFriends([1234, "heybobby"])).toBe([1234, "heybobby"]);
-
-
+        expect(bobby.unfollow_user("")).toBe(false);
+        expect(bobby.unfollow_user("alice1234")).toBe(true);
+        expect(bobby.unfollow_user("bobbyiscool")).toBe(false);
+        expect(bobby.unfollow_user("calvin")).toBe(false);
+        expect(bobby.unfollow_user("hellobobby")).toBe(false);
+        expect(bobby.follow_user("calvin")).toBe(true);
+        expect(bobby.unfollow_user("alice1234")).toBe(false);
+        expect(bobby.unfollow_user(1234)).toBe(false);
     });
 });
 
-test('user save events', () => {
+/*test('user save events', () => {
     const date = new Date('2020-01-01T01:01:01')
     const evt = new Event("name1", "desc", date, "Ida Noyes", "science")
     const user = new User("ross")
@@ -226,9 +213,9 @@ test('user save events', () => {
     expect(user.saveEvent(evt, "interested")).toBe(false);
     expect(user.saveEvent(evt, "going")).toBe(true);
 
-})
+})*/
 
-
+/*
 // ---------- Event Tests ---------------------------
 function n_str(n) {
     var ret = ""
@@ -492,4 +479,4 @@ test('event functionality!!!', function() {
     expect(c.get_events()).toHaveLength(0)
     expect(c.create_event("blergh", "description", d, "Ida Noyes", "javascript")).toBeFalsy()
     expect(c.get_events()).toHaveLength(1)
-});
+});*/
