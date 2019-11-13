@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
-export default class Event extends Component{
+export default class Event extends Followable {
   MAX_TAGS = 5
 
-  constructor(props) {
-    super(props);
+  constructor(EventID, name) {
+    super(EventID, name);
     /*
     this.name = name
     this.desc = desc

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
-export default class User extends Component {
+export default class User extends Followable {
   constructor(userID, username, firstname, lastname, email, datejoined, password, friends) {
-    this.userID = userID;
-    this.username = username;
+    super(userID, username);
     this.firstname = firstname;
     this.lastname = lastname;
     this.email = email;

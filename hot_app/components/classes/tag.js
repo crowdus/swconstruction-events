@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
-export default class Commmunity extends Component {
-  constructor(name, privacy) {
-      this.name = name
+export default class Tag extends Followable {
+  constructor(TagID, name) {
+      super(TagID, name)
       this.privacy = privacy
       this.events = []
       this.members = []
