@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-native';
 import Event from '../classes/event.js'
+import Core, { get_event_from_id } from '../classes/core.js'
+
 import {
   Button,
   Alert,
@@ -52,7 +54,7 @@ export default class EventView extends React.Component {
             <Button
               title="View More"
               color="#f194ff"
-              onPress={() => Alert.alert('Open View Screen')}
+              onPress={() => get_event_from_id('5dcb3523937a563b54aad5fb')}
             />
           <Text>
             {"\n\n"}Respond: 
