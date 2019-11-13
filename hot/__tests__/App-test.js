@@ -136,7 +136,7 @@ describe('testing getters and setters', () => {
         expect(bobby.getDateJoined()).toBe(new Date("October 24, 2019"));
         expect(bobby.setDateJoined(2019, 2, 30)).toBe(false);
         expect(bobby.setDateJoined(2019, 13, 1)).toBe(false);
-        expect(bobby.setDateJoined(12, 01, 2019)).toBe(false);
+        expect(bobby.setDateJoined(12, 1, 2019)).toBe(false);
         expect(bobby.setDateJoined(25, 12, 2019)).toBe(false);
     });
 
