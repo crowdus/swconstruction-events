@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import Followable from './followable';
 
 export default class Tag extends Followable {
   constructor(TagID, name) {
