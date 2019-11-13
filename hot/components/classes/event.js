@@ -7,20 +7,17 @@ const MAX_TAGS = 5
 export default class Event extends Followable {
   constructor(props) {
     super(props);
+    // Unwrap from properties
+    this.name = this.props.name
+    this.desc = this.props.desc
+    this.start_date = this.props.start_date
+    this.end_date = this.props.end_date
+    this.address = this.props.address
+
     this.isBoosted = false;
     this.tags = new Set();
     this.admins = new Set();
-    this.admins.add("user1") //change to user's username
-    /*
-    this.name = name
-    this.desc = desc
-    this.start_date = start_date
-    this.end_date = end_date
-    this.address = address
-    this.tags = tags
-    this.isBoosted = false
-    this.admins = admin
-    */
+    this.admins.add("user1") //TODO: change to user's username
   }
 
   /* 
@@ -143,6 +140,19 @@ export default class Event extends Followable {
       // calculate people that have checked in to event 
       // (relevant only after event past)
       return []
+  }
+
+  /* TODO: mark these extra methods in design doc */
+  get_going_friends(user) {
+      return []
+  }
+
+  get_interested_friends(user){
+      return []
+  }
+
+  follow(user){
+      return true
   }
   
   render() {

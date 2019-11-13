@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
-import Event from './components/classes/event.js';
+import Event from './components/classes/event';
 import Home from './components/pages/home.js';
 import LogIn from './components/pages/login.js';
 import CreateEvent from './components/pages/createEvent.js';
-
-
-
+import EventView from './components/pages/eventView.js';
 
 export default class App extends Component {
   constructor(props) {
@@ -19,9 +17,17 @@ export default class App extends Component {
   }
 
   render() {
+    var values = {
+      name: "HotChoc",
+      desc: "Study Break",
+      start_date: new Date(),
+      end_date: new Date("01 Jun 2019 00:00:00 GMT"),
+      address: "123 Main St"
+    }
+    var eventx = new Event(values)
     return (
       <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-        {this.state.Current == 'Login' ? <LogIn></LogIn> : <CreateEvent></CreateEvent> }
+        {this.state.Current == 'Login' ? <LogIn></LogIn> : <EventView event={eventx}></EventView> }
       </View>
     );
   }
