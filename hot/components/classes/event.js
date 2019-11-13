@@ -5,8 +5,11 @@ import Followable from './followable';
 export default class Event extends Followable {
   MAX_TAGS = 5
 
-  constructor(EventID, name) {
-    super(EventID, name);
+  constructor(props) {
+    console.log("hello")
+    console.log(props)
+    super(props);
+    this.props.isBoosted =  false;
     /*
     this.name = name
     this.desc = desc
@@ -18,6 +21,7 @@ export default class Event extends Followable {
     this.admins = admin
     */
   }
+
 
   get_name() { return this.name }
   get_desc() { return this.desc }

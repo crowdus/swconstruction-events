@@ -21,7 +21,7 @@ export default class App extends Component {
   render() {
     return (
       <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-        {this.state.Current == 'Login' ? <LogIn></LogIn> : <CreateEvent></CreateEvent> }
+        {this.state.Current == 'Login' ? <LogIn></LogIn> : <Event name="Lindsey"></Event> }
       </View>
     );
   }
