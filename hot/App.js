@@ -3,7 +3,9 @@ import { Text, View } from 'react-native';
 
 import Event from './components/classes/event.js';
 import Home from './components/pages/home.js';
-import LogIn from './components/pages/login';
+import LogIn from './components/pages/login.js';
+import CreateEvent from './components/pages/createEvent.js';
+
 
 
 
@@ -11,15 +13,15 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Current: 'Login',
+      Current: 'Home',
       reset: false,
     };
   }
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {this.state.Current == 'Login' ? <LogIn></LogIn> : <Home></Home> }
+      <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+        {this.state.Current == 'Login' ? <LogIn></LogIn> : <CreateEvent></CreateEvent> }
       </View>
     );
   }
