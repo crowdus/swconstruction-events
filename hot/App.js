@@ -4,26 +4,43 @@ import { Text, View } from 'react-native';
 import Event from './components/classes/event.js';
 import Home from './components/pages/home.js';
 import LogIn from './components/pages/login';
+import Feed from './components/pages/feed.js';
+
+// import AppNavigator from './AppNavigator';
+
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+
+const MainNavigator = createStackNavigator({
+  // Home: { screen: Home },
+  LogIn: { screen: LogIn },
+  Feed: { screen: Feed },
+  Event: { screen: Event },
+});
+
+const AppNav = createAppContainer(MainNavigator);
+
+export default AppNav;
 
 
+// export class App extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       Current: 'Login',
+//       reset: false,
+//     };
+//   }
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      Current: 'Login',
-      reset: false,
-    };
-  }
-
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {this.state.Current == 'Login' ? <LogIn></LogIn> : <Home></Home> }
-      </View>
-    );
-  }
-}
+//   render() {
+//     return (
+//       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+//         {this.state.Current == 'Login' ? <LogIn></LogIn> : <Home></Home> }
+//         {/* <MainNavigator/> */}
+//       </View>
+//     );
+//   }
+// }
 
 
 /*
