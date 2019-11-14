@@ -245,7 +245,7 @@ export default class Event extends Followable {
             body: JSON.stringify({
                 status: status,
                 event_id: this.eventID,
-                user_id: user.getUserID(),
+                user_id: user.userID,
             })
         })
         .then((response) => response.json())
