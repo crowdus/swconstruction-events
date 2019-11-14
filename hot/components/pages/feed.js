@@ -34,53 +34,32 @@ function EventScrollUI({e}) {
     );
 }
 
-function renderExploreButton(){
-    return{
-        headerLeft: () => (
-            <Button
-                onPress={() => alert('This is another button!')}
-                title="Explore"
-                color="#eee"
-            />
-        ),
-    }
-}
 
-function renderMyEventsButton(){
-    return{
-        title: () => (
-            <Button
-                onPress={() => alert('This is another button!')}
-                title="View G, I, A"
-                color="#eee"
-            />
-        ),
-    }
-}
 
-function renderCreateEventButton () {
-    return{
-        headerRight: () => (
+
+export default class Feed extends Component {
+
+    static navigationOptions = {
+        henderLeft: () =>  (       
             <Button
                 onPress={() => alert('This is another button!')}
                 title="Create event"
                 color="#eee"
             />
         ),
-    }
-}
-
-
-export default class Feed extends Component {
-
-    static navigationOptions = {
-        headerTitle: () => <Text>ugh</Text>,
+        headerTitle: () => (
+            <Button
+                onPress={() => alert('This is another button!')}
+                title="View G, I, A"
+                color="#eee"
+            />
+        ),
         headerRight: () => (
-          <Button
-            onPress={() => alert('This is a button!')}
-            title="Info"
-            color="#eee"
-          />
+            <Button
+                onPress={() => alert('This is another button!')}
+                title="Create event"
+                color="#eee"
+            />
         ),
       };
 
