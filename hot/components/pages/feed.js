@@ -27,14 +27,14 @@ export default class Feed extends Component {
         return {
         headerLeft: () =>  (       
             <Button
-                onPress={() => alert('Take me to settings, lists of events im going/interested/admin, following lists')}
+                onPress={() => alert('Iter2: Take me to settings, lists of events im going/interested/admin, following lists')}
                 title="My profile"
                 color="#000"
             />
         ),
         headerTitle: () => (
             <Button
-                onPress={() => alert('Take me to list of events I\'m interested in, going to, or an admin of')}
+                onPress={() => alert('Iter2: Take me to list of events I\'m interested in, going to, or an admin of')}
                 title="Explore"
                 color="#000"
             />
