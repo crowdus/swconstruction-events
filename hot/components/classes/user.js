@@ -120,18 +120,9 @@ export class User extends Followable{
 
     get_admin_events(){
       //calculate the events that user created
-      const adminevents = fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          UserID: this.UserID,
-          status: 'admin',
-        })
-      });
-      return [];
+      var = get_events_from_admin(this.username)
+      if(var === null) return false;
+      return var;
     }
 
     get_interested_events(){
@@ -182,6 +173,18 @@ export class User extends Followable{
       //need query to access repeat followed
       this.friends.pop(fakefriend);//fix
       return true;
+    }
+
+    follow_event(_event){
+      if(get_event_from_id(_event.eventid)!= null){
+        _event.addFollower(this);
+      }
+    }
+
+    unfollow_event(_event){
+      if(get_event_from_id(_event.eventid)!= null){
+        _event.removeFollower(this);
+      }
     }
 }
 

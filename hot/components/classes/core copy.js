@@ -11,23 +11,6 @@ export const fetch_headers = {
   'Content-Type': 'application/json',
 }
 
-
-export function get_events(){
-  fetch(`https://hot-backend.herokuapp.com/events/`, {
-    method: 'GET',
-    headers: fetch_headers,
-  })
-  .then((response) => response.json())
-  .then((responseJson) => {
-    // responseJson is a struct of parameters
-    return new Event(responseJson)
-  })
-  .catch((error) => {
-    console.error(error);
-    return null
-  });
-}
-
 // Returns event object given an event ID
 export function get_event_from_id(eventid) {
   /* Make call to our API */
@@ -85,6 +68,28 @@ export function get_user_from_id(userid) {
     return null
   });
 }
+
+export function get_user_from_admin(username) {
+  /* Make call to our API */
+  fetch(`${BASE_URL}/adminEvents?admin=user1/${username}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+  .then((response) => response.json())
+  .then((responseJson) => {
+    // responseJson is a struct of parameters
+     console.log(responseJson)
+     return new User(responseJson)
+  })
+  .catch((error) => {
+    console.error(error);
+    return null
+  });
+}
+
 
 /*export function get_user_from_username(username) {
   /* Make call to our API 
