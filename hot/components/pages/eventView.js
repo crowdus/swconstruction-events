@@ -11,12 +11,36 @@ import User from '../classes/user.js';
 export default class EventView extends React.Component {
   constructor(props){
     super(props)
+    this.state = {
+      'numInterested': 0,
+      'numGoing': 0,
+      'some':''
+    }
   }
 
   onPress_status = (e, status, usr) => {
     //username = GLOBAL.screen1
     console.log(usr)
-    e.add_follower(usr,status)
+    e.add_follower(usr,status,(eventuserid)=>{
+      Alert.alert(`Marked as ${status}`)
+      if (status == 'interested'){
+        this.setState({numInterested:this.state.numInterested})
+      }
+      if (status == 'going'){
+        this.setState({numGoing:this.state.numGoing})
+      }
+    })
+  }
+
+  componentDidMount() {
+    var e = this.props.navigation.getParam('evt')
+    var usr = this.props.navigation.getParam('usr')
+    e.get_status_people("interested", (l)=>{
+      this.setState({numInterested:l.length})
+    })
+    e.get_status_people("going", (l)=>{
+      this.setState({numGoing:l.length})
+    })
   }
 
   render() {
@@ -59,22 +83,14 @@ export default class EventView extends React.Component {
               <Text style={{fontSize: 20,}}>{"\n"}{e.get_admins()}</Text>
 
               <Text style={{textAlign: "center"}}> {"\n\n"}Attendees: 
-              {"\n"}{"\n"} 0 friends & 0 people marked 'Interested'</Text>
+              {"\n"}{"\n"} {this.state.numInterested} people marked 'Interested'</Text>
             </Text>
-              <Button
-              title="View More"
-              color="#f194ff"
-              onPress={() => Alert.alert('Open View Screen')}
-              />
+              
               <Text>
-              {"\n"}0 friends & 0 people marked 'Going'
+              {"\n"} {this.state.numGoing} people marked 'Going'
             
               </Text>
-              <Button
-                title="View More"
-                color="#f194ff"
-                onPress={() => get_event_from_id('5dcb3523937a563b54aad5fb')}
-              />
+              
             <Text>
               {"\n\n"}Respond: 
             </Text>
