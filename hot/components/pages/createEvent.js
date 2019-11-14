@@ -122,7 +122,6 @@ export default class CreateEvent extends React.Component {
               if (resp != 0) {
                 var v = new Event(resp, value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
                 console.log(`switch to events screen for ${resp}`)
-                console.log(v)
                 this.props.navigation.navigate('Event', {evt: v})
               }          
             })

@@ -5,7 +5,7 @@ import Geocoder from 'react-native-geocoding';
 const APIKEY = 'AIzaSyB9z1Rab2_34wUVl177HhwEAGa4nh2SnSk'
 
 import Feed from './components/pages/feed.js';
-import Event from './components/classes/event';
+import Event from './components/pages/eventView';
 import Home from './components/pages/home.js';
 import LogIn from './components/pages/login.js';
 import CreateEvent from './components/pages/createEvent.js';
@@ -22,7 +22,8 @@ const MainNavigator = createStackNavigator({
   // Home: { screen: Home },
   LogIn: { screen: LogIn },
   Feed: { screen: Feed },
-  Event: { screen: Event },
+  Event: { screen: EventView },
+  CreateEvent: { screen: CreateEvent },
 });
 
 export const AppNav = createAppContainer(MainNavigator);

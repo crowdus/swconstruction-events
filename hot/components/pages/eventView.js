@@ -89,7 +89,7 @@ export default class EventView extends React.Component {
             <Button
               title="Explore More"
               color="#f194ff"
-              onPress={() => Alert.alert('Go Back to Home Screen')}
+              onPress={() => this.props.navigation.navigate('Feed')}
             />
         </View>
     );
