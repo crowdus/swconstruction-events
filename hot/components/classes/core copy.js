@@ -90,6 +90,26 @@ export function get_user_from_admin(username) {
   });
 }
 
+export function get_events_from_userstat(userID, status) {
+  /* Make call to our API */
+  fetch(`${BASE_URL}/userEvents/user/${userID}/${status}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+  .then((response) => response.json())
+  .then((responseJson) => {
+    // responseJson is a struct of parameters
+     console.log(responseJson)
+     return responseJson
+  })
+  .catch((error) => {
+    console.error(error);
+    return null
+  });
+}
 
 /*export function get_user_from_username(username) {
   /* Make call to our API 
