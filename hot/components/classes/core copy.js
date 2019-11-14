@@ -69,7 +69,7 @@ export function get_user_from_id(userid) {
   });
 }
 
-export function get_user_from_admin(username) {
+export function get_events_from_admin(username) {
   /* Make call to our API */
   fetch(`${BASE_URL}/adminEvents?admin=user1/${username}`, {
     method: 'GET',
@@ -82,7 +82,7 @@ export function get_user_from_admin(username) {
   .then((responseJson) => {
     // responseJson is a struct of parameters
      console.log(responseJson)
-     return new User(responseJson)
+    return responseJson 
   })
   .catch((error) => {
     console.error(error);

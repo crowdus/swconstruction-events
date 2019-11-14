@@ -120,9 +120,9 @@ export class User extends Followable{
 
     get_admin_events(){
       //calculate the events that user created
-      var = get_events_from_admin(this.username)
-      if(var === null) return false;
-      return var;
+      var eventarr = get_events_from_admin(this.username)
+      if(eventarr === null) return false;
+      return eventarr.map(x => x.eventid);
     }
 
     get_interested_events(){
