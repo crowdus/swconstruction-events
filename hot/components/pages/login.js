@@ -5,6 +5,9 @@ import {
   Alert,
 } from 'react-native';
 import Constants from 'expo-constants';
+import User from '../classes/user.js';
+
+export var userTA = new User("dadwdadadawd", "johndoe", "John", "Doe", "johndoe@email.com", new Date(), "password", ['am0002'])
 
 export default class LogIn extends React.Component {
   constructor(props) {
@@ -13,7 +16,6 @@ export default class LogIn extends React.Component {
       "username": "",
       "code": ""
     }
-    this.props=props
   }
 
   render() {
@@ -43,7 +45,16 @@ export default class LogIn extends React.Component {
         <Button
           title="Log In"
           color="#f194ff"
-          onPress={ () => { if (this.state.code == "TA" && this.state.username == "TA") navigate('Feed')} }
+          onPress={ () => {
+            if (this.state.code == "TA" && this.state.username == "TA") {
+              // TODO: call to get some TA user
+              // TODO: pass in user to feed
+              navigate('Feed', {usr: userTA})
+            }
+            else{
+              Alert.alert("Incorrect login")
+            }
+          }}
         />
       </View>
       </View>

@@ -6,43 +6,20 @@
  * @flow
  */
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { Text, View } from 'react-native';
+import Followable from './followable';
 
-export class User {
+export default class User extends Followable{
     constructor(userID, username, firstname, lastname, email, datejoined, password, following) {
-        if (userID.match(/^[0-9a-zA-Z]/)){
-          if(!finduser(userID)){
-            this.userID = userID;
-          }
-        }
-
-        if (username.match(/^[0-9a-zA-Z]/)){
-          if(!finduser(username)){
-            this.username = username;
-          }
-        }
-        
-        if (firstname.match(/^[a-zA-Z]/)){
-          this.firstname = firstname;
-        }
-
-        if (lastname.match(/^[a-zA-Z]/)){
-          this.lastname = lastname;
-        }
-
-        if (email.match(/^[0-9a-zA-Z]/)){
-          if(!finduser(email)){
-            this.email = email;
-          }
-        }
-
-        this.datejoined = new Date(datejoined); //need validation for this?
-
-        if (password.match(/^[0-9a-zA-Z]/)){
-          this.password = password;
-        }
-
-        this.following = following;
+      super()
+      this.userID = userID
+      this.username = username
+      this.firstname = firstname
+      this.lastname = lastname
+      this.email = email
+      this.datejoined = datejoined
+      this.password = password
+      this.following = following
     }
 
     getUserID() {

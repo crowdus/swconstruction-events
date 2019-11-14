@@ -73,13 +73,15 @@ export default class Feed extends Component {
     // Shows the feed
     render() {
         const {navigate} = this.props.navigation;
+        var usr = this.props.navigation.getParam('usr')
+
         return(
             this.state && <SafeAreaView>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) => 
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item})}}>
+                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
                             <View style={styles.evt_card}>
                                 <Text style={styles.evt_title}>{item.get_name()}</Text>
                                 <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
