@@ -44,7 +44,7 @@ export function get_user_from_id(userid) {
   .then((response) => response.json())
   .then((responseJson) => {
     // responseJson is a struct of parameters
-    // return new User(responseJson)
+     return new User(responseJson)
     console.log(responseJson)
   })
   .catch((error) => {
@@ -52,6 +52,50 @@ export function get_user_from_id(userid) {
     return null
   });
 }
+
+export function get_user_from_username(username) {
+  /* Make call to our API */
+  fetch(`${BASE_URL}/users/${username}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+  .then((response) => response.json())
+  .then((responseJson) => {
+    // responseJson is a struct of parameters
+     return new User(responseJson)
+    console.log(responseJson)
+  })
+  .catch((error) => {
+    console.error(error);
+    return null
+  });
+}
+
+export function get_user_from_email(email) {
+  /* Make call to our API */
+  fetch(`${BASE_URL}/users/${email}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+  .then((response) => response.json())
+  .then((responseJson) => {
+    // responseJson is a struct of parameters
+     return new User(responseJson)
+    console.log(responseJson)
+  })
+  .catch((error) => {
+    console.error(error);
+    return null
+  });
+}
+
+
 
 
 
