@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import Geocoder from 'react-native-geocoding';
+
+const APIKEY = 'AIzaSyB9z1Rab2_34wUVl177HhwEAGa4nh2SnSk'
 
 import Event from './components/classes/event';
 import Home from './components/pages/home.js';
@@ -14,6 +17,7 @@ export default class App extends Component {
       Current: 'Home',
       reset: false,
     };
+    Geocoder.init(APIKEY, {language : "en"});
   }
 
   render() {

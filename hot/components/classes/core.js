@@ -13,7 +13,7 @@ export const fetch_headers = {
 
 
 // Returns event object given an event ID
-export function get_event_from_id(eventid) {
+export function get_event_from_id(eventid, cb) {
   /* Make call to our API */
   fetch(`${BASE_URL}/events/${eventid}`, {
     method: 'GET',
@@ -21,12 +21,10 @@ export function get_event_from_id(eventid) {
   })
   .then((response) => response.json())
   .then((responseJson) => {
-    // responseJson is a struct of parameters
-    return new Event(responseJson)
+    cb(responseJson)
   })
   .catch((error) => {
     console.error(error);
-    return null
   });
 }
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import Followable from './followable';
+import Geocoder from 'react-native-geocoding';
+
 
 const MAX_TAGS = 5
 
@@ -15,15 +17,21 @@ function is_valid_desc(new_desc){
     return new_len <= 1000
 }
 
-function is_valid_addr(new_addr){
-    /* Need to access Google Maps API */
-    if (new_addr.length > 0){
-        return true
-    }
-}
-
 function is_valid_date_pair(start_date, end_date){
     return (start_date < end_date)
+}
+
+export function get_loc_from_addr(new_addr, event, cb){
+    Geocoder.from(new_addr)
+    .then(json => {
+        var location = json.results[0].geometry.location;
+        event.set_loc(location)
+        cb(location)
+    })
+    .catch(() => {
+        event.set_null()
+        cb(null)
+    })
 }
 
 /* 
@@ -34,23 +42,47 @@ export default class Event extends Followable {
 
     constructor(name, desc, start, end, addr, tags, admins) {
         super()
-        // Validate Attributes
         var isGoodEvent = is_valid_name(name) && 
-                          is_valid_desc(desc) && 
-                          is_valid_addr(addr) &&
+                          is_valid_desc(desc) &&
                           is_valid_date_pair(start, end)
-        if (!isGoodEvent) {
-            return null
-        }
-        console.log(name, desc, start, end)
+        // Validate Attributes
         this.name = name
         this.desc = desc
         this.start_date = new Date(start)
         this.end_date = new Date(end)
         this.addr = addr
+        this.loc = null
         this.isBoosted = false
         this.tags = tags
         this.admins = admins
+
+        if (!isGoodEvent) {
+            this.name = ""
+            this.desc = ""
+            this.start_date = null
+            this.end_date = null
+            this.addr = ""
+            this.lat = null
+            this.isBoosted = null
+            this.tags = []
+            this.admins = []
+        }
+    }
+
+    set_null(){
+        this.name = ""
+        this.desc = ""
+        this.start_date = null
+        this.end_date = null
+        this.addr = ""
+        this.lat = null
+        this.isBoosted = null
+        this.tags = []
+        this.admins = []
+    }
+
+    is_null_event(){
+        return (this.name == "" && this.addr == "")
     }
 
     // Getters and Setters
@@ -85,6 +117,11 @@ export default class Event extends Followable {
             return true
         }
         return false
+    }
+    
+    set_loc(loc){
+        this.loc = loc
+        return true
     }
     
     set_start_date(start) {

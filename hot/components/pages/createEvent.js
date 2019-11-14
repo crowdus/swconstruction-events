@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-native';
 import t from 'tcomb-form-native';
-import Event from '../classes/event.js'
+import Event, { get_loc_from_addr } from '../classes/event.js'
 import Core, {BASE_URL,fetch_headers } from '../classes/core'
+import Geocoder from 'react-native-geocoding';
 
 /* Create Form Structure for the form builder library*/
 const Form = t.form.Form;
@@ -59,19 +60,18 @@ var options = {
   }
 };
 
-function add_event_to_database(event){
+function add_event_to_database(event,cb){
   fetch(`${BASE_URL}/events`, {
     method: 'POST',
     headers: fetch_headers,
     body: JSON.stringify(event)
   })
-  .then((responseID) => {
-    eventID = responseID.text()
-    return eventID
+  .then((response) => response.text())
+  .then((responseVal) => {
+    cb(responseVal)
   })
-  .catch((error) => {
-    console.error(error);
-    return 0 //valid ID is a hexadecimal, so 0 is ALWAYS invalid
+  .catch(() => {
+    cb(0)
   });   
 }
 
@@ -86,8 +86,9 @@ function parse_tags(tag_str){
   return Array.from(x)
 }
 
-function parse_admins(admin_str){
+function parse_admins(admin_str, username){
   x = new Set()
+  x.add(username)
   if (admin_str != null && admin_str != "") {
       adArray = admin_str.split(/[ ,]+/)
       for (var ad of adArray) {
@@ -110,19 +111,26 @@ export default class CreateEvent extends React.Component {
       form_start = new Date(value.start_date)
       form_end = new Date(value.end_date)
       form_tags = parse_tags(value.tags)
-      form_admins = parse_admins(value.admins+`,${this.username}`)
+      form_admins = parse_admins(value.admins, this.username)
       
       var valid = new Event(value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
-      if (valid) {
-        // Add event to database
-        console.log("success!")
-        add_event_to_database(valid)
-        console.log(valid)
-        // Redirect to Newly Created event page
+      if (!valid.is_null_event()) {
+        get_loc_from_addr(value.addr, valid, (loc) => {
+          if (loc != null) {
+            add_event_to_database(valid, (resp) => {
+              if (resp != 0) {
+                console.log(`switch to events screen for ${resp}`)
+              }          
+            })
+          }
+          else {
+            console.log("Error. Invalid Address")
+          }
+        })
       }
       else {
         // reset form
-        console.log(newEvent)
+        console.log(valid)
         console.log("Error! Try Again") 
       }
     }
