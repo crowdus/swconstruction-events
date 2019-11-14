@@ -12,13 +12,13 @@ import Followable from './followable';
 export class User extends Followable{
     constructor(userID, username, firstname, lastname, email, datejoined, password, friends) {
         if (userID.match(/^[0-9a-zA-Z]/)){
-          if(!finduser(userID)){
+          if(!get_user_from_id(userID)){
             this.userID = userID;
           }
         }
 
         if (username.match(/^[0-9a-zA-Z]/)){
-          if(!finduser(username)){
+          if(!get_user_from_username(username)){
             this.username = username;
           }
         }
@@ -32,7 +32,7 @@ export class User extends Followable{
         }
 
         if (email.match(/^[0-9a-zA-Z]/)){
-          if(!finduser(email)){
+          if(!get_user_from_email(email)){
             this.email = email;
           }
         }
@@ -171,24 +171,16 @@ export class User extends Followable{
 
     follow_user(_userID){
       if(_userID == this._userID) return false;
+      coolfriend = get_user_from_id(_userID);
+      //need query to access repeat followed
+      coolfriend.addFollower(this);
 
-      const _user =  fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json', 
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          UserID: _userID,
-        })
-      });
-
-      (response.json()).addFollower(this);
       return true;
     }
 
     unfollow_user(_userID){
       if(_userID == this._userID) return false;
+
 
       const _user =  fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
@@ -204,7 +196,6 @@ export class User extends Followable{
       ( response.json()).removeFollower(this);
       return true;
     }
-    
 }
 
 
