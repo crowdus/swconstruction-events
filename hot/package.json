@@ -27,7 +27,8 @@
     "jest-expo": "^35.0.0"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "verbose": true
   },
   "private": true
 }

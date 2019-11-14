@@ -405,12 +405,10 @@ test('get check ins!', function() {
 
 // ---------- Tag Tests ---------------------------
 test('constructor!!', function() {
+    // The database will set the IDs, so relatively little testing there.
+    // Focuses mostly on the only constraint on name: it can't be null.
     const tag = new Tag(0, "")
     expect(tag.ID).toBeNull()
-    const tag1 = new Tag("asdf", "a")
-    expect(tag1.ID).toBeNull()
-    const tag2 = new Tag(-1, "a")
-    expect(tag2.ID).toBeNull()
     const tag3 = new Tag(0, "a")
     expect(tag3).toBeInstanceOf(Tag)
 });
@@ -434,3 +432,11 @@ test('Tag get ID!!', function () {
     const tag = new Tag(1, "asdf")
     expect(tag.get_id()).toEqual(1)
 });
+
+// test('Tag get events!!', function () {
+//     const tag = new Tag(1, "study")
+//     expect(tag.get_events()).toEqual([])
+//     expect(tag.update_events()).toBeTruthy()
+//     expect(tag.get_events()).toEqual(['asdf'])
+// });
+
