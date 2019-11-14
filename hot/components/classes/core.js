@@ -120,18 +120,6 @@ export async function get_events_from_admin(username) {
   return null;
 }
 
-get_interested_events(){
-      //calculate the events that user clicked interested to using the UserID
-      var arr = get_events_from_userstat(this.userID, "interested")
-      return arr.map(x =>  x.eventid)
-}
-     
-get_going_events(){
-      //calculate the events that user clicked going to using the UserID
-      var arr = get_events_from_userstat(this.userID, "going")
-      return arr.map(x =>  x.eventid)
-}
-
 
 // export function get_user_from_email(email) {
 //   /* Make call to our API */

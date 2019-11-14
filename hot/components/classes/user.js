@@ -127,36 +127,14 @@ export class User extends Followable{
 
     get_interested_events(){
       //calculate the events that user clicked interested to using the UserID
-      
-      fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          UserID: this.UserID,
-          status: 'interested',
-        })
-      });
-      return response.json();
+      var arr = get_events_from_userstat(this.userID, "interested")
+      return arr.map(x =>  x.eventid)
     }
-
+     
     get_going_events(){
       //calculate the events that user clicked going to using the UserID
-      
-      fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          UserID: this.UserID,
-          status: 'going',
-        })
-      });
-      return [];
+      var arr = get_events_from_userstat(this.userID, "going")
+      return arr.map(x =>  x.eventid)
     }
 
     follow_user(_userID){
