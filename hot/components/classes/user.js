@@ -43,7 +43,11 @@ export class User extends Followable{
           this.password = password;
         }
 
-        this.followed = friends;
+        this.friends = friends; // array of friends
+
+        this.events_interested = events_interested; // array of events interested
+
+        this.events_going = events_going; // array of events going
     }
 
     getUserID() {
@@ -169,6 +173,8 @@ export class User extends Followable{
       return true;
     }
 
+    unfollow_event(_event){}
+
     follow_user(_userID){
       if(_userID == this._userID) return false;
       coolfriend = get_user_from_id(_userID);
@@ -180,22 +186,15 @@ export class User extends Followable{
 
     unfollow_user(_userID){
       if(_userID == this._userID) return false;
+      fakefriend = get_user_from_id(_userID);
+      //need query to access repeat followed
+      fakefriend.removeFollower(this);
 
-
-      const _user =  fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json', 
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          UserID: _userID,
-        })
-      });
-
-      ( response.json()).removeFollower(this);
       return true;
     }
+
+    follow_tag(_tag){}
+    unfollow_tag(_tag){}
 }
 
 
