@@ -168,21 +168,11 @@ export class User extends Followable{
       return [];
     }
 
-    addFollowing(_user){
-      this.friends.push(_user);
-      return true;
-    }
-
-    removeFollowing(_user){
-      removed = this.friends.pop(_user);//this is wrong
-      return removed;
-    }
-
     follow_user(_userID){
       if(_userID == this._userID) return false;
       coolfriend = get_user_from_id(_userID);
       //need query to access repeat followed
-      this.addFollowing(coolfriend);
+      this.friends.push(coolfriend);
       return true;
     }
 
@@ -190,7 +180,7 @@ export class User extends Followable{
       if(_userID == this._userID) return false;
       fakefriend = get_user_from_id(_userID);
       //need query to access repeat followed
-      this.removeFollowing(fakefriend);
+      this.friends.pop(fakefriend);//fix
       return true;
     }
 }
