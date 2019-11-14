@@ -4,12 +4,15 @@ import {withNavigation} from 'react-navigation';
 
 import Event from '../classes/event';
 
+
+// function to render Tags in the event cards
 function TagUI({t}) {
     return (
         <View style={styles.tag_view}><Text style={styles.tag_text}>{t}</Text></View>
     );
 }
 
+// the class that renders the keys.
 export default class Feed extends Component {
 
     constructor(props) {
@@ -18,6 +21,7 @@ export default class Feed extends Component {
         this.state = []
     }
 
+    // navigation options displayed at the top of the screen
     static navigationOptions = {
         headerLeft: () =>  (       
             <Button
@@ -42,6 +46,8 @@ export default class Feed extends Component {
         ),
       };
 
+    // This is called just after the component
+    // is first rendered. It changes the data showed there.
     componentDidMount() {
 
         fetch('http://hot-backend.herokuapp.com/events/', {
@@ -61,6 +67,8 @@ export default class Feed extends Component {
 
     }
 
+    // the render function! 
+    // Shows the feed
     render() {
         const {navigate} = this.props.navigation;
         return(
@@ -91,6 +99,7 @@ export default class Feed extends Component {
     }
 }
 
+// styles for the feed.
 const styles = StyleSheet.create({
     container: {
         flex: 1,
