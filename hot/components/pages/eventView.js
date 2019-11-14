@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-native';
 import Event from '../classes/event.js'
-import Core, { get_event_from_id } from '../classes/core.js'
 import {
   Button,
   Alert,

@@ -3,11 +3,16 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-native';
 import t from 'tcomb-form-native';
 import Event, { get_loc_from_addr } from '../classes/event.js'
-import Core, {BASE_URL,fetch_headers } from '../classes/core'
 import Geocoder from 'react-native-geocoding';
 import {
   Alert,
 } from 'react-native';
+
+export const BASE_URL = 'https://hot-backend.herokuapp.com'
+export const fetch_headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+}
 
 /* Create Form Structure for the form builder library*/
 const Form = t.form.Form;
@@ -132,8 +137,10 @@ export default class CreateEvent extends React.Component {
                 var v = new Event(resp, value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
                 console.log(`switch to events screen for ${resp}`)
                 this.props.navigation.navigate('Event', {evt: v})
+                Alert.alert('Event Created. Click Back to View')
               }          
             })
+            Alert.alert('Event Created. Click Back to View')
           }
           else {
             // Invalid Address

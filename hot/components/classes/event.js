@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import Followable from './followable';
 import Geocoder from 'react-native-geocoding';
-import { BASE_URL, fetch_headers } from './core.js';
+
+export const BASE_URL = 'https://hot-backend.herokuapp.com'
+export const fetch_headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+}
 
 const MAX_TAGS = 5
 

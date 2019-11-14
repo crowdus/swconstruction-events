@@ -55,8 +55,6 @@ export const fetch_headers = {
   'Content-Type': 'application/json',
 }
 
-const fetch = require("node-fetch");
-
 export async function get_user_from_username(username) {
   try {
     /* Make call to our API */
