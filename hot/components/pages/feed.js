@@ -40,11 +40,11 @@ function EventScrollUI({e}) {
 export default class Feed extends Component {
 
     static navigationOptions = {
-        henderLeft: () =>  (       
+        headerLeft: () =>  (       
             <Button
                 onPress={() => alert('This is another button!')}
-                title="Create event"
-                color="#eee"
+                title="Explore"
+                color="#ddd"
             />
         ),
         headerTitle: () => (
