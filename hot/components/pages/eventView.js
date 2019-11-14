@@ -32,65 +32,66 @@ export default class EventView extends React.Component {
       renderTags = <Text> {tags} </Text>
     }
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-          <Text>
-            {"\n"}{e.get_name()}
-
-            {"\n\n"}Where: 
-            {"\n"}{e.get_address()}
-
-            {"\n\n"}When: 
-            {"\n"}{e.get_start_date().toString()} - {e.get_end_date().toString()}
-
-            {"\n\n"}Tags: 
-            {"\n"}{renderTags}  
-
-            {"\n\n"}Hosted By: 
-            {"\n"}{e.get_admins()}     
-
-            {"\n\n"}Attendees: 
-            {"\n"} 0 friends & 0 people marked 'Interested'
-          </Text>
-            <Button
-            title="View More"
-            color="#f194ff"
-            onPress={() => Alert.alert('Open View Screen')}
-            />
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", borderWidth:40, borderColor:"white"}}>
             <Text>
-            {"\n"}0 friends & 0 people marked 'Going'
-           
+              <Text style={{fontSize: 50, fontStyle: "italic", fontWeight: "bold", textAlign: "center",}}>{"\n"}{e.get_name()}</Text>
+
+              {"\n\n"}Where: 
+              <Text style={{fontSize: 20,}}>{"\n"}{e.get_address()}</Text>
+
+              {"\n\n"}When: 
+              <Text style={{fontSize: 20,}}>{"\n"}{e.get_start_date().toString()} - {e.get_end_date().toString()}</Text>
+
+              {"\n\n"}Tags: 
+              <Text style={{fontSize: 20,}}>{"\n"}{renderTags}</Text>
+
+              {"\n\n"}Hosted By: 
+              <Text style={{fontSize: 20,}}>{"\n"}{e.get_admins()}</Text>
+
+              <Text style={{textAlign: "center"}}> {"\n\n"}Attendees: 
+              {"\n"}{"\n"} 0 friends & 0 people marked 'Interested'</Text>
             </Text>
-            <Button
+              <Button
               title="View More"
               color="#f194ff"
-              onPress={() => get_event_from_id('5dcb3523937a563b54aad5fb')}
+              onPress={() => Alert.alert('Open View Screen')}
+              />
+              <Text>
+              {"\n"}0 friends & 0 people marked 'Going'
+            
+              </Text>
+              <Button
+                title="View More"
+                color="#f194ff"
+                onPress={() => get_event_from_id('5dcb3523937a563b54aad5fb')}
+              />
+            <Text>
+              {"\n\n"}Respond: 
+            </Text>
+            <View style={{flexDirection: 'row'}}>
+            <Button
+              title="Going"
+              color="#f194ff"
+              onPress={() => Alert.alert('Added Event')}
             />
-          <Text>
-            {"\n\n"}Respond: 
-          </Text>
-          
-          <Button
-            title="Going"
-            color="#f194ff"
-            onPress={() => Alert.alert('Added Event')}
-          />
-          <Button
-            title="Interested"
-            color="#f194ff"
-            onPress={() => Alert.alert('Added Event')}
-          />
-          <Button
-            title="Not Going"
-            color="#f194ff"
-            onPress={this.onPress_interested}
-          />
-          <Text> {"\n"} </Text>
-          <Button
-            title="Explore More"
-            color="#f194ff"
-            onPress={() => Alert.alert('Go Back to Home Screen')}
-          />
-      </View>
+            <Button
+              title="Interested"
+              color="#f194ff"
+              onPress={() => Alert.alert('Added Event')}
+            />
+            <Button
+              title="Not Going"
+              color="#f194ff"
+              onPress={this.onPress_interested}
+            />
+            </View>
+            <Text> {"\n"} </Text>
+            <Button
+              title="Explore More"
+              color="#f194ff"
+              onPress={() => Alert.alert('Go Back to Home Screen')}
+            />
+        </View>
     );
   }
 }
