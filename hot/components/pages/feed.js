@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, T
 import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event';
+import Tag from '../classes/tag';
 
 
 // function to render Tags in the event cards
@@ -60,9 +61,8 @@ export default class Feed extends Component {
             for (i in responseJson) {
                 i = responseJson[i]
                 l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins']));
-                console.log(l)
-                this.setState({data:l})
             }
+            this.setState({data:l})
         }).catch((error) => {
             console.error(error);
         });
