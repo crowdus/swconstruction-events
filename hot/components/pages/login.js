@@ -43,7 +43,7 @@ export default class LogIn extends React.Component {
         <Button
           title="Log In"
           color="#f194ff"
-          onPress={function () { navigate('Feed')}}
+          onPress={ () => { if (this.state.code == "TA" && this.state.username == "TA") navigate('Feed')} }
         />
       </View>
       </View>

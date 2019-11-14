@@ -19,8 +19,9 @@ export default class EventView extends React.Component {
   }
 
   render() {
-    var u = new User(123, "test", "michael", "woo", "email@email.com", new Date(), "p1", null)
-    var e = new Event("hotchoc", "hefh", new Date(), new Date("01 Jun 2020 00:00:00 GMT"), "Times Square", [], ["user1"])
+    //var u = new User(123, "test", "michael", "woo", "email@email.com", new Date(), "p1", null)
+    //var e = new Event("hotchoc", "hefh", new Date(), new Date("01 Jun 2020 00:00:00 GMT"), "Times Square", [], ["user1"])
+    var e = this.props.navigation.getParam('evt')
     console.log(e)
     var tags = e.get_tags()
     var renderTags;
@@ -88,7 +89,7 @@ export default class EventView extends React.Component {
             <Button
               title="Explore More"
               color="#f194ff"
-              onPress={() => Alert.alert('Go Back to Home Screen')}
+              onPress={() => this.props.navigation.navigate('Feed')}
             />
         </View>
     );

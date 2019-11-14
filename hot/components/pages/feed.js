@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
-
+import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event';
 
 
@@ -22,7 +22,8 @@ export default class Feed extends Component {
     }
 
     // navigation options displayed at the top of the screen
-    static navigationOptions = {
+    static navigationOptions = ({ navigation }) => {
+        return {
         headerLeft: () =>  (       
             <Button
                 onPress={() => alert('Take me to settings, lists of events im going/interested/admin, following lists')}
@@ -39,12 +40,13 @@ export default class Feed extends Component {
         ),
         headerRight: () => (
             <Button
-                onPress={() => alert('Take me to the create event page')}
+                onPress={() => navigation.navigate('CreateEvent')}
                 title="Create event"
                 color="#000"
             />
         ),
       };
+    };
 
     // This is called just after the component
     // is first rendered. It changes the data showed there.
@@ -73,10 +75,11 @@ export default class Feed extends Component {
         const {navigate} = this.props.navigation;
         return(
             this.state && <SafeAreaView>
+                <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) => 
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {event:item})}}>
+                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item})}}>
                             <View style={styles.evt_card}>
                                 <Text style={styles.evt_title}>{item.get_name()}</Text>
                                 <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>

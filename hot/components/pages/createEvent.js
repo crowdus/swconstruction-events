@@ -103,6 +103,7 @@ export default class CreateEvent extends React.Component {
   constructor(props){
     super(props)
     this.username = "user1"
+    this.onPress = this.onPress.bind(this);
   }
 
   /* onForm Submit function */
@@ -114,13 +115,15 @@ export default class CreateEvent extends React.Component {
       form_tags = parse_tags(value.tags)
       form_admins = parse_admins(value.admins, this.username)
       
-      var valid = new Event(value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
+      var valid = new Event(null, value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
       if (!valid.is_null_event()) {
         get_loc_from_addr(value.addr, valid, (loc) => {
           if (loc != null) {
             add_event_to_database(valid, (resp) => {
               if (resp != 0) {
+                var v = new Event(resp, value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
                 console.log(`switch to events screen for ${resp}`)
+                this.props.navigation.navigate('Event', {evt: v})
               }          
             })
           }
@@ -142,6 +145,7 @@ export default class CreateEvent extends React.Component {
   }
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -150,7 +154,7 @@ export default class CreateEvent extends React.Component {
           type={event}
           options={options}
         />
-        <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
+        <TouchableHighlight style={styles.button} onPress={() => {this.onPress()}} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Create</Text>
         </TouchableHighlight>
 
