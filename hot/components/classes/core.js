@@ -56,15 +56,6 @@ export function get_user_from_id(userid) {
 export async function get_user_from_username(username) {
   try {
     /* Make call to our API */
-    // const response = await fetch(`${BASE_URL}/queryUserByUsername?username=${username}`, {
-    //   method: 'GET',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    // })
-    // console.log(response);
-    // const responseJson = response.json()
       const response = await fetch(`${BASE_URL}/queryUserByUsername?username=${username}`, {
         method: 'GET',
         headers: {
@@ -82,23 +73,22 @@ export async function get_user_from_username(username) {
 
 }
 
-// export function get_user_from_email(email) {
-//   /* Make call to our API */
-//   fetch(`${BASE_URL}/queryUserByEmail?email=${email}`, {
-//     method: 'GET',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//     },
-//   })
-//   .then((response) => response.text())
-//   .then((responseJson) => {
-//     // responseJson is a struct of parameters
-//      return new User(responseJson)
-//     console.log(responseJson)
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//     return null
-//   });
-// }
+export async function get_user_from_email(email) {
+  /* Make call to our API */
+  try{
+    const response = await fetch(`${BASE_URL}/queryUserByEmail?email=${email}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    const json = response.json()
+    return json;
+  }
+  catch(err){
+    console.log(err)
+    return null
+  }
+  return null
+}

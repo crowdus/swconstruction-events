@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import Followable from './followable';
-import {get_user_from_username} from './core';
+import {get_user_from_username, get_user_from_email} from './core';
 // Validation Functions 
 function check_valid_name(str){
   if (str == "")
     return false;
-  if (typeof str == 'number')
+  if (typeof str === 'number')
     return false;
   var code, i, len;
 
@@ -59,32 +59,6 @@ function check_valid_password(password){
   return false;
 }
 
-// const fetch = require("node-fetch");
-// export const BASE_URL = 'https://hot-backend.herokuapp.com'
-// export function get_user_from_id(userid) {
-//   /* Make call to our API */
-//   fetch(`${BASE_URL}/users/${userid}`, {
-//     method: 'GET',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//     },
-//   })
-//   .then((response) => response.text())
-//   .then((responseJson) => {
-//     // responseJson is a struct of parameters
-//      console.log(responseJson)
-//      return new User(responseJson)
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//     return null
-//   });
-// }
-// function is_valid_date_pair(start_date, end_date){
-//     return (start_date < end_date)
-// }
-
 export default class User extends Followable {
 
     constructor(username, firstname, lastname, email, datejoined, password, friends) {
@@ -129,12 +103,23 @@ export default class User extends Followable {
     // setUserID(_userID) { //userIDs must use only alphanumerical and have at least one number and one alphabetical number
     //   return true;
     // }
-    setUserName(_name) {
-      if (check_valid_name(_name)){
-        this.username = _name;
-        return true;
+    async setUserName(_name) {
+      var bool = check_valid_name(_name)
+      if (!bool)
+        return false;
+      if (bool){
+        async function check(){
+          coolfriend = await get_user_from_username(_name);
+          if (!("friends" in coolfriend)){
+            return true
+          }
+          return false
+        }
+        var result = await check();
+        if (result)
+          this.username = _name
+        return result;
       }
-      return false;
     }
     setFirstName(_firstname) {
       if (check_valid_name(_firstname)){
@@ -150,13 +135,30 @@ export default class User extends Followable {
       }
       return false;
     }
-    setEmail(_email) {
-      if (check_valid_email(_email)){
-        this.email = _email;
-        return true;
+    async setEmail(_email) {
+      var bool = check_valid_email(_email)
+      if(!bool)
+        return false;
+      if (bool){
+        async function check(){
+          coolfriend = await get_user_from_email(_email);
+          if (!("friends" in coolfriend)){
+            return true
+          }
+          return false
+        }
+      var result = await check();
+        if (result)
+          this.email = _email
+        return result;
       }
-      return false;    
     }
+    //   if (check_valid_email(_email)){
+    //     this.email = _email;
+    //     return true;
+    //   }
+    //   return false;    
+    // }
     setDateJoined(_date) {
       if (check_valid_date(_date)){
         this.datejoined = _date;
