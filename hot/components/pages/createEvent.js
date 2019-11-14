@@ -11,7 +11,7 @@ const Form = t.form.Form;
 
 const event = t.struct({
   name: t.String,
-  desc: t.String,
+  desc: t.maybe(t.String),
   addr: t.String,
   start_date: t.Date,
   end_date: t.Date,
@@ -74,6 +74,7 @@ function add_event_to_database(event,cb){
     cb(0)
   });   
 }
+
 
 function parse_tags(tag_str){
   x = new Set()

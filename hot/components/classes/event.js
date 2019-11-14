@@ -21,6 +21,18 @@ function is_valid_date_pair(start_date, end_date){
     return (start_date < end_date)
 }
 
+export function is_valid_addr(addr, cb){
+    Geocoder.from(addr)
+    .then(json => {
+        var location = json.results[0].geometry.location;
+        cb(location)
+    })
+    .catch(() => {
+        event.set_null()
+        cb(null)
+    })
+}
+
 export function get_loc_from_addr(new_addr, event, cb){
     Geocoder.from(new_addr)
     .then(json => {
@@ -76,17 +88,10 @@ export default class Event extends Followable {
         this.admins = admins
 
         if (!isGoodEvent) {
-            this.name = ""
-            this.desc = ""
-            this.start_date = null
-            this.end_date = null
-            this.addr = ""
-            this.lat = null
-            this.isBoosted = null
-            this.tags = []
-            this.admins = []
+            this.set_null()
         }
     }
+
 
     set_null(){
         this.name = ""
@@ -94,14 +99,18 @@ export default class Event extends Followable {
         this.start_date = null
         this.end_date = null
         this.addr = ""
-        this.lat = null
+        this.loc = null
         this.isBoosted = null
         this.tags = []
         this.admins = []
     }
 
     is_null_event(){
-        return (this.name == "" && this.addr == "")
+        return (this.name == "" 
+             && this.addr == ""
+             && this.start_date == null
+             && this.end_date == null
+             && this.isBoosted == null)
     }
 
     // Getters and Setters
@@ -112,8 +121,9 @@ export default class Event extends Followable {
     get_end_date() { return this.end_date }
     get_address() { return this.addr }
     get_tags() { return this.tags }
-    isBoosted() { return this.isBoosted }
+    is_boosted() { return this.isBoosted }
     get_admins() { return this.admins }
+    is_admin(username) { return (this.admins.includes(username))}
 
     set_name(new_name) {
         if (is_valid_name(new_name)){
@@ -124,19 +134,17 @@ export default class Event extends Followable {
     }
 
     set_desc(new_desc) {
-        if (is_valid_dec(new_desc)){
+        if (is_valid_desc(new_desc)){
             this.desc = new_desc
             return true
         }
         return false
     }
 
+    /* Note: Set address always called within is_valid_addr callback */
     set_address(new_addr) {
-        if (is_valid_addr(new_addr)){
-            this.addr = new_addr
-            return true
-        }
-        return false
+        this.addr = new_addr
+        return true
     }
     
     set_loc(loc){
