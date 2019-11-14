@@ -66,45 +66,41 @@ export class User {
     getPassword() {
       return this.password;
     }
-    setUserID(_userID) { //userIDs must use only alphanumerical and have at least one number and one alphabetical number
+    /*setUserID(_userID) { //userIDs must use only alphanumerical and have at least one number and one alphabetical number
       if ((!_userID.match(/^[0-9a-zA-Z]/))&&(_userID.match != "")){
-        return false;
-      }
-      if(!finduser(_userID)){
-        this.userID = _userID;
-      }
-      return true;
-    }
+        if(!get_user_from_id(_userID)){
+          this.userID = _userID;
+          return true;
+        }
+      } else return false;
+    }*/
     setUserName(_name) {
         if ((_name.match(/^[0-9a-zA-Z]/))&&(_name.match != "")){
-          if(!finduser(_username)){
+          if(!get_user_from_username(_username)){
             this.username = _name;
           }
           return true;
         } else return false;
     }
     setFirstName(_firstname) {
-      if (!_firstname.match(/^[a-zA-Z]/)&&(_firstname.match != "")){
-        return false;
-      }
-      this.firstname = _firstname;
+      if (_firstname.match(/^[a-zA-Z]/)&&(_firstname.match != "")){
+        this.firstname = _firstname;
         return true;
+      } else return false;
     }
     setLastName(_lastname) {
-      if ((!_lastname.match(/^[a-zA-Z]/))&&(_lastname.match != "")){
-        return false;
-      }
-      this.lastname = _lastname;
+      if ((_lastname.match(/^[a-zA-Z]/))&&(_lastname.match != "")){
+        this.lastname = _lastname;
         return true;
+      } else return false;
     }
     setEmail(_email) {
-      if ((!_email.match(/^[0-9a-zA-Z]/))&&(_email.match != "")){
-        return false;
+      if ((_email.match(/^[0-9a-zA-Z]/))&&(_email.match != "")){
+        if(get_user_from_email(_email)){
+          this.email = _email;
+          return true;
+        } else return false;
       }
-      if(!finduser(_email)){
-        this.email = _email;
-      }
-        return true;
     }
     /*setDateJoined(year, month, day) {
       var d = new Date(year, month, day);
