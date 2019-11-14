@@ -58,13 +58,13 @@ have more than 1 constructor
 */
 export default class Event extends Followable {
 
-    constructor(name, desc, start, end, addr, tags, admins) {
+    constructor(_id, name, desc, start, end, addr, tags, admins) {
         super()
         var isGoodEvent = is_valid_name(name) && 
                           is_valid_desc(desc) &&
                           is_valid_date_pair(start, end)
         // Validate Attributes
-        this.eventid = null
+        this.eventid = _id
         this.name = name
         this.desc = desc
         this.start_date = new Date(start)

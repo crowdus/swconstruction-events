@@ -54,11 +54,11 @@ export default class Feed extends Component {
             method: 'GET',
         }).then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
             var l = [];
             for (i in responseJson) {
                 i = responseJson[i]
-                l.push(new Event(i['_id'], i['name'], i['desc'], i['date'], i['date'], i['latitude'], i['tags'], i['admin']));
+                l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins']));
+                console.log(l)
                 this.setState({data:l})
             }
         }).catch((error) => {
@@ -79,7 +79,7 @@ export default class Feed extends Component {
                         <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {event:item})}}>
                             <View style={styles.evt_card}>
                                 <Text style={styles.evt_title}>{item.get_name()}</Text>
-                                <Text style={styles.evt_date}>{item.get_start_date()} - {item.get_end_date()}</Text>
+                                <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
                                 <Text style={styles.evt_addr}>{item.get_address()}</Text>
                                 <Text style={styles.evt_desc}>{item.get_desc()}</Text>
                                 <SafeAreaView style={styles.tags_container}>
