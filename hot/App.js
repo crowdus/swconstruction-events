@@ -30,7 +30,7 @@ export default class App extends Component {
     }
     return (
       <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-        {this.state.Current == 'Login' ? <LogIn></LogIn> : <CreateEvent></CreateEvent> }
+        {this.state.Current == 'Login' ? <LogIn></LogIn> : <EventView></EventView> }
       </View>
     );
   }

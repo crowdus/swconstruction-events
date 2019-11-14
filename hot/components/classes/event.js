@@ -50,8 +50,8 @@ export function get_event_from_id(eventid, cb) {
       console.error(error);
     });
   }
-  
 
+  
 /* 
 Note: Javascript does not support function overloading, I cannot
 have more than 1 constructor
@@ -210,6 +210,7 @@ export default class Event extends Followable {
             console.error(error);
             cb(null)
         });
+        return []
     }
 
     get_status_friends(status, cb) {
@@ -226,6 +227,7 @@ export default class Event extends Followable {
             console.error(error);
             cb(null)
         });
+        return []
     }
 
     add_follower(user, status) {
