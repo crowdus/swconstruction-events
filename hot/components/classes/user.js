@@ -7,8 +7,9 @@
  */
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import Followable from './followable';
 
-export class User {
+export class User extends Followable{
     constructor(userID, username, firstname, lastname, email, datejoined, password, friends) {
         if (userID.match(/^[0-9a-zA-Z]/)){
           if(!finduser(userID)){
