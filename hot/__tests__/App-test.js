@@ -20,16 +20,16 @@ import Followable from '../components/classes/followable.js';
 // });
 
 // ---------- User Tests ---------------------------
-bobby = new User("bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
-alice = new User("alicehey", "alice", "moore", "alicemoore@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
-calvin = new User("calvin67", "calvin", "lee", "calvinlee@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
-david = new User("david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
+bobby = new User(012345670123456701234567, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
+alice = new User(012345670123456701234568, "alicehey", "alice", "moore", "alicemoore@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
+calvin = new User(012345670123456701234569, "calvin67", "calvin", "lee", "calvinlee@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
+david = new User(01234567012345670123456a, "david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
 
 function reset() {
-    bobby = new User("bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
-    alice = new User("alicehey", "alice", "moore", "alicemoore@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
-    calvin = new User("calvin67", "calvin", "lee", "calvinlee@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
-    david = new User("david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
+    bobby = new User(012345670123456701234567, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
+    alice = new User(012345670123456701234568, "alicehey", "alice", "moore", "alicemoore@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
+    calvin = new User(012345670123456701234569, "calvin67", "calvin", "lee", "calvinlee@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
+    david = new User(01234567012345670123456a, "david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
 }
 
 // describe('testing getters and setters', () => {
@@ -61,7 +61,7 @@ function reset() {
 //     test ('test constructor', () => {
 
 //         var check = new Date('2019-01-02');
-//         const good_user = new User("fong28", "fong", "hong", "fonghong@gmail.com", (new Date('2019-01-02')), "Fonghong28",'');
+//         const good_user = new User(01234567012345670123456b, "fong28", "fong", "hong", "fonghong@gmail.com", (new Date('2019-01-02')), "Fonghong28",'');
 //         expect(good_user.getUserName()).toBe("fong28");
 //         expect(good_user.getFirstName()).toBe("fong");
 //         expect(good_user.getLastName()).toBe("hong");
