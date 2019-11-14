@@ -24,7 +24,6 @@ export default class App extends Component {
       end_date: new Date("01 Jun 2019 00:00:00 GMT"),
       address: "123 Main St"
     }
-    var eventx = new Event(values)
     return (
       <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
         {this.state.Current == 'Login' ? <LogIn></LogIn> : <CreateEvent></CreateEvent> }

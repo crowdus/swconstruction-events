@@ -73,24 +73,51 @@ function add_event_to_database(event){
     console.error(error);
     return 0 //valid ID is a hexadecimal, so 0 is ALWAYS invalid
   });   
-};
+}
+
+function parse_tags(tag_str){
+  x = new Set()
+  if (tag_str != null && tag_str != "") {
+      tagArray = tag_str.split(/[ ,]+/)
+      for (var tag of tagArray) {
+          x.add(tag) /* TODO: make these sets instead of arrays */
+      }
+  }
+  return Array.from(x)
+}
+
+function parse_admins(admin_str){
+  x = new Set()
+  if (admin_str != null && admin_str != "") {
+      adArray = admin_str.split(/[ ,]+/)
+      for (var ad of adArray) {
+          x.add(ad) /* TODO: make these sets instead of arrays */
+      }
+  }
+  return Array.from(x)
+}
 
 export default class CreateEvent extends React.Component {
   constructor(props){
     super(props)
+    this.username = "user1"
   }
 
   /* onForm Submit function */
   onPress = () => {
     var value = this.refs.form.getValue();
     if (value) { 
-      var newEvent = new Event()
-      var valid = newEvent.consHelper(value)
+      form_start = new Date(value.start_date)
+      form_end = new Date(value.end_date)
+      form_tags = parse_tags(value.tags)
+      form_admins = parse_admins(value.admins+`,${this.username}`)
+      
+      var valid = new Event(value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
       if (valid) {
         // Add event to database
         console.log("success!")
-        add_event_to_database(newEvent)
-        console.log(newEvent)
+        add_event_to_database(valid)
+        console.log(valid)
         // Redirect to Newly Created event page
       }
       else {
