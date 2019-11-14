@@ -66,40 +66,39 @@ export class User {
     getPassword() {
       return this.password;
     }
-    /*setUserID(_userID) { //userIDs must use only alphanumerical and have at least one number and one alphabetical number
-      if (!_userID.match(/^[0-9a-zA-Z]/)){
+    setUserID(_userID) { //userIDs must use only alphanumerical and have at least one number and one alphabetical number
+      if ((!_userID.match(/^[0-9a-zA-Z]/))&&(_userID.match != "")){
         return false;
       }
       if(!finduser(_userID)){
-        this._userID = _userID;
+        this.userID = _userID;
       }
       return true;
     }
-    setUserName(name) {
-        if (!_name.match(/^[0-9a-zA-Z]/)){
-        return false;
-      }
-      if(!finduser(_username)){
-        this._username = name;
-      }
-        return true;
-    }*/
+    setUserName(_name) {
+        if ((_name.match(/^[0-9a-zA-Z]/))&&(_name.match != "")){
+          if(!finduser(_username)){
+            this.username = _name;
+          }
+          return true;
+        } else return false;
+    }
     setFirstName(_firstname) {
-      if (!_firstname.match(/^[a-zA-Z]/)){
+      if (!_firstname.match(/^[a-zA-Z]/)&&(_firstname.match != "")){
         return false;
       }
       this.firstname = _firstname;
         return true;
     }
     setLastName(_lastname) {
-      if (!_lastname.match(/^[a-zA-Z]/)){
+      if ((!_lastname.match(/^[a-zA-Z]/))&&(_lastname.match != "")){
         return false;
       }
       this.lastname = _lastname;
         return true;
     }
     setEmail(_email) {
-      if (!_email.match(/^[0-9a-zA-Z]/)){
+      if ((!_email.match(/^[0-9a-zA-Z]/))&&(_email.match != "")){
         return false;
       }
       if(!finduser(_email)){
@@ -113,22 +112,31 @@ export class User {
       return true;
     }*/
     setPassword(_password) {
-      if (_password.match(/^[0-9a-zA-Z]/)){
+      if ((_password.match(/^[0-9a-zA-Z]/))&&(_password.match != "")){
         this.password = _password;
       }
     }
 
     get_admin_events(){
       //calculate the events that user created
-
-
+      const adminevents = fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          UserID: this.UserID,
+          status: 'admin',
+        })
+      });
       return [];
     }
 
     get_interested_events(){
       //calculate the events that user clicked interested to using the UserID
       
-      fetch('hot-backend.herokuapp.com/events', {
+      fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -139,13 +147,13 @@ export class User {
           status: 'interested',
         })
       });
-      return [];
+      return response.json();
     }
 
     get_going_events(){
       //calculate the events that user clicked going to using the UserID
       
-      fetch('hot-backend.herokuapp.com/events', {
+      fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -159,9 +167,47 @@ export class User {
       return [];
     }
 
-    follow_event(_event){
-      _event.follow(this.username);
+    follow_event(_event){//?
+      _event.addFollower(this);
+      return true;
     }
+
+    follow_user(_userID){
+      if(_userID == this._userID) return false;
+
+      const _user =  fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json', 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          UserID: _userID,
+        })
+      });
+
+      (response.json()).addFollower(this);
+      return true;
+    }
+
+    unfollow_user(_userID){
+      if(_userID == this._userID) return false;
+
+      const _user =  fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json', 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          UserID: _userID,
+        })
+      });
+
+      ( response.json()).removeFollower(this);
+      return true;
+    }
+    
 }
 
 
