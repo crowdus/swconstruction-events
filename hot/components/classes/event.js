@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import Followable from './followable';
 import Geocoder from 'react-native-geocoding';
-
+import { BASE_URL, fetch_headers } from './core.js';
 
 const MAX_TAGS = 5
 
@@ -34,6 +34,24 @@ export function get_loc_from_addr(new_addr, event, cb){
     })
 }
 
+
+// Returns event object given an event ID
+export function get_event_from_id(eventid, cb) {
+    /* Make call to our API */
+    fetch(`${BASE_URL}/events/${eventid}`, {
+      method: 'GET',
+      headers: fetch_headers,
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      cb(responseJson)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+  
+
 /* 
 Note: Javascript does not support function overloading, I cannot
 have more than 1 constructor
@@ -46,6 +64,7 @@ export default class Event extends Followable {
                           is_valid_desc(desc) &&
                           is_valid_date_pair(start, end)
         // Validate Attributes
+        this.eventid = null
         this.name = name
         this.desc = desc
         this.start_date = new Date(start)
@@ -86,6 +105,7 @@ export default class Event extends Followable {
     }
 
     // Getters and Setters
+    get_eventID() { return this.eventid}
     get_name() { return this.name }
     get_desc() { return this.desc }
     get_start_date() { return this.start_date }
@@ -123,7 +143,7 @@ export default class Event extends Followable {
         this.loc = loc
         return true
     }
-    
+
     set_start_date(start) {
         if (is_valid_date_pair(start, this.end_date)){
             this.start_date = start
@@ -169,33 +189,80 @@ export default class Event extends Followable {
         return false
     }
 
-    get_interested_people() {
-        // calculate interested people from database user/event relation table
-        return []
+    /* TODO: get going and get interested is off */
+    /*
+        Different statuses are:
+        "Interested"
+        "Going"
+        "CheckedIn"
+     */
+    get_status_people(status, cb) {
+        fetch(`${BASE_URL}/userEvents/events/${this.eventid}/${status}`, {
+            method: 'GET',
+            headers: fetch_headers,
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            cb(responseJson)
+        })
+        .catch((error) => {
+            console.error(error);
+            cb(null)
+        });
     }
 
-    get_going_people() {
-        // calculate going people from database user/event relation table
-        return []
+    get_status_friends(status, cb) {
+        fetch(`${BASE_URL}/${this.eventid}/friends/${status}`, {
+            method: 'GET',
+            headers: fetch_headers,
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            cb(responseJson)
+        })
+        .catch((error) => {
+            console.error(error);
+            cb(null)
+        });
     }
 
-    get_check_ins() {
-        // calculate people that have checked in to event 
-        // (relevant only after event past)
-        return []
+    add_follower(user, status) {
+        fetch(`${BASE_URL}/userEvents`, {
+            method: 'POST',
+            headers: fetch_headers,
+            body: JSON.stringify({
+                status: status,
+                event_id: this.eventID,
+                user_id: user.getUserID(),
+            })
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            cb(responseJson)
+        })
+        .catch((error) => {
+            console.error(error);
+            cb(null)
+        });
     }
 
-    /* TODO: mark these extra methods in design doc */
-    get_going_friends(user) {
-        return []
-    }
-
-    get_interested_friends(user){
-        return []
-    }
-
-    follow(user){
-        return true
+    remove_follower(usereventID) {
+        fetch(`${BASE_URL}/userEvents/${usereventID}`, {
+            method: 'DELETE',
+            headers: fetch_headers,
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            cb(responseJson)
+        })
+        .catch((error) => {
+            console.error(error);
+            cb(null)
+        });
     }
     
     render() {
