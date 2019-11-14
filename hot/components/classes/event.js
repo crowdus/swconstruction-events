@@ -218,11 +218,11 @@ export default class Event extends Followable {
             console.error(error);
             cb(null)
         });
-        return []
     }
 
-    get_status_friends(status, cb) {
-        fetch(`${BASE_URL}/${this.eventid}/friends/${status}`, {
+    /* Started writing for iteration #2 */
+    get_status_friends(username, eventname, status, cb) {
+        fetch(`${BASE_URL}/queryFriendsAttendingEvent?username=${username}&eventName=${eventname}&status=${status}`, {
             method: 'GET',
             headers: fetch_headers,
         })
@@ -238,7 +238,7 @@ export default class Event extends Followable {
         return []
     }
 
-    add_follower(user, status) {
+    add_follower(user, status, cb) {
         fetch(`${BASE_URL}/userEvents`, {
             method: 'POST',
             headers: fetch_headers,
@@ -248,10 +248,10 @@ export default class Event extends Followable {
                 user_id: user.userID,
             })
         })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log(responseJson)
-            cb(responseJson)
+        .then((response) => response.text())
+        .then((responseText) => {
+            console.log(responseText)
+            cb(responseText)
         })
         .catch((error) => {
             console.error(error);
@@ -259,6 +259,7 @@ export default class Event extends Followable {
         });
     }
 
+    /* Note: Started Implemented for Iteration 2, but not part of Iter 1*/
     remove_follower(usereventID) {
         fetch(`${BASE_URL}/userEvents/${usereventID}`, {
             method: 'DELETE',

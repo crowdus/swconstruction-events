@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import Followable from './followable';
+const fetch = require("node-fetch");
 
 
 // Validation Functions 
@@ -48,6 +49,7 @@ export function check_valid_password(password){
 
 // data request function
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
+
 export const fetch_headers = {
   'Accept': 'application/json',
   'Content-Type': 'application/json',

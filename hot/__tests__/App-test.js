@@ -5,9 +5,14 @@
 import 'react-native';
 import React from 'react';
 import Event, { is_valid_addr } from '../components/classes/event.js'
+<<<<<<< HEAD
+import User, {check_valid_name,check_valid_email, check_valid_password} from '../components/classes/user.js';
+=======
 import User, {check_valid_name,check_valid_email, check_valid_password} from '../components/classes/user.js'
+>>>>>>> 5bef769b902bdc90e2354fa89e6e7c6c6c68a4ff
 import Tag from '../components/classes/tag.js'
 import Followable from '../components/classes/followable.js'
+
 
 // Note: test renderer must be required after react-native.
 //import renderer from 'react-test-renderer';
@@ -16,7 +21,10 @@ import Followable from '../components/classes/followable.js'
 //renderer.create(<App />);
 //});
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 5bef769b902bdc90e2354fa89e6e7c6c6c68a4ff
 // ---------- User Tests ---------------------------
 bobby = new User("bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
 alice = new User("alicehey", "alice", "moore", "alicemoore@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
@@ -374,7 +382,19 @@ test('event admin!', function() {
     expect(event2.get_admins()).toEqual(["admin"])
 })
 
+test('user following event !!', function() {
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
+    expect(event2.addFollower(alice, "going", (val)=>{
+        expect(val != null).toBeTruthy()
+        expect(event2.get_going_people()).toEqual([alice])
+        expect(event2.get_interested_people()).toEqual([])
+        expect(event2.get_check_ins()).toEqual([])
+        expect(event2.removeFollower(alice)).toBeFalsy()
+        expect(event2.get_going_people()).toEqual([])
+    }))
+});
 
+/* covered with 'user following event
 test('get_people_interested', function() {
     const event = new Event("", "", "", "", "", "", "", "");
     const user = new User("int1")
@@ -407,9 +427,10 @@ test('get check ins!', function() {
     user2.save_event(event, "gone")
     user3.save_event(event, "gone")
     expect(event.get_check_ins()).toBe(["going1", "going2", "int1"])
-})
+})*/
 
 // ---------- Tag Tests ---------------------------
+
 test('constructor!!', function() {
     // The database will set the IDs, so relatively little testing there.
     // Focuses mostly on the only constraint on name: it can't be null.
@@ -418,8 +439,7 @@ test('constructor!!', function() {
     const tag3 = new Tag(0, "a")
     expect(tag3).toBeInstanceOf(Tag)
 });
-
-
+ 
 test('Tag get/set name!!', function() {
     // name must be any string of characters of length > 0.
     const tag = new Tag(1, "asdf")
@@ -438,11 +458,3 @@ test('Tag get ID!!', function () {
     const tag = new Tag(1, "asdf")
     expect(tag.get_id()).toEqual(1)
 });
-
-// test('Tag get events!!', function () {
-//     const tag = new Tag(1, "study")
-//     expect(tag.get_events()).toEqual([])
-//     expect(tag.update_events()).toBeTruthy()
-//     expect(tag.get_events()).toEqual(['asdf'])
-// });
-

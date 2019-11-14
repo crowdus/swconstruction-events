@@ -7,7 +7,7 @@ import {
 import Constants from 'expo-constants';
 import User from '../classes/user.js';
 
-export var userTA = new User("dadwdadadawd", "johndoe", "John", "Doe", "johndoe@email.com", new Date(), "password", ['am0002'])
+export var userTA = new User("5dcd241d8a5d632450dea810", "johndoe", "John", "Doe", "johndoe@email.com", new Date(), "password", ['am0002'])
 
 export default class LogIn extends React.Component {
   constructor(props) {
