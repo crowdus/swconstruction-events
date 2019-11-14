@@ -428,6 +428,3 @@ test('Tag get ID!!', function () {
     const tag = new Tag(1, "asdf")
     expect(tag.get_id()).toEqual(1)
 });
-
-
-
