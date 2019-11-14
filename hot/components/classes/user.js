@@ -175,7 +175,6 @@ export default class User extends Followable {
     async follow_user(_username){  
       if(_username == this.username) return false;
       coolfriend = await get_user_from_username(_username);
-      console.log(coolfriend);
       //need query to access repeat followed
       if (!("friends" in coolfriend)){
         return false
@@ -184,18 +183,25 @@ export default class User extends Followable {
         this.friends = [_username];
         return true;
       }
+      if (this.friends.includes(_username))
+        return false
       this.friends.push(_username);
       return true;
     }
 
-    unfollow_user(_username){
+    async unfollow_user(_username){
       if(_username == this.username) return false;
-      fakefriend = get_user_from_username(_username);
+      fakefriend = await get_user_from_username(_username);
       //need query to access repeat followed
-      if (fakefriend == null)
-        return false;
-      this.friends = this.friends.filter(e => e !== _username);//fix
-      return true;
+      if (!("friends" in fakefriend)){
+        return false
+      }
+      if (this.friends.includes(_username)){
+        this.friends = this.friends.filter(e => e !== _username);
+        return true
+      }
+
+      return false
     }
 
 
