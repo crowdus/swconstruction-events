@@ -61,7 +61,7 @@ function check_valid_password(password){
 
 export default class User extends Followable {
 
-    constructor(username, firstname, lastname, email, datejoined, password, friends) {
+    constructor(userID, username, firstname, lastname, email, datejoined, password, friends) {
         super()
         // Validate Attributes
         var isGoodUser = check_valid_name(username) && 
@@ -71,6 +71,7 @@ export default class User extends Followable {
                          check_valid_date(datejoined) &&
                          check_valid_password (password);
         if (!isGoodUser) {
+            this.userID = null
             this.username = ""
             this.firstname = ""
             this.lastname = ""
@@ -80,18 +81,19 @@ export default class User extends Followable {
             this.friends = []
         }
         else{
-        this.username = username
-        this.firstname = firstname
-        this.lastname = lastname
-        this.email = email
-        this.datejoined = new Date (datejoined)
-        this.password = password
-        this.friends = friends
+          this.userID = userID
+          this.username = username
+          this.firstname = firstname
+          this.lastname = lastname
+          this.email = email
+          this.datejoined = new Date (datejoined)
+          this.password = password
+          this.friends = friends
       }
     }
 
     // Getters and Setters
-    // getUserID() {return this.userID;}
+    getUserID() {return this.userID;}
     getUserName() {return this.username}
     getFirstName() {return this.firstname;}
     getLastName() {return this.lastname;}
