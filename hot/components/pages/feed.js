@@ -42,21 +42,21 @@ export default class Feed extends Component {
     static navigationOptions = {
         headerLeft: () =>  (       
             <Button
-                onPress={() => alert('This is another button!')}
+                onPress={() => alert('Take me to list of events nearby that relate to what I\'m following')}
                 title="Explore"
                 color="#ddd"
             />
         ),
         headerTitle: () => (
             <Button
-                onPress={() => alert('This is another button!')}
+                onPress={() => alert('Take me to list of events I\'m interested in, going to, or an admin of')}
                 title="View G, I, A"
                 color="#eee"
             />
         ),
         headerRight: () => (
             <Button
-                onPress={() => alert('This is another button!')}
+                onPress={() => alert('Take me to the create event page')}
                 title="Create event"
                 color="#eee"
             />
