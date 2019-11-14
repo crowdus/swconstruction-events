@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon} from 'react-native';
 
 import Event from '../classes/event';
 
@@ -14,23 +14,7 @@ function TagUI({t}) {
     );
 }
 
-function ScrollHeader({usr}) {
-    // machine icon (account info button)
-    // globe icon (nearby)
-    // crowd icon (subscribed)
-    // single person icon (going/interested/admin)
-    // plus icon (create event)
-    return (
-        <Header
-        placement="left"
-        leftComponent={{ icon: 'menu', color: '#fff' }}
-        centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-        rightComponent={{ icon: 'home', color: '#fff' }}
-        />
-    )
-}
-
-function ScrollViewEvent({e}) {
+function EventScrollUI({e}) {
     return (
         <View style={styles.evt_card}>
             <Text style={styles.evt_title}>{e.get_name()}</Text>
@@ -49,16 +33,42 @@ function ScrollViewEvent({e}) {
         </View>
     );
 }
-//<Text style={styles.evt_tags}>{e.get_tags()}</Text>
+
+
+
 
 export default class Feed extends Component {
 
+    static navigationOptions = {
+        headerLeft: () =>  (       
+            <Button
+                onPress={() => alert('Take me to list of events nearby that relate to what I\'m following')}
+                title="Explore"
+                color="#ddd"
+            />
+        ),
+        headerTitle: () => (
+            <Button
+                onPress={() => alert('Take me to list of events I\'m interested in, going to, or an admin of')}
+                title="View G, I, A"
+                color="#eee"
+            />
+        ),
+        headerRight: () => (
+            <Button
+                onPress={() => alert('Take me to the create event page')}
+                title="Create event"
+                color="#eee"
+            />
+        ),
+      };
+
     render() {
-        return (
-            <SafeAreaView style={styles.container}>
+        return(
+            <SafeAreaView>
                 <FlatList
                     data={[e, e1]}
-                    renderItem={({item}) => <ScrollViewEvent e={item}/> }
+                    renderItem={({item}) => <EventScrollUI e={item}/> }
                     keyExtractor={item => item.get_name()}
                 />
             </SafeAreaView>
@@ -70,6 +80,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: 100,
+    },
+    header: {
+        flex: 1,
+        padding:10,
     },
     tags_container: {
         flex: 1,
