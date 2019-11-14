@@ -5,11 +5,7 @@
 import 'react-native';
 import React from 'react';
 import Event, { is_valid_addr } from '../components/classes/event.js'
-<<<<<<< HEAD
-import User, {check_valid_name,check_valid_email, check_valid_password} from '../components/classes/user.js';
-=======
 import User, {check_valid_name,check_valid_email, check_valid_password} from '../components/classes/user.js'
->>>>>>> 5bef769b902bdc90e2354fa89e6e7c6c6c68a4ff
 import Tag from '../components/classes/tag.js'
 import Followable from '../components/classes/followable.js'
 
@@ -21,10 +17,6 @@ import Followable from '../components/classes/followable.js'
 //renderer.create(<App />);
 //});
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5bef769b902bdc90e2354fa89e6e7c6c6c68a4ff
 // ---------- User Tests ---------------------------
 bobby = new User("bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
 alice = new User("alicehey", "alice", "moore", "alicemoore@gmail.com", (new Date('2019-01-02')), "Fonghong28", []);
