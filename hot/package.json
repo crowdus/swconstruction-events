@@ -5,20 +5,33 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest"
   },
   "dependencies": {
+    "@material-ui/core": "^4.6.1",
+    "axios": "^0.19.0",
     "expo": "^35.0.0",
+    "material-ui": "^0.20.2",
     "react": "16.8.3",
     "react-dom": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
     "react-native-gesture-handler": "^1.5.0",
+    "react-native-router-flux": "^4.0.6",
     "react-native-web": "^0.11.7",
     "react-navigation": "^4.0.10",
-    "react-navigation-stack": "^1.10.3"
+    "react-navigation-stack": "^1.10.3",
+    "react-router-dom": "^5.1.2",
+    "react-tap-event-plugin": "^3.0.3",
+    "tcomb-form-native": "^0.6.20"
+  },
+  "jest": {
+    "preset": "react-native"
   },
   "devDependencies": {
-    "babel-preset-expo": "^7.1.0"
+    "@babel/core": "^7.7.2",
+    "babel-preset-expo": "^7.1.0",
+    "jest": "^24.9.0"
   },
   "private": true
 }

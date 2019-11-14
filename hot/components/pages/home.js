@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
+import { Button} from 'react-native';
 
 
 export default class Home extends React.Component {
@@ -13,6 +14,11 @@ export default class Home extends React.Component {
         <Text>
           Welcome to Hot! 
         </Text> 
+        <Button
+          title="Start"
+          color = "#f194ff"
+          onPress={() => this.props.navigation.navigate('Login')}
+        />
       </View>
     );
   }

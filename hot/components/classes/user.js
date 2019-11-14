@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 export class User {
-    constructor(userID, username, firstname, lastname, email, datejoined, password, following) {
+    constructor(userID, username, firstname, lastname, email, datejoined, password, friends) {
         if (userID.match(/^[0-9a-zA-Z]/)){
           if(!finduser(userID)){
             this.userID = userID;
@@ -42,7 +42,7 @@ export class User {
           this.password = password;
         }
 
-        this.following = following;
+        this.followed = friends;
     }
 
     getUserID() {
@@ -119,7 +119,7 @@ export class User {
 
     get_admin_events(){
       //calculate the events that user created
-      const adminevents = await fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
+      const adminevents = fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -147,7 +147,7 @@ export class User {
           status: 'interested',
         })
       });
-      return await response.json();
+      return response.json();
     }
 
     get_going_events(){
@@ -175,7 +175,7 @@ export class User {
     follow_user(_userID){
       if(_userID == this._userID) return false;
 
-      const _user = await fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
+      const _user =  fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
         headers: {
           Accept: 'application/json', 
@@ -186,14 +186,14 @@ export class User {
         })
       });
 
-      (await response.json()).addFollower(this);
+      (response.json()).addFollower(this);
       return true;
     }
 
     unfollow_user(_userID){
       if(_userID == this._userID) return false;
 
-      const _user = await fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
+      const _user =  fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
         headers: {
           Accept: 'application/json', 
@@ -204,7 +204,7 @@ export class User {
         })
       });
 
-      (await response.json()).removeFollower(this);
+      ( response.json()).removeFollower(this);
       return true;
     }
     

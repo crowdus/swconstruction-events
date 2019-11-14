@@ -3,9 +3,9 @@ import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 import Event from '../classes/event';
 
-e = new Event(1, "Event Title", "This will be a very fun event. You should come. I'm going to add more text so we get a new line. Maybe even a third line,,, etc.",
-              new Date("2019-12-17T03:24:00"), new Date("2019-12-17T03:24:00"), "5336 S Greenwood Ave", ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "antidisestablishmentarianism"], null);
-e1 = new Event(2, "Checkout Books", "This event will have a lot of food. It will be fun. asdf asdf asdf asdf asdf asdf asdf asdf .",
+e = new Event("Event Title", "This will be a very fun event. You should come. I'm going to add more text so we get a new line. Maybe even a third line,,, etc.",
+              new Date("2019-12-17T03:24:00"), new Date("2019-12-17T03:24:00"), "5336 S Greenwood Ave", ["tag1", "tag2", "tag1", "tag2", "tag1", "tag2", "tag1", "tag2", "asdf", "asdf", "asdf"], null);
+e1 = new Event("Checkout Books", "This event will have a lot of food. It will be fun. asdf asdf asdf asdf asdf asdf asdf asdf .",
                new Date("2019-12-17T03:24:00"), new Date("2019-12-17T03:24:00"), "The Reg", ["tag3"], null);
 
 function TagUI({t}) {
@@ -35,13 +35,13 @@ function ScrollEventUI({e}) {
 }
 //<Text style={styles.evt_tags}>{e.get_tags()}</Text>
 
-export default class Feed extends Component {
+export default class Intro extends Component {
 
     render() {
         return (
             <SafeAreaView style={styles.container}>
                 <FlatList
-                    data={[e, e1]}
+                    data={[e, e1, e, e, e, e, e, e, e, e]}
                     renderItem={({item}) => <ScrollEventUI e={item}/> }
                     keyExtractor={item => item.get_name()}
                 />

@@ -1,83 +1,106 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import Event from './components/classes/event.js';
+import Event from './components/classes/event';
 import Home from './components/pages/home.js';
-import LogIn from './components/pages/login';
-import Feed from './components/pages/feed.js';
+import LogIn from './components/pages/login.js';
+import CreateEvent from './components/pages/createEvent.js';
+import EventView from './components/pages/eventView.js';
+import CreateUser from './components/pages/registration.js';
 
-// import AppNavigator from './AppNavigator';
+import { createAppContainer} from 'react-navigation';
+import { createStackNavigator} from 'react-navigation-stack';
 
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
 
-const MainNavigator = createStackNavigator({
-  // Home: { screen: Home },
-  LogIn: { screen: LogIn },
-  Feed: { screen: Feed },
-  Event: { screen: Event },
+export default class App extends Component {
+  render() {
+    return <AppContainer />;
+  }
+}
+
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: Home
+  },
+  Login: {
+    screen: LogIn
+  },
+  CreateUser: {
+    screen: CreateUser
+  },
 });
 
-const AppNav = createAppContainer(MainNavigator);
+const AppContainer = createAppContainer(AppNavigator);
 
-export default AppNav;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     Current: 'create',
+  //     reset: false,
+  //   };
+  // }
+
+  // render() {
+  //   var values = {
+  //     name: "HotChoc",
+  //     desc: "Study Break",
+  //     start_date: new Date(),
+  //     end_date: new Date("01 Jun 2019 00:00:00 GMT"),
+  //     address: "123 Main St"
+  //   }
+  //   var eventx = new Event(values)
+  //   return (
+  //     <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+  //       {this.state.Current == 'Login' ? <LogIn></LogIn> : <CreateUser></CreateUser>}
+  //     </View>
+  //   );
+  // }
 
 
-// export class App extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       Current: 'Login',
-//       reset: false,
-//     };
-//   }
 
+//  /*
 //   render() {
 //     return (
-//       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-//         {this.state.Current == 'Login' ? <LogIn></LogIn> : <Home></Home> }
-//         {/* <MainNavigator/> */}
-//       </View>
-//     );
-//   }
+//       <View style={styles.container}>
+//         {this.state.Current == 'Home'
+//           ? <Home reset={this.state.reset} />
+//           : <List reset={this.state.reset} />}
+
+//         <BottomNavigation>
+//           <BottomNavigation.Action
+//             key="home"
+//             iconSet="SimpleLineIcons"
+//             icon={<SimpleLineIcons name="home" size={25} color="red" />}
+//             label="Home"
+//             onPress={() => this.changeReset('Home')}
+//           />
+
+//           <BottomNavigation.Action
+//             key="list"
+//             icon={<SimpleLineIcons name="list" size={25} />}
+//             label="List"
+//             onPress={() => this.changeReset('List')}
+//           />
+
+//         </BottomNavigation>
+      
 // }
 
 
-/*
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.state.Current == 'Home'
-          ? <Home reset={this.state.reset} />
-          : <List reset={this.state.reset} />}
-
-        <BottomNavigation>
-          <BottomNavigation.Action
-            key="home"
-            iconSet="SimpleLineIcons"
-            icon={<SimpleLineIcons name="home" size={25} color="red" />}
-            label="Home"
-            onPress={() => this.changeReset('Home')}
-          />
-
-          <BottomNavigation.Action
-            key="list"
-            icon={<SimpleLineIcons name="list" size={25} />}
-            label="List"
-            onPress={() => this.changeReset('List')}
-          />
-
-        </BottomNavigation>
-      
-}
-
-/*
-this.name = name
-this.desc = desc
-this.start_date = start_date
-this.end_date = end_date
-this.address = address
-this.tags = tags
-this.isBoosted = false
-this.admins = admin
-*/
+// this.name = name
+// this.desc = desc
+// this.start_date = start_date
+// this.end_date = end_date
+// this.address = address
+// this.tags = tags
+// this.isBoosted = false
+// this.admins = admin
+// */

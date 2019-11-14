@@ -5,21 +5,23 @@ import {
   Alert,
 } from 'react-native';
 import Constants from 'expo-constants';
+import { createAppContainer} from 'react-navigation';
+import { createStackNavigator} from 'react-navigation-stack';
 
 export default class LogIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      "username": "",
-      "code": ""
+      Current: 'login',
+      'username': "",
+      'password':""
+
     }
-    this.props=props
   }
 
   render() {
-    const {navigate} = this.props.navigation;
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View>
         <Text>
           Welcome to Hot! {"\n\n"}
           Enter Username:
@@ -31,19 +33,29 @@ export default class LogIn extends React.Component {
         />
         <Text>
           {"\n"}
-          Beta Access Code:
+          Enter Password:
         </Text>
         <TextInput
-          placeholder="Access Code"
-          onChangeText={(code) => this.setState({code})}
-          value={this.state.code}
+          placeholder="Password"
+          onChangeText={(password) => this.setState({password})}
+          value={this.state.password}
         />
 
         <View>
         <Button
           title="Log In"
           color="#f194ff"
-          onPress={function () { navigate('Feed')}}
+          // onPress={() => Alert.alert('Incorrect access code')}
+          onPress={() => (this.state.username == "" ? 
+            Alert.alert('Please enter username') : 
+            (this.state.password == "" ? 
+              Alert.alert('Please enter password') :
+              Alert.alert('waiting for authentification')))}
+        />
+        <Button
+          title="Do not have an account? Create one now!"
+          color = "#f194ff"
+          onPress={() => this.props.navigation.navigate('CreateUser')}
         />
       </View>
       </View>
