@@ -103,9 +103,10 @@ export default class Event extends Followable {
   }
   
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View>
-        <Text>Hello, welcome to {this.props.name}!</Text>
+        <Text>Hello, welcome to {navigate.getParam('event').get_name()}!</Text>
       </View>
     );
   }

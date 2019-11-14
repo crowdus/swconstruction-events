@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, TouchableOpacity} from 'react-native';
+import {withNavigation} from 'react-navigation';
 
 import Event from '../classes/event';
 
@@ -8,42 +9,71 @@ e = new Event(1, "Event Title", "This will be a very fun event. You should come.
 e1 = new Event(2, "Checkout Books", "This event will have a lot of food. It will be fun. asdf asdf asdf asdf asdf asdf asdf asdf .",
                new Date("2019-12-17T03:24:00"), new Date("2019-12-17T03:24:00"), "The Reg", ["tag3"], null);
 
+
+
 function TagUI({t}) {
     return (
         <View style={styles.tag_view}><Text style={styles.tag_text}>{t}</Text></View>
     );
 }
 
-function ScrollEventUI({e}) {
-    return (
-        <View style={styles.evt_card}>
-            <Text style={styles.evt_title}>{e.get_name()}</Text>
-            <Text style={styles.evt_date}>{e.get_start_date().toDateString()} - {e.get_end_date().toDateString()}</Text>
-            <Text style={styles.evt_addr}>{e.get_address()}</Text>
-            <Text style={styles.evt_desc}>{e.get_desc()}</Text>
-            <SafeAreaView style={styles.tags_container}>
-                <FlatList
-                    horizontal = {true}
-                    listKey="tags"
-                    data={e.get_tags()}
-                    renderItem={({item}) => <TagUI t={item}/> }
-                    keyExtractor={item => item}
-                />
-            </SafeAreaView>
-        </View>
-    );
-}
-//<Text style={styles.evt_tags}>{e.get_tags()}</Text>
 
 export default class Feed extends Component {
 
+    constructor(props) {
+        super(props)
+        this.props = props
+    }
+
+    static navigationOptions = {
+        headerLeft: () =>  (       
+            <Button
+                onPress={() => alert('Take me to settings, lists of events im going/interested/admin, following lists')}
+                title="My profile"
+                color="#000"
+            />
+        ),
+        headerTitle: () => (
+            <Button
+                onPress={() => alert('Take me to list of events I\'m interested in, going to, or an admin of')}
+                title="Explore"
+                color="#000"
+            />
+        ),
+        headerRight: () => (
+            <Button
+                onPress={() => alert('Take me to the create event page')}
+                title="Create event"
+                color="#000"
+            />
+        ),
+      };
+
     render() {
-        return (
-            <SafeAreaView style={styles.container}>
+        const {navigate} = this.props.navigation;
+        return(
+            <SafeAreaView>
                 <FlatList
                     data={[e, e1]}
-                    renderItem={({item}) => <ScrollEventUI e={item}/> }
-                    keyExtractor={item => item.get_name()}
+                    renderItem={({item}) => 
+                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {event:item})}}>
+
+                        <View style={styles.evt_card}>
+                                <Text style={styles.evt_title}>{item.get_name()}</Text>
+                                <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
+                                <Text style={styles.evt_addr}>{item.get_address()}</Text>
+                                <Text style={styles.evt_desc}>{item.get_desc()}</Text>
+                            <SafeAreaView style={styles.tags_container}>
+                                <FlatList
+                                    horizontal = {true}
+                                    listKey="tags"
+                                    data={e.get_tags()}
+                                    renderItem={({item}) => <TagUI t={item}/> }
+                                    keyExtractor={item => item}
+                                />
+                            </SafeAreaView>
+                        </View>
+                    </TouchableOpacity>}
                 />
             </SafeAreaView>
         );
@@ -54,6 +84,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: 100,
+    },
+    header: {
+        flex: 1,
+        padding:10,
     },
     tags_container: {
         flex: 1,
