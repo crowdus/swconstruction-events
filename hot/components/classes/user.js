@@ -119,7 +119,7 @@ export class User {
 
     get_admin_events(){
       //calculate the events that user created
-      const adminevents = await fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
+      fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -133,9 +133,8 @@ export class User {
       return [];
     }
 
-    get_interested_events(){
+    async get_interested_events(){
       //calculate the events that user clicked interested to using the UserID
-      
       fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
         headers: {
@@ -147,12 +146,10 @@ export class User {
           status: 'interested',
         })
       });
-      return await response.json();
     }
 
     get_going_events(){
       //calculate the events that user clicked going to using the UserID
-      
       fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
         headers: {
@@ -174,8 +171,7 @@ export class User {
 
     follow_user(_userID){
       if(_userID == this._userID) return false;
-
-      const _user = await fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
+      fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
         headers: {
           Accept: 'application/json', 
@@ -185,15 +181,13 @@ export class User {
           UserID: _userID,
         })
       });
-
-      (await response.json()).addFollower(this);
       return true;
     }
 
     unfollow_user(_userID){
       if(_userID == this._userID) return false;
 
-      const _user = await fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
+      fetch('hot-backend.herokuapp.com/users/5dcb8f215f002a82da85b17a', {
         method: 'GET',
         headers: {
           Accept: 'application/json', 
@@ -203,8 +197,6 @@ export class User {
           UserID: _userID,
         })
       });
-
-      (await response.json()).removeFollower(this);
       return true;
     }
     
