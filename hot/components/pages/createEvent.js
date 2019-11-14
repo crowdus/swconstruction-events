@@ -5,6 +5,9 @@ import t from 'tcomb-form-native';
 import Event, { get_loc_from_addr } from '../classes/event.js'
 import Core, {BASE_URL,fetch_headers } from '../classes/core'
 import Geocoder from 'react-native-geocoding';
+import {
+  Alert,
+} from 'react-native';
 
 /* Create Form Structure for the form builder library*/
 const Form = t.form.Form;
@@ -114,11 +117,16 @@ export default class CreateEvent extends React.Component {
       form_end = new Date(value.end_date)
       form_tags = parse_tags(value.tags)
       form_admins = parse_admins(value.admins, this.username)
-      
-      var valid = new Event(null, value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
+      form_desc = ""
+      if (value.desc){
+        form_desc = value.desc
+      }
+      var valid = new Event(null, value.name, form_desc, form_start, form_end, value.addr, form_tags, form_admins)
+      // Address and Loc Validity - Calls to API
       if (!valid.is_null_event()) {
         get_loc_from_addr(value.addr, valid, (loc) => {
           if (loc != null) {
+            // Adds to database if all is valid
             add_event_to_database(valid, (resp) => {
               if (resp != 0) {
                 var v = new Event(resp, value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
@@ -128,19 +136,19 @@ export default class CreateEvent extends React.Component {
             })
           }
           else {
-            console.log("Error. Invalid Address")
+            // Invalid Address
+            Alert.alert('Invalid Address')
           }
         })
       }
       else {
-        // reset form
-        console.log(valid)
-        console.log("Error! Try Again") 
+        // Invalid Date
+        Alert.alert('Invalid Start and End Date')
       }
     }
     else{
       // reset form
-      console.log("Form Error")
+      Alert.alert('Form Error')
     }
   }
 
