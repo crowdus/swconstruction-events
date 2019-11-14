@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import Geocoder from 'react-native-geocoding';
 
-import Event from './components/classes/event.js';
-import Home from './components/pages/home.js';
-import LogIn from './components/pages/login';
+const APIKEY = 'AIzaSyB9z1Rab2_34wUVl177HhwEAGa4nh2SnSk'
+
 import Feed from './components/pages/feed.js';
+import Event from './components/classes/event';
+import Home from './components/pages/home.js';
+import LogIn from './components/pages/login.js';
+import CreateEvent from './components/pages/createEvent.js';
+import EventView from './components/pages/eventView.js';
 
 // import AppNavigator from './AppNavigator';
 
@@ -23,24 +28,31 @@ const AppNav = createAppContainer(MainNavigator);
 export default AppNav;
 
 
-// export class App extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       Current: 'Login',
-//       reset: false,
-//     };
-//   }
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      Current: 'Home',
+      reset: false,
+    };
+    Geocoder.init(APIKEY, {language : "en"});
+  }
 
-//   render() {
-//     return (
-//       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-//         {this.state.Current == 'Login' ? <LogIn></LogIn> : <Home></Home> }
-//         {/* <MainNavigator/> */}
-//       </View>
-//     );
-//   }
-// }
+  render() {
+    var values = {
+      name: "HotChoc",
+      desc: "Study Break",
+      start_date: new Date(),
+      end_date: new Date("01 Jun 2019 00:00:00 GMT"),
+      address: "123 Main St"
+    }
+    return (
+      <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+        {this.state.Current == 'Login' ? <LogIn></LogIn> : <EventView></EventView> }
+      </View>
+    );
+  }
+}
 
 
 /*

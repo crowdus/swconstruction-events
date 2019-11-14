@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
-export default class Followable {
-
-  constructor(ID, name) {
-    this.ID = ID;
-    this.name = name;
+export default class Followable extends React.Component{
+  constructor(props) {
+    super(props)
   }
 
   addFollower(user) {}
