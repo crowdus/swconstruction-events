@@ -32,14 +32,17 @@ export default class EventView extends React.Component {
   }
 
   componentDidMount() {
+    console.log("event view mounted")
+    /*
     var e = this.props.navigation.getParam('evt')
     var usr = this.props.navigation.getParam('usr')
     e.get_status_people("interested", (l)=>{
-      this.setState({numInterested:l.length})
+      this.setState({numInterested:0})
     })
     e.get_status_people("going", (l)=>{
-      this.setState({numGoing:l.length})
+      this.setState({numGoing:0})
     })
+    */
   }
 
   render() {

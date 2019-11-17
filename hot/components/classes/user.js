@@ -141,8 +141,10 @@ export default class User extends Followable {
                          check_valid_name(firstname) && 
                          check_valid_name(lastname) &&
                          check_valid_email(email) &&
-                         check_valid_password (password);
+                         check_valid_password(password);
         if (!isGoodUser) {
+            console.log(check_valid_email("johndoe@gmail.com"))
+            console.log(check_valid_password("Princess123!"))
             this.username = ""
             this.firstname = ""
             this.lastname = ""

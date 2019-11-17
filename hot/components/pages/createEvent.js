@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-native';
 import t from 'tcomb-form-native';
@@ -36,7 +35,7 @@ var options = {
       label: 'Event Name',
       maxLength: 128
     },
-    description: {
+    desc: {
       label: 'Event Description',
       placeholder: 'Meet us over Hot Cocoa!',
       maxLength: 1000,
@@ -78,7 +77,7 @@ function add_event_to_database(event,cb){
   .then((responseVal) => {
     cb(responseVal)
   })
-  .catch(() => {
+  .catch((error) => {
     cb(0)
   });   
 }
@@ -114,50 +113,48 @@ export default class CreateEvent extends React.Component {
     this.onPress = this.onPress.bind(this);
   }
 
-  /* onForm Submit function */
-  onPress = () => {
-    var value = this.refs.form.getValue();
-    if (value) { 
-      form_start = new Date(value.start_date)
-      form_end = new Date(value.end_date)
-      form_tags = parse_tags(value.tags)
-      form_admins = parse_admins(value.admins, this.username)
-      form_desc = ""
-      if (value.desc){
-        form_desc = value.desc
+    /* onForm Submit function */
+    onPress = () => {
+      var value = this.refs.form.getValue();
+      if (value) { 
+        form_start = new Date(value.start_date)
+        form_end = new Date(value.end_date)
+        form_tags = parse_tags(value.tags)
+        form_admins = parse_admins(value.admins, this.username)
+        form_desc = ""
+        if (value.desc){
+          form_desc = value.desc
+        }
+        var valid = new Event(null, value.name, form_desc, form_start, form_end, value.addr, form_tags, form_admins)
+        // Address and Loc Validity - Calls to API
+        if (!valid.is_null_event()) {
+          get_loc_from_addr(value.addr, valid, (loc) => {
+            if (loc != null) {
+              // Adds to database if all is valid
+              add_event_to_database(valid, (resp) => {
+                if (resp != 0) {
+                  var v = new Event(resp, value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
+                  console.log(`switch to events screen for ${resp}`)
+                  this.props.navigation.navigate('Event', {evt: v})
+                }          
+              })
+            }
+            else {
+              // Invalid Address
+              Alert.alert('Invalid Address')
+            }
+          })
+        }
+        else {
+          // Invalid Date
+          Alert.alert('Invalid Start and End Date')
+        }
       }
-      var valid = new Event(null, value.name, form_desc, form_start, form_end, value.addr, form_tags, form_admins)
-      // Address and Loc Validity - Calls to API
-      if (!valid.is_null_event()) {
-        get_loc_from_addr(value.addr, valid, (loc) => {
-          if (loc != null) {
-            // Adds to database if all is valid
-            add_event_to_database(valid, (resp) => {
-              if (resp != 0) {
-                var v = new Event(resp, value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
-                console.log(`switch to events screen for ${resp}`)
-                this.props.navigation.navigate('Event', {evt: v})
-                Alert.alert('Event Created. Click Back to View')
-              }          
-            })
-            Alert.alert('Event Created. Click Back to View')
-          }
-          else {
-            // Invalid Address
-            Alert.alert('Invalid Address')
-          }
-        })
-      }
-      else {
-        // Invalid Date
-        Alert.alert('Invalid Start and End Date')
+      else{
+        // reset form
+        Alert.alert('Form Error')
       }
     }
-    else{
-      // reset form
-      Alert.alert('Form Error')
-    }
-  }
 
   render() {
     const {navigate} = this.props.navigation;

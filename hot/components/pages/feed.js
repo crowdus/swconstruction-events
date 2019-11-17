@@ -3,7 +3,6 @@ import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, T
 import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event';
-import Tag from '../classes/tag';
 
 
 // function to render Tags in the event cards
@@ -27,14 +26,14 @@ export default class Feed extends Component {
         return {
         headerLeft: () =>  (       
             <Button
-                onPress={() => alert('Iter2: Take me to settings, lists of events im going/interested/admin, following lists')}
+                onPress={() => alert('Take me to settings, lists of events im going/interested/admin, following lists')}
                 title="My profile"
                 color="#000"
             />
         ),
         headerTitle: () => (
             <Button
-                onPress={() => alert('Iter2: Take me to list of events I\'m interested in, going to, or an admin of')}
+                onPress={() => alert('Take me to list of events I\'m interested in, going to, or an admin of')}
                 title="Explore"
                 color="#000"
             />
@@ -61,8 +60,9 @@ export default class Feed extends Component {
             for (i in responseJson) {
                 i = responseJson[i]
                 l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins']));
+                console.log(l)
+                this.setState({data:l})
             }
-            this.setState({data:l})
         }).catch((error) => {
             console.error(error);
         });
@@ -73,15 +73,13 @@ export default class Feed extends Component {
     // Shows the feed
     render() {
         const {navigate} = this.props.navigation;
-        var usr = this.props.navigation.getParam('usr')
-
         return(
             this.state && <SafeAreaView>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) => 
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
+                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item})}}>
                             <View style={styles.evt_card}>
                                 <Text style={styles.evt_title}>{item.get_name()}</Text>
                                 <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>

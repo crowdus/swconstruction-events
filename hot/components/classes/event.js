@@ -120,6 +120,10 @@ export default class Event extends Followable {
 
     // Getters and Setters
     get_eventID() { return this.eventid}
+    set_eventID(id) {
+        this.eventid = id
+        return true
+    }
     get_name() { return this.name }
     get_desc() { return this.desc }
     get_start_date() { return this.start_date }
@@ -138,6 +142,11 @@ export default class Event extends Followable {
         return false
     }
 
+    set_loc(loc) {
+        this.loc = loc
+        return true
+    }
+    
     set_desc(new_desc) {
         if (is_valid_desc(new_desc)){
             this.desc = new_desc
