@@ -1,65 +1,117 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, ScrollView, SafeAreaView, FlatList} from 'react-native';
 import Event from '../classes/event.js'
 import {
   Button,
   Alert,
 } from 'react-native';
 import User from '../classes/user.js';
+import TagButton from '../renderables/tagButton'
+
+/* Helper function to render tags and admins */
+function renderArray(arr){
+  var retArr = []
+  if (arr.length == 0) {
+    retArr.push(<Text> None </Text>)
+  }
+  else {
+    for (let i in arr) {
+      retArr.push(<TagButton t={arr[i]}></TagButton>)
+    }
+  }
+  return retArr
+}
 
 export default class EventView extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      'numInterested': 0,
-      'numGoing': 0,
-      'some':''
+      'interested_people': [],
+      'interested_friends': [],
+      'going_people': [],
+      'going_friends': [],
+      'eventUserID': '',
+      'userStatus': '',
     }
   }
 
   onPress_status = (e, status, usr) => {
-    //username = GLOBAL.screen1
-    console.log(usr)
-    e.add_follower(usr,status,(eventuserid)=>{
+    e.add_follower(usr, status, (eventuserid) => {
+      console.log(eventuserid)
+      this.getAttendeeStatus(e, usr)
       Alert.alert(`Marked as ${status}`)
-      if (status == 'interested'){
-        this.setState({numInterested:this.state.numInterested})
+    })
+  }
+
+  viewUsers = (status) => {
+    var userList = []
+    if (status == 'Going') {
+      userList = this.state.interested_people
+    }
+    if (status == 'Interested'){
+      userList = this.state.going_people
+    }
+  }
+
+  async getAttendeeStatus(e, usr) {
+    e.get_status_people("interested", (l) => {
+      this.setState({interested_people:l})
+    })
+    e.get_status_people("going", (l) => {
+      if (l) {
+        this.setState({going_people:l})
       }
-      if (status == 'going'){
-        this.setState({numGoing:this.state.numGoing})
+    })
+    e.get_status_friends(usr, "interested", (l) => {
+      if (l) {
+        this.setState({interested_friends:l})
+      }
+    })
+    e.get_status_friends(usr, "going", (l) => {
+      if (l) {
+        this.setState({going_friends:l})
+      }
+    })
+    usr.get_status_for_event(e, (userEventObj) => {
+      console.log(userEventObj)
+      if (userEventObj){
+        this.setState({userStatus:userEventObj['status']})
+        this.setState({eventUserID:userEventObj['_id']})
       }
     })
   }
 
   componentDidMount() {
-    console.log("event view mounted")
-    /*
     var e = this.props.navigation.getParam('evt')
     var usr = this.props.navigation.getParam('usr')
-    e.get_status_people("interested", (l)=>{
-      this.setState({numInterested:0})
-    })
-    e.get_status_people("going", (l)=>{
-      this.setState({numGoing:0})
-    })
-    */
+    
+    // Make API call
+    this.getAttendeeStatus(e, usr)
   }
 
   render() {
-    //var u = new User(123, "test", "michael", "woo", "email@email.com", new Date(), "p1", null)
-    //var e = new Event("hotchoc", "hefh", new Date(), new Date("01 Jun 2020 00:00:00 GMT"), "Times Square", [], ["user1"])
+    console.log(this.state)
     var e = this.props.navigation.getParam('evt')
     var usr = this.props.navigation.getParam('usr')
+    var renderTags = renderArray(e.get_tags())
+    var renderAdmins = renderArray(e.get_admins())
 
-    console.log(e)
-    var tags = e.get_tags()
-    var renderTags;
-    if (tags.size == 0) {
-      renderTags = <Text> No Tags Yet </Text>
-    }
-    else {
-      renderTags = <Text> {tags} </Text>
-    }
+    var numFriendsInt = this.state.interested_friends.length
+    var numFriendsGoing = this.state.going_friends.length
+    var interested_str = (
+      <Text> 
+        {numFriendsInt} friends
+        and {this.state.interested_people.length - numFriendsInt} other(s)
+        marked 'Interested' 
+    </Text>)
+
+    var going_str = (
+      <Text> 
+        {numFriendsGoing} friends
+        and {this.state.going_people.length - numFriendsGoing} other(s)
+        marked 'Going' 
+    </Text>)
+
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", borderWidth:40, borderColor:"white"}}>
         <ScrollView>
@@ -78,21 +130,34 @@ export default class EventView extends React.Component {
               {e.get_end_date().toDateString()} ({e.get_end_date().toTimeString()})
               </Text>
 
-              {"\n\n"}Tags: 
-              <Text style={{fontSize: 20,}}>{"\n"}{renderTags}</Text>
-
-              {"\n\n"}Hosted By: 
-              <Text style={{fontSize: 20,}}>{"\n"}{e.get_admins()}</Text>
-
-              <Text style={{textAlign: "center"}}> {"\n\n"}Attendees: 
-              {"\n"}{"\n"} {this.state.numInterested} people marked 'Interested'</Text>
-            </Text>
-              
-              <Text>
-              {"\n"} {this.state.numGoing} people marked 'Going'
             
+              {"\n\n"} Tags: 
               </Text>
-              
+              {renderTags}
+            
+              <Text>
+              {"\n\n"}Hosted By: 
+              </Text>
+              {renderAdmins}
+
+              <Text style={{textAlign: "center"}}> {"\n\n"}
+              Attendees: 
+              </Text>
+
+              <TouchableHighlight onPress={() => this.viewUsers('interested')}>
+                <Text>
+                  Interested: {"\n"}
+                  {interested_str}
+                </Text>
+              </TouchableHighlight>
+
+              <TouchableHighlight onPress={() => this.viewUsers('going')}>
+                <Text>
+                  Going: {"\n"}
+                  {going_str}
+                </Text>
+              </TouchableHighlight>
+
             <Text>
               {"\n\n"}Respond: 
             </Text>
@@ -139,3 +204,11 @@ export default class EventView extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  tags_container: {
+    flex: 1,
+    padding:10
+  }
+})
+

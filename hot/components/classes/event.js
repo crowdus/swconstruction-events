@@ -1,13 +1,8 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+/* Event class implementation */
+
 import Followable from './followable';
 import Geocoder from 'react-native-geocoding';
-
-export const BASE_URL = 'https://hot-backend.herokuapp.com'
-export const fetch_headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json',
-}
+import {BASE_URL, fetch_headers} from './core'
 
 const MAX_TAGS = 5
 
@@ -38,6 +33,7 @@ export function is_valid_addr(addr, cb){
     })
 }
 
+// Gets location from address string
 export function get_loc_from_addr(new_addr, event, cb){
     Geocoder.from(new_addr)
     .then(json => {
@@ -45,7 +41,8 @@ export function get_loc_from_addr(new_addr, event, cb){
         event.set_loc(location)
         cb(location)
     })
-    .catch(() => {
+    .catch((error) => {
+        console.error(error)
         event.set_null()
         cb(null)
     })
@@ -81,7 +78,7 @@ export default class Event extends Followable {
                           is_valid_desc(desc) &&
                           is_valid_date_pair(start, end)
         // Validate Attributes
-        this.eventid = _id
+        this._id = _id
         this.name = name
         this.desc = desc
         this.start_date = new Date(start)
@@ -97,8 +94,9 @@ export default class Event extends Followable {
         }
     }
 
-
+    // Set an event to a null instance of event
     set_null(){
+        this._id = ""
         this.name = ""
         this.desc = ""
         this.start_date = null
@@ -110,6 +108,7 @@ export default class Event extends Followable {
         this.admins = []
     }
 
+    // Checks if an event is a null instance of event
     is_null_event(){
         return (this.name == "" 
              && this.addr == ""
@@ -118,22 +117,17 @@ export default class Event extends Followable {
              && this.isBoosted == null)
     }
 
-    // Getters and Setters
-    get_eventID() { return this.eventid}
+    /* ------------------- Getters & Setters  ----------------------------- */
+
+    // Event ID
+    get_eventID() { return this._id}
     set_eventID(id) {
-        this.eventid = id
+        this._id = id
         return true
     }
-    get_name() { return this.name }
-    get_desc() { return this.desc }
-    get_start_date() { return this.start_date }
-    get_end_date() { return this.end_date }
-    get_address() { return this.addr }
-    get_tags() { return this.tags }
-    is_boosted() { return this.isBoosted }
-    get_admins() { return this.admins }
-    is_admin(username) { return (this.admins.includes(username))}
 
+    // Name
+    get_name() { return this.name }
     set_name(new_name) {
         if (is_valid_name(new_name)){
             this.name = new_name
@@ -141,12 +135,9 @@ export default class Event extends Followable {
         }
         return false
     }
-
-    set_loc(loc) {
-        this.loc = loc
-        return true
-    }
-    
+ 
+    // Description
+    get_desc() { return this.desc }
     set_desc(new_desc) {
         if (is_valid_desc(new_desc)){
             this.desc = new_desc
@@ -155,17 +146,8 @@ export default class Event extends Followable {
         return false
     }
 
-    /* Note: Set address always called within is_valid_addr callback */
-    set_address(new_addr) {
-        this.addr = new_addr
-        return true
-    }
-    
-    set_loc(loc){
-        this.loc = loc
-        return true
-    }
-
+    // Start and End Dates
+    get_start_date() { return this.start_date }
     set_start_date(start) {
         if (is_valid_date_pair(start, this.end_date)){
             this.start_date = start
@@ -173,7 +155,7 @@ export default class Event extends Followable {
         }
         return false
     }
-
+    get_end_date() { return this.end_date }
     set_end_date(end) {
         if (is_valid_date_pair(this.start_date, end)){
             this.end_date = end
@@ -182,11 +164,24 @@ export default class Event extends Followable {
         return false
     }
 
+    // Address and Locations
+    get_address() { return this.addr }
+     /* Note: Set address always called within is_valid_addr callback */
+     set_address(new_addr) {
+        this.addr = new_addr
+        return true
+    }
+    set_loc(loc){
+        this.loc = loc
+        return true
+    }
+
+    //Tags
+    get_tags() { return this.tags }
     set_tags(new_tags) {
         this.tags = new_tags
         return true
     }
-
     add_tag(new_tag) {
         var numTags = this.tags.length
         if (numTags < MAX_TAGS) {
@@ -197,12 +192,10 @@ export default class Event extends Followable {
         }
         return false
     }
-
-    set_boost() {
-        this.isBoosted = true
-        return true
-    }
-
+    
+    // Admins
+    get_admins() { return this.admins }
+    is_admin(username) { return (this.admins.includes(username))}
     add_admin(admin) {
         if (!this.admins.includes(admin)) {
             this.admins.push(admin)
@@ -210,22 +203,33 @@ export default class Event extends Followable {
         }
         return false
     }
+    
+    // Boost
+    is_boosted() { return this.isBoosted }
+    set_boost() {
+        this.isBoosted = true
+        return true
+    }
 
-    /* TODO: get going and get interested is off */
+    /* ------------------- Database Calls  ----------------------------- */
+
+
+    /* TODO ITER2: get going and get interested is off */
     /*
         Different statuses are:
         "Interested"
         "Going"
         "CheckedIn"
      */
+
+    // Gets all people that have a certain status for an event
     get_status_people(status, cb) {
-        fetch(`${BASE_URL}/userEvents/events/${this.eventid}/${status}`, {
+        fetch(`${BASE_URL}/userEvents/events/${this._id}/${status}`, {
             method: 'GET',
             headers: fetch_headers,
         })
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
             cb(responseJson)
         })
         .catch((error) => {
@@ -234,15 +238,14 @@ export default class Event extends Followable {
         });
     }
 
-    /* Started writing for iteration #2 */
-    get_status_friends(username, eventname, status, cb) {
-        fetch(`${BASE_URL}/queryFriendsAttendingEvent?username=${username}&eventName=${eventname}&status=${status}`, {
+    /* Get all friends that have a certain status for an event */
+    get_status_friends(user, status, cb) {
+        fetch(`${BASE_URL}/queryFriendsAttendingEvent?&userId=${user._id}&eventId=${this.get_eventID()}&status=${status}`, {
             method: 'GET',
             headers: fetch_headers,
         })
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
             cb(responseJson)
         })
         .catch((error) => {
@@ -252,19 +255,19 @@ export default class Event extends Followable {
         return []
     }
 
+    /* Set User-Event status (set user's status for the given event) */
     add_follower(user, status, cb) {
         fetch(`${BASE_URL}/userEvents`, {
             method: 'POST',
             headers: fetch_headers,
             body: JSON.stringify({
                 status: status,
-                event_id: this.eventID,
-                user_id: user.userID,
+                eventId: this._id,
+                userId: user._id,
             })
         })
         .then((response) => response.text())
         .then((responseText) => {
-            console.log(responseText)
             cb(responseText)
         })
         .catch((error) => {
@@ -273,7 +276,7 @@ export default class Event extends Followable {
         });
     }
 
-    /* Note: Started Implemented for Iteration 2, but not part of Iter 1*/
+    /* Remove a user event status relation */
     remove_follower(usereventID) {
         fetch(`${BASE_URL}/userEvents/${usereventID}`, {
             method: 'DELETE',
@@ -281,20 +284,11 @@ export default class Event extends Followable {
         })
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
             cb(responseJson)
         })
         .catch((error) => {
             console.error(error);
             cb(null)
         });
-    }
-    
-    render() {
-        return (
-        <View>
-            <Text>Hello, welcome to {this.props.name}!</Text>
-        </View>
-        );
     }
 }

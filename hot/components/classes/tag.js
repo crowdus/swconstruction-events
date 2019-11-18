@@ -1,3 +1,5 @@
+/* Tag Class implementation */
+
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import Followable from './followable';
@@ -24,7 +26,8 @@ export default class Tag extends Followable {
     async update_events() {
         fetch('http://hot-backend.herokuapp.com/events/tags/'.concat(this.name), {
             method: 'GET',
-        }).then((response) => response.json())
+        })
+        .then((response) => response.json())
         .then((responseJson) => {
             var l = [];
             for (i in responseJson) {

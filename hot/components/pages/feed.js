@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, TouchableOpacity} from 'react-native';
-import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event';
+import EventCard from '../renderables/eventcard'
 
-
-// function to render Tags in the event cards
-function TagUI({t}) {
-    return (
-        <View style={styles.tag_view}><Text style={styles.tag_text}>{t}</Text></View>
-    );
-}
 
 // the class that renders the keys.
 export default class Feed extends Component {
@@ -18,29 +11,29 @@ export default class Feed extends Component {
     constructor(props) {
         super(props)
         this.props = props
-        this.state = []
+        this.state = {}
     }
 
     // navigation options displayed at the top of the screen
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({navigation}) => {
         return {
         headerLeft: () =>  (       
             <Button
-                onPress={() => alert('Take me to settings, lists of events im going/interested/admin, following lists')}
+                onPress={() => alert('Iter2: Take me to settings, lists of events im going/interested/admin, following lists')}
                 title="My profile"
                 color="#000"
             />
         ),
         headerTitle: () => (
             <Button
-                onPress={() => alert('Take me to list of events I\'m interested in, going to, or an admin of')}
+                onPress={() => alert('Iter2: Take me to list of events I\'m interested in, going to, or an admin of')}
                 title="Explore"
                 color="#000"
             />
         ),
         headerRight: () => (
             <Button
-                onPress={() => navigation.navigate('CreateEvent')}
+                onPress={() => navigation.navigate('CreateEvent', {usr: navigation.getParam('usr')})}
                 title="Create event"
                 color="#000"
             />
@@ -60,9 +53,8 @@ export default class Feed extends Component {
             for (i in responseJson) {
                 i = responseJson[i]
                 l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins']));
-                console.log(l)
-                this.setState({data:l})
             }
+            this.setState({data:l})
         }).catch((error) => {
             console.error(error);
         });
@@ -73,28 +65,16 @@ export default class Feed extends Component {
     // Shows the feed
     render() {
         const {navigate} = this.props.navigation;
+        var usr = this.props.navigation.getParam('usr')
+
         return(
             this.state && <SafeAreaView>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) => 
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item})}}>
-                            <View style={styles.evt_card}>
-                                <Text style={styles.evt_title}>{item.get_name()}</Text>
-                                <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
-                                <Text style={styles.evt_addr}>{item.get_address()}</Text>
-                                <Text style={styles.evt_desc}>{item.get_desc()}</Text>
-                                <SafeAreaView style={styles.tags_container}>
-                                    <FlatList
-                                        horizontal = {true}
-                                        listKey="tags"
-                                        data={item.get_tags()}
-                                        renderItem={({item}) => <TagUI t={item}/> }
-                                        keyExtractor={item => item}
-                                    />
-                                </SafeAreaView>
-                            </View>
+                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
+                            <EventCard event={item}></EventCard>
                         </TouchableOpacity>}
                 />
             </SafeAreaView>
@@ -115,40 +95,5 @@ const styles = StyleSheet.create({
     tags_container: {
         flex: 1,
         padding:10
-    },
-    evt_card: {
-        padding: 10,
-        paddingLeft: 15,
-        marginBottom: 10,
-        backgroundColor: "#eee"
-    },
-    evt_title: {
-        fontSize:32,
-        marginBottom: 5,
-    },
-    evt_date: {
-        color: "#666",
-
-    },
-    evt_addr: {
-        color: "#666",
-        marginBottom: 5,
-
-    },
-    evt_desc: {
-        fontSize: 14,
-        marginBottom: 12,
-    },
-    tag_view: {
-        padding: 5,
-        paddingLeft: 7,
-        marginRight: 5,
-        marginBottom: 5,
-        borderRadius: 2,
-        backgroundColor: "#e5e5e5"
-    }, 
-    tag_text: {
-        fontSize: 10,
-        color: "#666",
     }
 });

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+/* User Class implementation */
+
 import Followable from './followable';
 const fetch = require("node-fetch");
-
+import {BASE_URL, fetch_headers} from './core'
 
 // Validation Functions 
 export function check_valid_name(str){
@@ -47,23 +47,12 @@ export function check_valid_password(password){
   return false;
 }
 
-// data request function
-export const BASE_URL = 'https://hot-backend.herokuapp.com'
-
-export const fetch_headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json',
-}
-
 export async function get_user_from_username(username) {
   try {
     /* Make call to our API */
       const response = await fetch(`${BASE_URL}/queryUserByUsername?username=${username}`, {
         method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        }})
+        headers: fetch_headers})
       const json = response.json()
       return json;
     }
@@ -80,10 +69,7 @@ export async function get_user_from_email(email) {
   try{
     const response = await fetch(`${BASE_URL}/queryUserByEmail?email=${email}`, {
     method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
+    headers: fetch_headers,
   })
     const json = response.json()
     return json;
@@ -99,10 +85,7 @@ export async function get_events_from_userstat(userID, status) {
   try{
     const response = await fetch(`${BASE_URL}/userEvents/users/${userID}/${status}`, {
         method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        }})
+        headers: fetch_headers})
       const json = response.json()
       return json;
     }
@@ -117,10 +100,7 @@ export async function get_events_from_admin(username) {
   try{
     const response = await fetch(`${BASE_URL}/adminEvents?admin=${username}`, {
         method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        }})
+        headers: fetch_headers})
       const json = response.json()
       return json;
     }
@@ -131,10 +111,11 @@ export async function get_events_from_admin(username) {
   return null;
 }
 
+
 // User Class
 export default class User extends Followable {
 
-    constructor(username, firstname, lastname, email, datejoined, password, friends) {
+    constructor(_id, username, firstname, lastname, email, datejoined, password, friends) {
         super()
         // Validate Attributes
         var isGoodUser = check_valid_name(username) && 
@@ -143,29 +124,29 @@ export default class User extends Followable {
                          check_valid_email(email) &&
                          check_valid_password(password);
         if (!isGoodUser) {
-            console.log(check_valid_email("johndoe@gmail.com"))
-            console.log(check_valid_password("Princess123!"))
-            this.username = ""
-            this.firstname = ""
-            this.lastname = ""
-            this.email = ""
-            this.datejoined = null
-            this.password = ""
-            this.friends = []
+          this._id = ""
+          this.username = ""
+          this.firstname = ""
+          this.lastname = ""
+          this.email = ""
+          this.datejoined = null
+          this.password = ""
+          this.friends = []
         }
         else{
-        this.username = username
-        this.firstname = firstname
-        this.lastname = lastname
-        this.email = email
-        this.datejoined = new Date (datejoined)
-        this.password = password
-        this.friends = friends
+          this._id = _id
+          this.username = username
+          this.firstname = firstname
+          this.lastname = lastname
+          this.email = email
+          this.datejoined = new Date (datejoined)
+          this.password = password
+          this.friends = friends
       }
     }
 
     // Getters and Setters
-    // getUserID() {return this.userID;}
+    getUserID() {return this._id;}
     getUserName() {return this.username}
     getFirstName() {return this.firstname;}
     getLastName() {return this.lastname;}
@@ -239,6 +220,7 @@ export default class User extends Followable {
       this.datejoined = _date
       return true;
     }
+
     setPassword(_password) {
       if (check_valid_password(_password)){
         this.password = _password;
@@ -281,6 +263,24 @@ export default class User extends Followable {
       return false
     }
 
+   
+    get_status_for_event(event, cb) {
+      console.log(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`)
+      fetch(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`, {
+        method: 'GET',
+        headers: fetch_headers,
+      })
+      .then((response) => response.json())
+      .then((responseText) => {
+          console.log("got status for evenet")
+          cb(responseText)
+      })
+      .catch((error) => {
+          cb(null)
+      });
+    }
+
+
     follow_event(_event, status){
       if(get_event_from_id(_event.eventid)!= null){
         _event.addFollower(this, status);
@@ -300,9 +300,9 @@ export default class User extends Followable {
     }
      
     get_going_events(){
-          //calculate the events that user clicked going to using the UserID
-          var arr = get_events_from_userstat(this.userID, "going")
-          return arr.map(x =>  x.eventid)
+      //calculate the events that user clicked going to using the UserID
+      var arr = get_events_from_userstat(this.userID, "going")
+      return arr.map(x =>  x.eventid)
     }
 
     get_admin_events(){

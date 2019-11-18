@@ -18,7 +18,7 @@ const Form = t.form.Form;
 
 const event = t.struct({
   name: t.String,
-  desc: t.maybe(t.String),
+  desc: t.String,
   addr: t.String,
   start_date: t.Date,
   end_date: t.Date,
@@ -39,8 +39,7 @@ var options = {
       label: 'Event Description',
       placeholder: 'Meet us over Hot Cocoa!',
       maxLength: 1000,
-      multiline: true,
-      numberOfLines: 2
+      multiline: true
     },
     addr: {
       label: 'Address',
@@ -88,7 +87,7 @@ function parse_tags(tag_str){
   if (tag_str != null && tag_str != "") {
       tagArray = tag_str.split(/[ ,]+/)
       for (var tag of tagArray) {
-          x.add(tag) /* TODO: make these sets instead of arrays */
+          x.add(tag.lower()) /* TODO: make these sets instead of arrays */
       }
   }
   return Array.from(x)
@@ -100,7 +99,7 @@ function parse_admins(admin_str, username){
   if (admin_str != null && admin_str != "") {
       adArray = admin_str.split(/[ ,]+/)
       for (var ad of adArray) {
-          x.add(ad) /* TODO: make these sets instead of arrays */
+          x.add(ad.lower()) /* TODO: make these sets instead of arrays */
       }
   }
   return Array.from(x)
@@ -109,55 +108,57 @@ function parse_admins(admin_str, username){
 export default class CreateEvent extends React.Component {
   constructor(props){
     super(props)
-    this.username = "user1"
     this.onPress = this.onPress.bind(this);
   }
 
     /* onForm Submit function */
-    onPress = () => {
-      var value = this.refs.form.getValue();
-      if (value) { 
-        form_start = new Date(value.start_date)
-        form_end = new Date(value.end_date)
-        form_tags = parse_tags(value.tags)
-        form_admins = parse_admins(value.admins, this.username)
-        form_desc = ""
-        if (value.desc){
-          form_desc = value.desc
-        }
-        var valid = new Event(null, value.name, form_desc, form_start, form_end, value.addr, form_tags, form_admins)
-        // Address and Loc Validity - Calls to API
-        if (!valid.is_null_event()) {
-          get_loc_from_addr(value.addr, valid, (loc) => {
-            if (loc != null) {
-              // Adds to database if all is valid
-              add_event_to_database(valid, (resp) => {
-                if (resp != 0) {
-                  var v = new Event(resp, value.name, value.desc, form_start, form_end, value.addr, form_tags, form_admins)
-                  console.log(`switch to events screen for ${resp}`)
-                  this.props.navigation.navigate('Event', {evt: v})
-                }          
-              })
-            }
-            else {
-              // Invalid Address
-              Alert.alert('Invalid Address')
-            }
-          })
-        }
-        else {
-          // Invalid Date
-          Alert.alert('Invalid Start and End Date')
-        }
+  onPress = (usr) => {
+    var value = this.refs.form.getValue();
+    if (value) { 
+      var validEvent = new Event(null, 
+                            value.name,
+                            value.desc,
+                            new Date(value.start_date),
+                            new Date(value.end_date),
+                            value.addr,
+                            parse_tags(value.tags),
+                            parse_admins(value.admins, usr.getUserName()))
+      
+      if (!validEvent.is_null_event()) {
+        // Address Validity - Get latitude longitude points
+        get_loc_from_addr(value.addr, validEvent, (loc) => {
+          // Loc is valid
+          if (loc != null) {
+            add_event_to_database(validEvent, (resp) => {
+              if (resp != 0) {
+                validEvent.set_eventID(resp)
+                console.log(`switched to events screen for ${resp}`)
+                this.props.navigation.navigate('Event', {evt: validEvent, usr: usr})
+              }
+              else {
+                Alert.alert('Server Error: Try Again Later!')
+              }         
+            })
+          }
+          // Loc is invalid
+          else {
+            Alert.alert('Form Error: Invalid Address')
+          }
+        })
       }
-      else{
-        // reset form
-        Alert.alert('Form Error')
+      else {
+        // Invalid Event Object
+        Alert.alert('Form Error: Invalid Start and End Date')
       }
     }
+    else{
+      // Invalid Form
+      Alert.alert('Form Error: Missing Fields')
+    }
+  }
 
   render() {
-    const {navigate} = this.props.navigation;
+    var usr = this.props.navigation.getParam('usr')
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -166,7 +167,7 @@ export default class CreateEvent extends React.Component {
           type={event}
           options={options}
         />
-        <TouchableHighlight style={styles.button} onPress={() => {this.onPress()}} underlayColor='#99d9f4'>
+        <TouchableHighlight style={styles.button} onPress={() => {this.onPress(usr)}} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Create</Text>
         </TouchableHighlight>
 
