@@ -56,6 +56,15 @@ export default class LogIn extends React.Component {
             }
           }}
         />
+
+        <Button
+          title="Register"
+          color="#f194ff"
+          onPress={ () => {
+              console.log("hello")
+              navigate('Registration')
+          }}
+        />
       </View>
       </View>
     );

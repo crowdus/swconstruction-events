@@ -8,6 +8,7 @@ import LogIn from './components/pages/login.js';
 import CreateEvent from './components/pages/createEvent.js';
 import EventView from './components/pages/eventView.js';
 import Settings from './components/pages/settings.js'
+import Registration from './components/pages/registration.js'
 
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -22,6 +23,7 @@ const MainNavigator = createStackNavigator({
   Event: { screen: EventView },
   CreateEvent: { screen: CreateEvent },
   Settings: { screen: Settings },
+  Registration: { screen: Registration },
 });
 
 export const AppNav = createAppContainer(MainNavigator);
