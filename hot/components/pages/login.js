@@ -24,7 +24,7 @@ export default class LogIn extends React.Component {
         <Text>
           Welcome to Hot! {"\n\n"}
           Enter Username:
-        </Text> 
+        </Text>
         <TextInput
           placeholder="Username"
           onChangeText={(username) => this.setState({username})}
@@ -45,10 +45,11 @@ export default class LogIn extends React.Component {
           title="Log In"
           color="#f194ff"
           onPress={ () => {
-            if (this.state.code == "TA" && this.state.username == "TA") {
+            if (this.state.code == "" && this.state.username == "") {
               // TODO: call to get some TA user
               // TODO: pass in user to feed
-              navigate('Feed', {usr: userTA})
+              console.log("hello")
+              navigate('Feed', {user: userTA})
             }
             else{
               Alert.alert("Incorrect login")
@@ -59,7 +60,7 @@ export default class LogIn extends React.Component {
       </View>
     );
   }
-  
+
 
 }
 

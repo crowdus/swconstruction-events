@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, TouchableOpacity} from 'react-native';
+import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
-import Event from '../classes/event';
-import EventCard from '../renderables/eventcard'
+import Event from '../classes/event.js';
+import Tag from '../classes/tag.js';
+import User from '../classes/user.js';
 
+
+// function to render Tags in the event cards
+function TagUI({t}) {
+    return (
+        <View style={styles.tag_view}><Text style={styles.tag_text}>{t}</Text></View>
+    );
+}
 
 // the class that renders the keys.
 export default class Feed extends Component {
@@ -11,15 +20,16 @@ export default class Feed extends Component {
     constructor(props) {
         super(props)
         this.props = props
-        this.state = {}
+        this.state = []
     }
 
     // navigation options displayed at the top of the screen
-    static navigationOptions = ({navigation}) => {
+    static navigationOptions = ({ navigation }) => {
+        var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", ['am0002'])
         return {
-        headerLeft: () =>  (       
+        headerLeft: () =>  (
             <Button
-                onPress={() => alert('Iter2: Take me to settings, lists of events im going/interested/admin, following lists')}
+                onPress={() => navigation.navigate('Settings', {user: userTA})}//alert('Iter2: Take me to settings, lists of events im going/interested/admin, following lists')}
                 title="My profile"
                 color="#000"
             />
@@ -33,7 +43,7 @@ export default class Feed extends Component {
         ),
         headerRight: () => (
             <Button
-                onPress={() => navigation.navigate('CreateEvent', {usr: navigation.getParam('usr')})}
+                onPress={() => navigation.navigate('CreateEvent')}
                 title="Create event"
                 color="#000"
             />
@@ -61,9 +71,10 @@ export default class Feed extends Component {
 
     }
 
-    // the render function! 
+    // the render function!
     // Shows the feed
     render() {
+        console.log("hello feed")
         const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
 
@@ -72,9 +83,23 @@ export default class Feed extends Component {
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
-                    renderItem={({item}) => 
+                    renderItem={({item}) =>
                         <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
-                            <EventCard event={item}></EventCard>
+                            <View style={styles.evt_card}>
+                                <Text style={styles.evt_title}>{item.get_name()}</Text>
+                                <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
+                                <Text style={styles.evt_addr}>{item.get_address()}</Text>
+                                <Text style={styles.evt_desc}>{item.get_desc()}</Text>
+                                <SafeAreaView style={styles.tags_container}>
+                                    <FlatList
+                                        horizontal = {true}
+                                        listKey="tags"
+                                        data={item.get_tags()}
+                                        renderItem={({item}) => <TagUI t={item}/> }
+                                        keyExtractor={item => item}
+                                    />
+                                </SafeAreaView>
+                            </View>
                         </TouchableOpacity>}
                 />
             </SafeAreaView>
@@ -95,5 +120,40 @@ const styles = StyleSheet.create({
     tags_container: {
         flex: 1,
         padding:10
+    },
+    evt_card: {
+        padding: 10,
+        paddingLeft: 15,
+        marginBottom: 10,
+        backgroundColor: "#eee"
+    },
+    evt_title: {
+        fontSize:32,
+        marginBottom: 5,
+    },
+    evt_date: {
+        color: "#666",
+
+    },
+    evt_addr: {
+        color: "#666",
+        marginBottom: 5,
+
+    },
+    evt_desc: {
+        fontSize: 14,
+        marginBottom: 12,
+    },
+    tag_view: {
+        padding: 5,
+        paddingLeft: 7,
+        marginRight: 5,
+        marginBottom: 5,
+        borderRadius: 2,
+        backgroundColor: "#e5e5e5"
+    },
+    tag_text: {
+        fontSize: 10,
+        color: "#666",
     }
 });

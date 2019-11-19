@@ -7,6 +7,7 @@ import UserFeed from './components/pages/userFeed.js';
 import LogIn from './components/pages/login.js';
 import CreateEvent from './components/pages/createEvent.js';
 import EventView from './components/pages/eventView.js';
+import Settings from './components/pages/settings.js'
 
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -20,9 +21,9 @@ const MainNavigator = createStackNavigator({
   UserFeed: { screen: UserFeed },
   Event: { screen: EventView },
   CreateEvent: { screen: CreateEvent },
+  Settings: { screen: Settings },
 });
 
 export const AppNav = createAppContainer(MainNavigator);
 
 export default AppNav;
-
