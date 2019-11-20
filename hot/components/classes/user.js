@@ -4,7 +4,7 @@ import Followable from './followable';
 const fetch = require("node-fetch");
 import {BASE_URL, fetch_headers} from './core'
 
-// Validation Functions
+// Validation Functions 
 export function check_valid_name(str){
   if (str == "")
     return false;
@@ -45,6 +45,27 @@ export function check_valid_password(password){
   if ((num >0) && (upper > 0) && (lower >0))
     return true;
   return false;
+}
+
+
+// Returns user object given a user ID
+export async function get_user_from_id(userid) {
+  /* Make call to our API */
+  try{
+    const response = await fetch (`${BASE_URL}/users/${userid}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }})
+    const json = response.json()
+    return json;
+  }
+  catch(err){
+    console.log(err)
+    return null;
+  }
+  return null;
 }
 
 export async function get_user_from_username(username) {
@@ -115,11 +136,11 @@ export async function get_events_from_admin(username) {
 // User Class
 export default class User extends Followable {
 
-    constructor(_id, username, firstname, lastname, email, datejoined, password, friends) {
+    constructor(_id, username, firstname, lastname, email, datejoined, password, score, friends) {
         super()
         // Validate Attributes
-        var isGoodUser = check_valid_name(username) &&
-                         check_valid_name(firstname) &&
+        var isGoodUser = check_valid_name(username) && 
+                         check_valid_name(firstname) && 
                          check_valid_name(lastname) &&
                          check_valid_email(email) &&
                          check_valid_password(password);
@@ -131,6 +152,7 @@ export default class User extends Followable {
           this.email = ""
           this.datejoined = null
           this.password = ""
+          this.score = 0
           this.friends = []
         }
         else{
@@ -141,6 +163,7 @@ export default class User extends Followable {
           this.email = email
           this.datejoined = new Date (datejoined)
           this.password = password
+          this.score = score
           this.friends = friends
       }
     }
@@ -153,6 +176,7 @@ export default class User extends Followable {
     getEmail() {return this.email;}
     getDateJoined() {return this.datejoined;}
     getPassword() {return this.password;}
+    getScore() {return this.score;}
 
 
     // setUserID(_userID) { //userIDs must use only alphanumerical and have at least one number and one alphabetical number
@@ -212,7 +236,7 @@ export default class User extends Followable {
     //     this.email = _email;
     //     return true;
     //   }
-    //   return false;
+    //   return false;    
     // }
     setDateJoined(_date) {
       if (_date == "")
@@ -229,24 +253,47 @@ export default class User extends Followable {
       return false;
     }
 
-    async follow_user(_username){
-      if(_username == this.username) return false;
-      coolfriend = await get_user_from_username(_username);
+    setScore(score){
+      if (score <0){
+        return false;
+      }
+      this.score = score;
+      return true;
+    }
+    // async follow_user(_username){  
+    //   if(_username == this.username) return false;
+    //   coolfriend = await get_user_from_username(_username);
+    //   //need query to access repeat followed
+    //   if (!("friends" in coolfriend)){
+    //     return false
+    //   }
+    //   if (this.friends.length === 0){
+    //     this.friends = [_username];
+    //     return true;
+    //   }
+    //   if (this.friends.includes(_username))
+    //     return false
+    //   this.friends.push(_username);
+    //   return true;
+    // }
+
+    async follow_user(_userid){  
+      if(_userid == this._id) return false;
+      coolfriend = await get_user_from_id(_userid);
       //need query to access repeat followed
       if (!("friends" in coolfriend)){
         return false
       }
       if (this.friends.length === 0){
-        this.friends = [_username];
+        this.friends = [_userid];
         return true;
       }
-      if (this.friends.includes(_username))
+      if (this.friends.includes(_userid))
         return false
-      this.friends.push(_username);
+      this.friends.push(_userid);
       return true;
     }
-
-
+    
 
     async unfollow_user(_username){
       if(_username == this.username) return false;
@@ -263,7 +310,7 @@ export default class User extends Followable {
       return false
     }
 
-
+   
     get_status_for_event(event, cb) {
       console.log(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`)
       fetch(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`, {
@@ -298,7 +345,7 @@ export default class User extends Followable {
       var arr = get_events_from_userstat(this.userID, "interested")
       return arr.map(x =>  x.eventid)
     }
-
+     
     get_going_events(){
       //calculate the events that user clicked going to using the UserID
       var arr = get_events_from_userstat(this.userID, "going")
