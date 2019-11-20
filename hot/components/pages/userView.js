@@ -74,11 +74,11 @@ export default class UserView extends React.Component {
               Email Address:{"  "}{this.state.user.email}
             </Text>
           </View>
-          /*<View style={{ flex: 0.25, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
+          <View style={{ flex: 0.25, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
             <Text>
-              Reputation: {"  "} {this.state.user.score}
+              Score: {"  "} {this.state.user.point}
             </Text>
-          </View>*/
+          </View>
           <View style={{ flex: 5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
           </View>
       </View>
