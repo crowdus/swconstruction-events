@@ -136,7 +136,7 @@ export async function get_events_from_admin(username) {
 // User Class
 export default class User extends Followable {
 
-    constructor(_id, username, firstname, lastname, email, datejoined, password, score, friends) {
+    constructor(_id, username, firstname, lastname, email, datejoined, password, point, friends) {
         super()
         // Validate Attributes
         var isGoodUser = check_valid_name(username) && 
@@ -152,7 +152,7 @@ export default class User extends Followable {
           this.email = ""
           this.datejoined = null
           this.password = ""
-          this.score = 0
+          this.point = 0
           this.friends = []
         }
         else{
@@ -163,7 +163,7 @@ export default class User extends Followable {
           this.email = email
           this.datejoined = new Date (datejoined)
           this.password = password
-          this.score = score
+          this.point = point
           this.friends = friends
       }
     }
@@ -176,7 +176,7 @@ export default class User extends Followable {
     getEmail() {return this.email;}
     getDateJoined() {return this.datejoined;}
     getPassword() {return this.password;}
-    getScore() {return this.score;}
+    getPoint() {return this.point;}
 
 
     // setUserID(_userID) { //userIDs must use only alphanumerical and have at least one number and one alphabetical number
@@ -253,11 +253,11 @@ export default class User extends Followable {
       return false;
     }
 
-    setScore(score){
-      if (score <0){
+    setPoint(point){
+      if (point <0){
         return false;
       }
-      this.score = score;
+      this.point = point;
       return true;
     }
     // async follow_user(_username){  
@@ -277,6 +277,9 @@ export default class User extends Followable {
     //   return true;
     // }
 
+
+    // the follow/ unfollow functions are changed during iter2 to be 
+    // following users based on userid rather than username
     async follow_user(_userid){  
       if(_userid == this._id) return false;
       coolfriend = await get_user_from_id(_userid);
@@ -294,22 +297,18 @@ export default class User extends Followable {
       return true;
     }
     
-
-    async unfollow_user(_username){
-      if(_username == this.username) return false;
-      fakefriend = await get_user_from_username(_username);
-      //need query to access repeat followed
-      if (!("friends" in fakefriend)){
+    async unfollow_user(_userid){
+      if (_userid == this._id) 
+        return false
+      if (! this.friends.includes(_userid))
+        return false
+      fakefriend = await get_user_from_id(_userid)
+      if (! ("friends" in fakefriend)){
         return false
       }
-      if (this.friends.includes(_username)){
-        this.friends = this.friends.filter(e => e !== _username);
-        return true
-      }
-
-      return false
+      this.friends = this.friends.filter(e => e !== _userid)
+      return true
     }
-
    
     get_status_for_event(event, cb) {
       console.log(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`)
@@ -359,4 +358,26 @@ export default class User extends Followable {
       return eventarr.map(x => x.eventid);
     }
 
+    // FUNCTIONS THAT ARE IMPLEMENTED IN ITERATION 2
+    // add point: when a user checks in for certain events, he will get certain
+    // number of points
+    
+    add_point(_event){
+      // 1. do we need to check whether an event exists before adding points?
+      // 2. also have to check whether this event is created by this user
+      // 3. need to double check with event team whether admin is a list of username or list of id
+      // 4. when can a person get 2x the points? 
+      // var points = get_points(_event);
+      // this.point += points;
+      // return true;
+      return true;
+    }
+
+    // boost event: when a user chooses to use his point to boost event
+    boost_event(_event){
+      // 1. how many points can a user use to boost the event?
+      // or is it, upon clicking every time, one point is used?
+      
+      return true;
+    }
 }
