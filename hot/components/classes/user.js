@@ -4,7 +4,7 @@ import Followable from './followable';
 const fetch = require("node-fetch");
 import {BASE_URL, fetch_headers} from './core'
 
-// Validation Functions 
+// Validation Functions
 export function check_valid_name(str){
   if (str == "")
     return false;
@@ -139,8 +139,8 @@ export default class User extends Followable {
     constructor(_id, username, firstname, lastname, email, datejoined, password, point, friends) {
         super()
         // Validate Attributes
-        var isGoodUser = check_valid_name(username) && 
-                         check_valid_name(firstname) && 
+        var isGoodUser = check_valid_name(username) &&
+                         check_valid_name(firstname) &&
                          check_valid_name(lastname) &&
                          check_valid_email(email) &&
                          check_valid_password(password);
@@ -236,7 +236,7 @@ export default class User extends Followable {
     //     this.email = _email;
     //     return true;
     //   }
-    //   return false;    
+    //   return false;
     // }
     setDateJoined(_date) {
       if (_date == "")
@@ -260,7 +260,7 @@ export default class User extends Followable {
       this.point = point;
       return true;
     }
-    // async follow_user(_username){  
+    // async follow_user(_username){
     //   if(_username == this.username) return false;
     //   coolfriend = await get_user_from_username(_username);
     //   //need query to access repeat followed
@@ -278,9 +278,9 @@ export default class User extends Followable {
     // }
 
 
-    // the follow/ unfollow functions are changed during iter2 to be 
+    // the follow/ unfollow functions are changed during iter2 to be
     // following users based on userid rather than username
-    async follow_user(_userid){  
+    async follow_user(_userid){
       if(_userid == this._id) return false;
       coolfriend = await get_user_from_id(_userid);
       //need query to access repeat followed
@@ -296,9 +296,9 @@ export default class User extends Followable {
       this.friends.push(_userid);
       return true;
     }
-    
+
     async unfollow_user(_userid){
-      if (_userid == this._id) 
+      if (_userid == this._id)
         return false
       if (! this.friends.includes(_userid))
         return false
@@ -309,7 +309,7 @@ export default class User extends Followable {
       this.friends = this.friends.filter(e => e !== _userid)
       return true
     }
-   
+
     get_status_for_event(event, cb) {
       console.log(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`)
       fetch(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`, {
@@ -344,7 +344,7 @@ export default class User extends Followable {
       var arr = get_events_from_userstat(this.userID, "interested")
       return arr.map(x =>  x.eventid)
     }
-     
+
     get_going_events(){
       //calculate the events that user clicked going to using the UserID
       var arr = get_events_from_userstat(this.userID, "going")
@@ -361,7 +361,7 @@ export default class User extends Followable {
     // FUNCTIONS THAT ARE IMPLEMENTED IN ITERATION 2
     // add point: when a user checks in for certain events, he will get certain
     // number of points
-    
+
     addPoint(_event){
       // 1. do we need to check whether an event exists before adding points?
       // 2. also have to check whether this event is created by this user
