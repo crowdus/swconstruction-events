@@ -362,11 +362,11 @@ export default class User extends Followable {
     // add point: when a user checks in for certain events, he will get certain
     // number of points
     
-    add_point(_event){
+    addPoint(_event){
       // 1. do we need to check whether an event exists before adding points?
       // 2. also have to check whether this event is created by this user
       // 3. need to double check with event team whether admin is a list of username or list of id
-      // 4. when can a person get 2x the points? 
+      // 4. when can a person get 2x the points?
       // var points = get_points(_event);
       // this.point += points;
       // return true;
@@ -377,7 +377,19 @@ export default class User extends Followable {
     boost_event(_event){
       // 1. how many points can a user use to boost the event?
       // or is it, upon clicking every time, one point is used?
-      
+
       return true;
+    }
+
+    get_friends_interested(eventid){
+      //compare the result from get_status_people("interested", eventid) to our friends list. Loop and keep the
+      //similarities between the list.
+      return [];
+    }
+
+    get_friends_going(eventid){
+      //compare the result from get_status_people("going", eventid) to our friends list. Loop and keep the
+      //similarities between the list.
+      return [];
     }
 }

@@ -277,22 +277,22 @@ describe('Points', () => {
          // first initiate the event to have 2 points
         expect(bobby.getPoint()).toBe(0)
         var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
-        expect(bobby.add_point(event)).toBe(true)
+        expect(bobby.addPoint(event)).toBe(true)
         expect(bobby.getPoint()).toBe(2)
         // a person cannot check in the same event twice
-        expect(bobby.add_point(event)).toBe(false)
+        expect(bobby.addPoint(event)).toBe(false)
         expect(bobby.getPoint()).toBe(2)
         // initiate some other event to have point 4
-        expect(bobby.add_point(event2)).toBe(true)
+        expect(bobby.addPoint(event2)).toBe(true)
         expect(bobby.getPoint()).toBe(4)
-        
+
         // check the condition where user cannot gain points from event that he created
         // initiate event 3 to have 3 points
         var event3 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["bobby"])
-        expect(bobby.add_point(event3)).toBe(false)
+        expect(bobby.addPoint(event3)).toBe(false)
         expect(bobby.getPoint()).toBe(4)
         expect(alice.getPoint()).toBe(0)
-        expect(alice.add_point(event3)).toBe(true)
+        expect(alice.addPoint(event3)).toBe(true)
         expect(alice.getPoint()).toBe(3)
     });
 
@@ -304,14 +304,14 @@ describe('Points', () => {
     //     var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
     //     // before boosting
     //     expect(calvin.getPoint()).toBe(0)
-    //     expect(calvin.add_point(event)).toBe(true)
+    //     expect(calvin.addPoint(event)).toBe(true)
     //     expect(calvin.getPoint()).toBe(2)
 
     //     expect(bobby.boost_event()).toBe(true)
     //     expect(bobby.getPoint()).toBe(9)
     //     // expect(event.getPoint()).toBe(3)
 
-    //     // if a user can boost an event for more than once 
+    //     // if a user can boost an event for more than once
     //     // implement the following test
     //     // expect(bobby.boost_event()).toBe(true)
     //     // expect(bobby.getPoint()).toBe(8)
@@ -319,11 +319,10 @@ describe('Points', () => {
 
     //     // what happen after an event is boosted?
     //     expect(alice.getPoint()).toBe(0)
-    //     expect(alice.add_point(event)).toBe(true)
-    //     expect(alice.add_point(event)).toBe(3)
+    //     expect(alice.addPoint(event)).toBe(true)
+    //     expect(alice.addPoint(event)).toBe(3)
 
-    })
-});
+  });
 
 
 
@@ -480,13 +479,11 @@ test('get_people_interested', function() {
     const user = new User("int1")
     const user2 = new User("int2")
     const user3 = new User("going1")
-
     user.save_event(event, "interested")
     user2.save_event(event, "interested")
     user3.save_event(event, "going")
     expect(event.get_interested_people()).toBe(["int1", "int2"])
 })
-
 test('get people going', function() {
     const event = new Event("")
     const user = new User("going1")
@@ -497,7 +494,6 @@ test('get people going', function() {
     user3.save_event(event, "interested")
     expect(event.save_event()).toBe(["going1", "going2"])
 })
-
 test('get check ins!', function() {
     const event = new Event("")
     const user = new User("going1")
@@ -519,7 +515,7 @@ test('constructor!!', function() {
     const tag3 = new Tag(0, "a")
     expect(tag3).toBeInstanceOf(Tag)
 });
- 
+
 test('Tag get/set name!!', function() {
     // name must be any string of characters of length > 0.
     const tag = new Tag(1, "asdf")
