@@ -479,13 +479,11 @@ test('get_people_interested', function() {
     const user = new User("int1")
     const user2 = new User("int2")
     const user3 = new User("going1")
-
     user.save_event(event, "interested")
     user2.save_event(event, "interested")
     user3.save_event(event, "going")
     expect(event.get_interested_people()).toBe(["int1", "int2"])
 })
-
 test('get people going', function() {
     const event = new Event("")
     const user = new User("going1")
@@ -496,7 +494,6 @@ test('get people going', function() {
     user3.save_event(event, "interested")
     expect(event.save_event()).toBe(["going1", "going2"])
 })
-
 test('get check ins!', function() {
     const event = new Event("")
     const user = new User("going1")
