@@ -435,6 +435,8 @@ test('event tags', function() {
     expect(event.add_tag("t1")).toBeTruthy()
     expect(event.add_tag("t2")).toBeTruthy()
     expect(event.get_tags()).toEqual(["t1", "t2"])
+    expect(event.add_tag("t2")).toBeTruthy()
+    expect(event.get_tags()).toEqual(["t1", "t2"])
     expect(event2.get_tags()).toEqual(["tags"])
     expect(event2.add_tag("tag2")).toBeTruthy()
     expect(event2.get_tags()).toEqual(["tags", "tag2"])
@@ -456,7 +458,9 @@ test('event admin!', function() {
     const event = new Event("", "", "", "", "", "", "", "");
     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
     expect(event.get_admins()).toEqual([])
-    expect(event.add_admin("a2"))
+    expect(event.add_admin("a2")).toBeTruthy()
+    expect(event.get_admins()).toEqual(["a2"])
+    expect(event.add_admin("a2")).toBeTruthy()
     expect(event.get_admins()).toEqual(["a2"])
     expect(event2.get_admins()).toEqual(["admin"])
 })
@@ -465,13 +469,37 @@ test('user following event !!', function() {
     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
     expect(event2.addFollower(alice, "going", (val)=>{
         expect(val != null).toBeTruthy()
-        expect(event2.get_going_people()).toEqual([alice])
-        expect(event2.get_interested_people()).toEqual([])
+        expect(event2.get_status_people("going")).toEqual([alice])
+        expect(event2.get_status_people("interested")).toEqual([])
         expect(event2.get_check_ins()).toEqual([])
         expect(event2.removeFollower(alice)).toBeFalsy()
-        expect(event2.get_going_people()).toEqual([])
+        expect(event2.get_status_people("going")).toEqual([])
     }))
 });
+
+test('setting boost !!', function() {
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
+    expect(event2.set_boost("not_admin")).toBeFalsy()
+    expect(event2.isBoosted()).toBeFalsy()
+    expect(event2.set_boost("admin")).toBeTruthy()
+    expect(event2.isBoosted()).toBeTruthy()
+})
+
+test('admin edit event !!', function() {
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
+    expect(event2.edit_event("not_admin", null, "new desc", null, null, null, null)).toBeFalsy()
+    expect(event2.get_desc().toBe("desc"))
+    expect(event2.get_name()).toBe("e")
+    expect(event2.edit_event("admin", "new title", "new desc", null, null, null, null)).toBeTruthy()
+    expect(event2.get_name()).toBe("new title")
+    expect(event2.get_desc()).toBe("new desc")
+    expect(event2.get_address()).toBe("12 st.")
+    expect(event2.edit_event("admin", null, null, null, null, null, ["admin2", "admin3"])).toBeTruthy()
+    expect(event2.edit_event("admin2", "new admin title", null, null, null, null, null)).toBeTruthy()
+    expect(event2.get_name()).toBe("new admin title")
+    expect(event2.edit_event("admin", null, null, null, null, null, ["admin2"])).toBeTruthy()
+    expect(event2.get_admins()).toEqual(["admin", "admin2", "admin3"])
+})
 
 /* covered with 'user following event
 test('get_people_interested', function() {

@@ -206,9 +206,16 @@ export default class Event extends Followable {
     
     // Boost
     is_boosted() { return this.isBoosted }
-    set_boost() {
-        this.isBoosted = true
+    set_boost(username) {
+        if(is_admin(username)) {
+            this.isBoosted = true
         return true
+        }
+        return false
+    }
+
+    edit_event(user, event_name, description, start, end, loc, tags, admins) {
+        return true;
     }
 
     /* ------------------- Database Calls  ----------------------------- */
