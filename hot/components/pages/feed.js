@@ -23,6 +23,8 @@ export default class Feed extends Component {
         this.state = []
     }
 
+
+
     // navigation options displayed at the top of the screen
     static navigationOptions = ({ navigation }) => {
         var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", ['am0002'])
@@ -36,8 +38,8 @@ export default class Feed extends Component {
         ),
         headerTitle: () => (
             <Button
-                onPress={() => alert('Iter2: Take me to list of events I\'m interested in, going to, or an admin of')}
-                title="Explore"
+                onPress={() => navigation.navigate('UserView')}
+                title="temp userView"
                 color="#000"
             />
         ),

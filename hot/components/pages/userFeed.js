@@ -36,8 +36,8 @@ export default class UserFeed extends Component {
         ),
         headerTitle: () => (
             <Button
-                onPress={() => alert('Take me to list of events I\'m interested in, going to, or an admin of')}
-                title="Explore"
+                onPress={() => navigation.navigate('UserView')}
+                title="temp userView"
                 color="#000"
             />
         ),

@@ -9,6 +9,7 @@ import CreateEvent from './components/pages/createEvent.js';
 import EventView from './components/pages/eventView.js';
 import Settings from './components/pages/settings.js'
 import Registration from './components/pages/registration.js'
+import UserView from './components/pages/userView.js'
 
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
