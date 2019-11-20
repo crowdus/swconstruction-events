@@ -235,25 +235,25 @@ describe('testing friend following', () => {
         // need to check whether the newly followed friend is in list of friends
         expect(await bobby.follow_user("")).toBe(false);
         expect(await bobby.follow_user("5dcceaacf8b3c20017ac03c1")).toBe(true);
-        console.log(bobby.friends);
-        expect().toBe(true);
+        expect(bobby.friends.includes("5dcceaacf8b3c20017ac03c1")).toBe(true);
 
         // expect(await alice.follow_user("5dcceaacf8b3c20017ac03z6")).toBe(false);
+        expect(alice.friends.includes("5dcceaacf8b3c20017ac03z6")).toBe(false);
         // expect(await bobby.follow_user("bobby1234")).toBe(false);
-        // expect(await alice.follow_user("kn0003")).toBe(true);
+        expect(bobby.friends.includes("bobby1234")).toBe(false);
+        expect(await alice.follow_user("5dcd241d8a5d632450dea810")).toBe(true);
+        expect(alice.friends.includes("5dcd241d8a5d632450dea810")).toBe(true);
         // expect(await alice.follow_user(1256)).toBe(false);
-        // expect(await alice.follow_user("kn0003")).toBe(false);
-
-        // in addition to checking true and false, check whether newly-followed friend 
-        // is in the friend list
-        // expect(await calvin.follow_user(""))
+        expect(await alice.follow_user("5dcd241d8a5d632450dea810")).toBe(false);
+        expect(alice.friends.includes("5dcd241d8a5d632450dea810")).toBe(true);
 
         // // now test the function of unfollowing friend
         // // check for unexisting username
         // // a person cannot unfollow himself
         // // only people that are followed can be unfollowed
         // expect(await bobby.unfollow_user("")).toBe(false);
-        // expect(await bobby.unfollow_user("am0002")).toBe(true);
+        expect(await bobby.unfollow_user("5dcceaacf8b3c20017ac03c1")).toBe(true);
+        expect(bobby.friends.includes("5dcceaacf8b3c20017ac03c1")).toBe(false);
         // expect(await bobby.unfollow_user("bobbyiscool")).toBe(false);
         // expect(await bobby.unfollow_user("jiayi")).toBe(false);
         // expect(await bobby.unfollow_user("hellobobby")).toBe(false);
