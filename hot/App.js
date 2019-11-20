@@ -25,6 +25,7 @@ const MainNavigator = createStackNavigator({
   CreateEvent: { screen: CreateEvent },
   Settings: { screen: Settings },
   Registration: { screen: Registration },
+  UserView: { screen: UserView },
 });
 
 export const AppNav = createAppContainer(MainNavigator);

@@ -38,8 +38,8 @@ export default class Feed extends Component {
         ),
         headerTitle: () => (
             <Button
-                onPress={() => navigation.navigate('UserView')}
-                title="temp userView"
+                onPress={() => alert("Iter2: scroll through events that friends are going to, events nearby, and events you\'re interested in.")} //navigation.navigate('UserView)}
+                title="Explore"
                 color="#000"
             />
         ),
