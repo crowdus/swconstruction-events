@@ -534,3 +534,32 @@ test('Tag get ID!!', function () {
     const tag = new Tag(1, "asdf")
     expect(tag.get_id()).toEqual(1)
 });
+
+test('Events!', function() {
+    // name must be any string of characters of length > 0.
+    const tag = new Tag(1, "asdf")
+    expect(tag.get_events()).toEqual([]);
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["asdf"], ["admin"])
+    expect(tag.get_events()).toEqual([event2]);
+    event2.set_tags(['test']);
+    expect(tag.get_events()).toEqual([]);
+});
+
+test('Users!', function() {
+    // name must be any string of characters of length > 0.
+    const tag = new Tag(1, "asdf")
+    y = new User(null, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+    expect(tag.get_followers()).toEqual([])
+    // add
+    expect(tag.add_follower(y)).toBeTruthy()
+    expect(tag.get_followers()).toEqual([y])
+    //don't add duplicates
+    expect(tag.add_follower(y)).toBeFalsy()
+    expect(tag.get_followers()).toEqual([y])
+    // Remvoe
+    expect(tag.remove_follower(usr)).toBeTruthy()
+    expect(tag.get_followers()).toEqual([])
+    // Don't remove if not in list.
+    expect(tag.remove_follower(usr)).toBeFalsy()
+    expect(tag.get_followers()).toEqual([])
+});

@@ -21,7 +21,10 @@ export default class Tag extends Followable {
     set_name(name) { if (is_valid_name(name)) { this.name = name; return true; } else return false; }
     get_id() { return this.ID }
     async get_events() { await this.update_events(); return this.events }
-    set_events(evts) {this.events = evts; }
+    add_follower(usr) {return true; }
+    remove_follower(usr) {return true; }
+    get_followers() {return []; }
+
 
     async update_events() {
         fetch('http://hot-backend.herokuapp.com/events/tags/'.concat(this.name), {
@@ -36,7 +39,7 @@ export default class Tag extends Followable {
                                  i['start_date'], i['end_date'], 
                                  i['addr'], i['tags'], i['admins']));
             }
-            this.set_events(l);
+            this.events = l;
             console.log(l);
             return true;
         }).catch((error) => {
