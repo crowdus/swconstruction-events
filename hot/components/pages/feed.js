@@ -27,7 +27,7 @@ export default class Feed extends Component {
 
     // navigation options displayed at the top of the screen
     static navigationOptions = ({ navigation }) => {
-        var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", ['am0002'])
+        var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
         return {
         headerLeft: () =>  (
             <Button

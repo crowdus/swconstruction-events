@@ -7,7 +7,7 @@ import {
 import Constants from 'expo-constants';
 import User from '../classes/user.js';
 
-export var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", ['am0002'])
+export var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
 
 export default class Settings extends React.Component {
   constructor(props) {
