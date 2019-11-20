@@ -362,7 +362,7 @@ export default class User extends Followable {
     // add point: when a user checks in for certain events, he will get certain
     // number of points
 
-    add_point(_event){
+    addPoint(_event){
       // 1. do we need to check whether an event exists before adding points?
       // 2. also have to check whether this event is created by this user
       // 3. need to double check with event team whether admin is a list of username or list of id
