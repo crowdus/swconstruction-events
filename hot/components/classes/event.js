@@ -88,6 +88,7 @@ export default class Event extends Followable {
         this.isBoosted = false
         this.tags = tags
         this.admins = admins
+        this.points = 10
 
         if (!isGoodEvent) {
             this.set_null()
@@ -106,6 +107,7 @@ export default class Event extends Followable {
         this.isBoosted = null
         this.tags = []
         this.admins = []
+        this.points = null
     }
 
     // Checks if an event is a null instance of event
@@ -214,6 +216,9 @@ export default class Event extends Followable {
         return false
     }
 
+    get_points() { return this.points }
+    set_points(points) { this.points = points }
+
     edit_event(user, event_name, description, start, end, loc, tags, admins) {
         return true;
     }
@@ -297,5 +302,15 @@ export default class Event extends Followable {
             console.error(error);
             cb(null)
         });
+    }
+
+/* ------------------- Other Functions  ----------------------------- */
+
+    get_hot_level() {
+        return 1
+    }
+
+    verify_loc(user) {
+        return true
     }
 }
