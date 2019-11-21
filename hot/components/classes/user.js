@@ -154,6 +154,7 @@ export default class User extends Followable {
           this.password = ""
           this.point = 0
           this.friends = []
+          this.location = [0,0]
         }
         else{
           this._id = _id
@@ -165,6 +166,7 @@ export default class User extends Followable {
           this.password = password
           this.point = point
           this.friends = friends
+          this.location = []
       }
     }
 
@@ -361,6 +363,16 @@ export default class User extends Followable {
     // FUNCTIONS THAT ARE IMPLEMENTED IN ITERATION 2
     // add point: when a user checks in for certain events, he will get certain
     // number of points
+
+    set_location(lat, long) {
+      this.lat = lat
+      this.long = long
+    }
+
+    get_location() {
+      //returns the lat long of the user in an array
+      return [0, 0]
+    }
 
     addPoint(_event){
       // 1. do we need to check whether an event exists before adding points?
