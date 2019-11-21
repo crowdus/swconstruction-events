@@ -123,7 +123,7 @@ describe('testing getters and setters', () => {
         expect(await alice.setUserName("alice")).toBe(true);
         expect(alice.getUserName()).toBe("alice");
 
-    });
+    }, 30000);
 
     test("testing get/set FirstName", () => {
         // check for alphanumeric input only
@@ -177,7 +177,7 @@ describe('testing getters and setters', () => {
         expect(await alice.setEmail("bobby@uchicago.edu")).toBe(true);
         expect(await alice.setEmail("alicegmail.com")).toBe(false);
         expect(alice.getEmail()).toBe("bobby@uchicago.edu");
-    });
+    }, 30000);
 
     test("testing set/get Date", () => {
         // check for valid date input
@@ -263,7 +263,7 @@ describe('testing friend following', () => {
         expect(bobby.friends.includes("5dd47479b924560017eb5c59")).toBe(true);
         expect(await bobby.unfollow_user("5dd47479b924560017eb5c59")).toBe(true);
         expect(bobby.friends.includes("5dd47479b924560017eb5c59")).toBe(false);
-    });
+    }, 30000);
 });
 
 // NEW UNIT TESTS ADDED IN FOR ITERATION 2
@@ -296,31 +296,32 @@ describe('Points', () => {
         expect(alice.getPoint()).toBe(3)
     });
 
-    // test('testing boost events', () => {
-    //     // first initiate the event to have 2 points and bobby has 10 points
-    //     expect(bobby.setPoint(10)).toBe(true)
-    //     expect(bobby.getPoint()).toBe(10)
-    //     // expect(event.getPoint()).toBe(2)
-    //     var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
-    //     // before boosting
-    //     expect(calvin.getPoint()).toBe(0)
-    //     expect(calvin.addPoint(event)).toBe(true)
-    //     expect(calvin.getPoint()).toBe(2)
+    test('testing boost events', () => {
+        // first initiate the event to have 2 points and bobby has 10 points
+        expect(bobby.setPoint(10)).toBe(true)
+        expect(bobby.getPoint()).toBe(10)
+        // expect(event.getPoint()).toBe(2)
+        var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
+        // before boosting
+        expect(calvin.getPoint()).toBe(0)
+        expect(calvin.addPoint(event)).toBe(true)
+        expect(calvin.getPoint()).toBe(2)
 
-    //     expect(bobby.boost_event()).toBe(true)
-    //     expect(bobby.getPoint()).toBe(9)
-    //     // expect(event.getPoint()).toBe(3)
+        expect(bobby.boost_event()).toBe(true)
+        expect(bobby.getPoint()).toBe(9)
+        // expect(event.getPoint()).toBe(3)
 
-    //     // if a user can boost an event for more than once
-    //     // implement the following test
-    //     // expect(bobby.boost_event()).toBe(true)
-    //     // expect(bobby.getPoint()).toBe(8)
-    //     // expect(event.getPoint()).toBe(4)
+        // if a user can boost an event for more than once
+        // implement the following test
+        // expect(bobby.boost_event()).toBe(true)
+        // expect(bobby.getPoint()).toBe(8)
+        // expect(event.getPoint()).toBe(4)
 
-    //     // what happen after an event is boosted?
-    //     expect(alice.getPoint()).toBe(0)
-    //     expect(alice.addPoint(event)).toBe(true)
-    //     expect(alice.addPoint(event)).toBe(3)
+        // what happen after an event is boosted?
+        expect(alice.getPoint()).toBe(0)
+        expect(alice.addPoint(event)).toBe(true)
+        expect(alice.addPoint(event)).toBe(3)
+    })
 
   });
 
