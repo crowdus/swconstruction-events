@@ -30,29 +30,29 @@ function reset() {
     david = new User(null, "david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
 }
 
-// // tests for validation functions
-// describe('testing validation functions', () => {
-//     test('testing check_valid_name', () => {
-//         expect(check_valid_name("fong27")).toBe(true);
-//         expect(check_valid_name("")).toBe(false);
-//         expect(check_valid_name(274)).toBe(false);
-//         expect(check_valid_name("@!%vwohgeoef")).toBe(false);
-//     });
+// tests for validation functions
+describe('testing validation functions', () => {
+    test('testing check_valid_name', () => {
+        expect(check_valid_name("fong27")).toBe(true);
+        expect(check_valid_name("")).toBe(false);
+        expect(check_valid_name(274)).toBe(false);
+        expect(check_valid_name("@!%vwohgeoef")).toBe(false);
+    });
 
-//     test('testing check_valid_password', () => {
-//         expect(check_valid_password("2019IamBobby")).toBe(true);
-//         expect(check_valid_password("2019Iam")).toBe(false);
-//         expect(check_valid_password("2019iambobby")).toBe(false);
-//         expect(check_valid_password("Iambobby")).toBe(false);
-//     });
+    test('testing check_valid_password', () => {
+        expect(check_valid_password("2019IamBobby")).toBe(true);
+        expect(check_valid_password("2019Iam")).toBe(false);
+        expect(check_valid_password("2019iambobby")).toBe(false);
+        expect(check_valid_password("Iambobby")).toBe(false);
+    });
 
-//     test('testing check_valid_email', () => {
-//         expect(check_valid_email("bobby@uchicago.edu")).toBe(true);
-//         expect(check_valid_email("bobbyuchicago.edu")).toBe(false);
-//         expect(check_valid_email("bobby@uchicago")).toBe(false);
-//     })
+    test('testing check_valid_email', () => {
+        expect(check_valid_email("bobby@uchicago.edu")).toBe(true);
+        expect(check_valid_email("bobbyuchicago.edu")).toBe(false);
+        expect(check_valid_email("bobby@uchicago")).toBe(false);
+    })
 
-// });
+});
 
 describe('testing getters and setters', () => {
     // beforeAll(() => {
@@ -321,6 +321,15 @@ describe('Points', () => {
         expect(alice.getPoint()).toBe(0)
         expect(alice.addPoint(event)).toBe(true)
         expect(alice.addPoint(event)).toBe(3)
+    })
+
+    test('testing checkin', () => {
+        var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
+        expect(bobby.getPoint()).toBe(0);
+        expect(bobby.checkIn(event)).toBe(true);
+        expect(bobby.getPoint()).toBe(5);
+        expect(bobby.checkIn(event)).toBe(false);
+        expect(bobby.getPoint()).toBe(5);
     })
 
   });

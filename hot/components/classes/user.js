@@ -392,4 +392,8 @@ export default class User extends Followable {
       //similarities between the list.
       return [];
     }
+
+    checkIn(event){
+      return true;
+    }
 }
