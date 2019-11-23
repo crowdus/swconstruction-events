@@ -17,7 +17,7 @@ export default class TagButton extends React.Component{
     const t = this.props.t
     const usr = this.props.usr
     return (
-        <TouchableOpacity style={styles.tag_view} onPress={function () {n.navigate('TagView', {tag:t, usr:usr})}}>
+        <TouchableOpacity style={styles.tag_view} onPress={function () {n.push('TagView', {tag:t, usr:usr})}}>
             <Text>{this.props.t}</Text>
         </TouchableOpacity>
     )

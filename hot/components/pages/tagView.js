@@ -99,7 +99,8 @@ export default class TagView extends Component {
                                         horizontal = {true}
                                         listKey="tags"
                                         data={item.get_tags()}
-                                        renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr}/> }
+                                        renderItem={({item}) => 
+                                            <TagButton t={item} n={this.props.navigation} usr={usr}/>}
                                         keyExtractor={item => item}
                                     />
                                 </SafeAreaView>
