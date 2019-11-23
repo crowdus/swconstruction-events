@@ -4,15 +4,9 @@ import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event.js';
 import Tag from '../classes/tag.js';
+import TagButton from '../renderables/tagButton.js';
 import User from '../classes/user.js';
 
-
-// function to render Tags in the event cards
-function TagUI({t}) {
-    return (
-        <View style={styles.tag_view}><Text style={styles.tag_text}>{t}</Text></View>
-    );
-}
 
 // the class that renders the keys.
 export default class Feed extends Component {
@@ -97,7 +91,7 @@ export default class Feed extends Component {
                                         horizontal = {true}
                                         listKey="tags"
                                         data={item.get_tags()}
-                                        renderItem={({item}) => <TagUI t={item}/> }
+                                        renderItem={({item}) => <TagButton t={item}/> }
                                         keyExtractor={item => item}
                                     />
                                 </SafeAreaView>
