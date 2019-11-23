@@ -14,7 +14,7 @@ export default class Tag extends Followable {
         this.name = name
         this.ID = TagID
         this.events = []
-        if (!is_valid_name(name)) {this.name = null; this.ID = null; this.events = null}
+        if (!is_valid_name(name)) {this.name = null; this.ID = null; this.events = null; }
     }
 
     get_name() { return this.name }
@@ -34,7 +34,8 @@ export default class Tag extends Followable {
         .then((responseJson) => {
             var l = [];
             for (i in responseJson) {
-                i = responseJson[i][0]
+                i = responseJson[i]
+                console.log(i)
                 l.push(new Event(i['_id'], i['name'], i['desc'], 
                                  i['start_date'], i['end_date'], 
                                  i['addr'], i['tags'], i['admins']));

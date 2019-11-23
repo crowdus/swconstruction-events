@@ -91,7 +91,7 @@ export default class Feed extends Component {
                                         horizontal = {true}
                                         listKey="tags"
                                         data={item.get_tags()}
-                                        renderItem={({item}) => <TagButton t={item}/> }
+                                        renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr}/> }
                                         keyExtractor={item => item}
                                     />
                                 </SafeAreaView>
