@@ -9,14 +9,14 @@ import User from '../classes/user.js';
 import TagButton from '../renderables/tagButton'
 
 /* Helper function to render tags and admins */
-function renderArray(arr){
+function renderArray(arr, n, usr){
   var retArr = []
   if (arr.length == 0) {
     retArr.push(<Text> None </Text>)
   }
   else {
     for (let i in arr) {
-      retArr.push(<TagButton t={arr[i]}></TagButton>)
+      retArr.push(<TagButton t={arr[i]} n={n} usr={usr}></TagButton>)
     }
   }
   return retArr
@@ -93,8 +93,8 @@ export default class EventView extends React.Component {
     console.log(this.state)
     var e = this.props.navigation.getParam('evt')
     var usr = this.props.navigation.getParam('usr')
-    var renderTags = renderArray(e.get_tags())
-    var renderAdmins = renderArray(e.get_admins())
+    var renderTags = renderArray(e.get_tags(), this.props.navigation, usr)
+    var renderAdmins = renderArray(e.get_admins(), this.props.navigation, usr)
 
     var numFriendsInt = this.state.interested_friends.length
     var numFriendsGoing = this.state.going_friends.length
