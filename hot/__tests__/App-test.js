@@ -509,9 +509,9 @@ test('user following event !!', function() {
 test('setting boost !!', function() {
     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
     expect(event2.set_boost("not_admin")).toBeFalsy()
-    expect(event2.isBoosted()).toBeFalsy()
+    expect(event2.is_boosted()).toBeFalsy()
     expect(event2.set_boost("admin")).toBeTruthy()
-    expect(event2.isBoosted()).toBeTruthy()
+    expect(event2.is_boosted()).toBeTruthy()
 })
 
 test('admin edit event !!', function() {

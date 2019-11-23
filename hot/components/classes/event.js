@@ -209,7 +209,7 @@ export default class Event extends Followable {
     // Boost
     is_boosted() { return this.isBoosted }
     set_boost(username) {
-        if(is_admin(username)) {
+        if(this.is_admin(username)) {
             this.isBoosted = true
         return true
         }
