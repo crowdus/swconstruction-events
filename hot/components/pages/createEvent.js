@@ -87,7 +87,7 @@ function parse_tags(tag_str){
   if (tag_str != null && tag_str != "") {
       tagArray = tag_str.split(/[ ,]+/)
       for (var tag of tagArray) {
-          x.add(tag.lower()) /* TODO: make these sets instead of arrays */
+          x.add(tag.toLowerCase()) /* TODO: make these sets instead of arrays */
       }
   }
   return Array.from(x)
