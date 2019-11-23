@@ -9,15 +9,14 @@ import User from '../classes/user.js';
 
 
 // the class that renders the keys.
-export default class Feed extends Component {
+export default class TagView extends Component {
 
     constructor(props) {
         super(props)
         this.props = props
-        this.state = []
+        this.t = new Tag(0, this.props.navigation.getParam('tag'))
+        this.state = {data: []}
     }
-
-
 
     // navigation options displayed at the top of the screen
     static navigationOptions = ({ navigation }) => {
@@ -32,7 +31,7 @@ export default class Feed extends Component {
         ),
         headerTitle: () => (
             <Button
-                onPress={() => alert("Iter2: scroll through events that friends are going to, events nearby, and events you\'re interested in.")} //navigation.navigate('UserView)}
+                onPress={() => navigation.navigate('Feed')}
                 title="Explore"
                 color="#000"
             />
@@ -50,27 +49,36 @@ export default class Feed extends Component {
     // This is called just after the component
     // is first rendered. It changes the data showed there.
     componentDidMount() {
-
-        fetch('http://hot-backend.herokuapp.com/events/', {
+        fetch('http://hot-backend.herokuapp.com/events/tags/'.concat(this.t.name), {
             method: 'GET',
-        }).then((response) => response.json())
+        })
+        .then((response) => response.json())
         .then((responseJson) => {
             var l = [];
             for (i in responseJson) {
                 i = responseJson[i]
-                l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins']));
+                console.log(i)
+                l.push(new Event(i['_id'], i['name'], i['desc'], 
+                                 i['start_date'], i['end_date'], 
+                                 i['addr'], i['tags'], i['admins']));
             }
-            this.setState({data:l})
+            this.setState({data:l});
+            return true;
         }).catch((error) => {
             console.error(error);
+            return false;
         });
+
+        //const {navigate} = this.props.navigation;
+        //const t = new Tag(0, this.props.navigation.getParam('tag'))
+        //this.setState({data: t.get_events()})
 
     }
 
     // the render function!
     // Shows the feed
     render() {
-        console.log("hello feed")
+        console.log("hello tagview")
         const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
 
@@ -91,7 +99,8 @@ export default class Feed extends Component {
                                         horizontal = {true}
                                         listKey="tags"
                                         data={item.get_tags()}
-                                        renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr}/> }
+                                        renderItem={({item}) => 
+                                            <TagButton t={item} n={this.props.navigation} usr={usr}/>}
                                         keyExtractor={item => item}
                                     />
                                 </SafeAreaView>
