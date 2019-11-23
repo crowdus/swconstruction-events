@@ -4,7 +4,7 @@ const APIKEY = 'AIzaSyB9z1Rab2_34wUVl177HhwEAGa4nh2SnSk'
 
 import Feed from './components/pages/feed.js';
 import TagButton from './components/renderables/tagButton.js';
-import TagView from './components/pages/TagView.js';
+import TagView from './components/pages/tagView.js'
 import UserFeed from './components/pages/userFeed.js';
 import LogIn from './components/pages/login.js';
 import CreateEvent from './components/pages/createEvent.js';

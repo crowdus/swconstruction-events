@@ -25,7 +25,7 @@ export default class Feed extends Component {
         return {
         headerLeft: () =>  (
             <Button
-                onPress={() => navigation.navigate('Settings', {user: userTA})}//alert('Iter2: Take me to settings, lists of events im going/interested/admin, following lists')}
+                onPress={() => navigation.navigate('Settings', {usr: userTA})}//alert('Iter2: Take me to settings, lists of events im going/interested/admin, following lists')}
                 title="My profile"
                 color="#000"
             />
@@ -39,7 +39,7 @@ export default class Feed extends Component {
         ),
         headerRight: () => (
             <Button
-                onPress={() => navigation.navigate('CreateEvent')}
+                onPress={() => navigation.navigate('CreateEvent', {usr: userTA})}
                 title="Create event"
                 color="#000"
             />
@@ -73,6 +73,8 @@ export default class Feed extends Component {
         console.log("hello feed")
         const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
+        console.log("USER")
+        console.log(usr)
 
         return(
             this.state && <SafeAreaView>

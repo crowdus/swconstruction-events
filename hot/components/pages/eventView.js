@@ -9,14 +9,14 @@ import User from '../classes/user.js';
 import TagButton from '../renderables/tagButton'
 
 /* Helper function to render tags and admins */
-function renderArray(arr, n, usr){
+function renderArray(arr){
   var retArr = []
   if (arr.length == 0) {
     retArr.push(<Text> None </Text>)
   }
   else {
     for (let i in arr) {
-      retArr.push(<TagButton t={arr[i]} n={n} usr={usr}></TagButton>)
+      retArr.push(<TagButton t={arr[i]}></TagButton>)
     }
   }
   return retArr
@@ -93,8 +93,9 @@ export default class EventView extends React.Component {
     console.log(this.state)
     var e = this.props.navigation.getParam('evt')
     var usr = this.props.navigation.getParam('usr')
-    var renderTags = renderArray(e.get_tags(), this.props.navigation, usr)
-    var renderAdmins = renderArray(e.get_admins(), this.props.navigation, usr)
+    var renderTags = renderArray(e.get_tags())
+    var renderAdmins = renderArray(e.get_admins())
+    // var renderStatus = renderStatusButtons()
 
     var numFriendsInt = this.state.interested_friends.length
     var numFriendsGoing = this.state.going_friends.length
@@ -113,8 +114,8 @@ export default class EventView extends React.Component {
     </Text>)
 
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", borderWidth:40, borderColor:"white"}}>
-        <ScrollView>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginTop: '10%', marginLeft: '5%', marginRight: '5%',}}>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <Text>
               <Text style={{fontSize: 50, fontStyle: "italic", fontWeight: "bold", textAlign: "center",}}>{"\n"}{e.get_name()}</Text>
               {"\n\n"}Where: 
@@ -162,21 +163,33 @@ export default class EventView extends React.Component {
               {"\n\n"}Respond: 
             </Text>
             <View style={{flexDirection: 'row'}}>
-            <Button
-              title="Going"
-              color="#f194ff"
-              onPress={() => {this.onPress_status(e, "going", usr)}}
-            />
-            <Button
-              title="Interested"
-              color="#f194ff"
-              onPress={() => {this.onPress_status(e, "interested", usr)}}
-            />
-            <Button
-              title="Not Going"
-              color="#f194ff"
-              onPress={() => {this.onPress_status(e, "declined", usr)}}
-            />
+            <TouchableHighlight onPress={() => this.onPress_status(e, "going", usr)}>
+              <Text style ={{backgroundColor:
+                            this.state.userStatus === "going"
+                              ? "red"
+                              : "grey"
+                            }}>
+                              <Text>Going</Text>
+              </Text>
+            </TouchableHighlight>
+            <TouchableHighlight onPress={() => this.onPress_status(e, "interested", usr)}>
+              <Text style ={{backgroundColor:
+                            this.state.userStatus === "interested"
+                              ? "red"
+                              : "grey"
+                            }}>
+                              <Text>interested</Text>
+              </Text>
+            </TouchableHighlight>
+            <TouchableHighlight onPress={() => this.onPress_status(e, "declined", usr)}>
+              <Text style ={{backgroundColor:
+                            this.state.userStatus === "declined"
+                              ? "red"
+                              : "grey"
+                            }}>
+                              <Text>Declined</Text>
+              </Text>
+            </TouchableHighlight>
             </View>
             <Text> {"\n"} </Text>
             <Button
@@ -211,4 +224,5 @@ const styles = StyleSheet.create({
     padding:10
   }
 })
+
 
