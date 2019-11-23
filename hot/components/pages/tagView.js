@@ -31,7 +31,7 @@ export default class TagView extends Component {
         ),
         headerTitle: () => (
             <Button
-                onPress={() => alert("Iter2: scroll through events that friends are going to, events nearby, and events you\'re interested in.")} //navigation.navigate('UserView)}
+                onPress={() => navigation.navigate('Feed')}
                 title="Explore"
                 color="#000"
             />
