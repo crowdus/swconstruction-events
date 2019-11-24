@@ -99,7 +99,7 @@ function parse_admins(admin_str, username){
   if (admin_str != null && admin_str != "") {
       adArray = admin_str.split(/[ ,]+/)
       for (var ad of adArray) {
-          x.add(ad.lower()) /* TODO: make these sets instead of arrays */
+          x.add(ad.toLowerCase()) /* TODO: make these sets instead of arrays */
       }
   }
   return Array.from(x)

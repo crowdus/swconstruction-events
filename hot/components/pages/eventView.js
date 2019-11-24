@@ -53,6 +53,34 @@ export default class EventView extends React.Component {
     }
   }
 
+  boost_display = (e, usr) => {
+    console.log("HEY, ARE WE GETTING HERE?")
+    current_username = usr.getUserName()
+    current_is_admin = e.get_admins().includes(current_username)
+    console.log(current_is_admin)
+    console.log(usr)
+    console.log(e.get_admins())
+    if (e.is_boosted()) {
+      return (
+        <View>
+          <Text style={{fontSize: 20, color: Red,}}>
+            This event is Boosted!
+          </Text>
+        </View>
+      )
+    }
+    else if (current_is_admin) {
+      console.log("HEY, RETURN THE BOOST BUTTON")
+      return (
+        <View>
+          <TouchableHighlight>
+            <Text>Boost this event!</Text>
+          </TouchableHighlight>
+        </View>
+      )
+    }
+  }
+
   async getAttendeeStatus(e, usr) {
     e.get_status_people("interested", (l) => {
       this.setState({interested_people:l})
@@ -106,6 +134,8 @@ export default class EventView extends React.Component {
         marked 'Interested' 
     </Text>)
 
+    const boost_disp = this.boost_display(e, usr)
+
     var going_str = (
       <Text> 
         {numFriendsGoing} friends
@@ -135,6 +165,9 @@ export default class EventView extends React.Component {
               {"\n\n"} Tags: 
               </Text>
               {renderTags}
+
+              <Text>{"\n\n"}</Text>
+              {boost_disp}
             
               <Text>
               {"\n\n"}Hosted By: 
@@ -162,12 +195,12 @@ export default class EventView extends React.Component {
             <Text>
               {"\n\n"}Respond: 
             </Text>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', justifyContent: "center", alignItems: "center"}}>
             <TouchableHighlight onPress={() => this.onPress_status(e, "going", usr)}>
               <Text style ={{backgroundColor:
                             this.state.userStatus === "going"
-                              ? "red"
-                              : "grey"
+                              ? "#FCDC4D"
+                              : "white"
                             }}>
                               <Text>Going</Text>
               </Text>
@@ -175,8 +208,8 @@ export default class EventView extends React.Component {
             <TouchableHighlight onPress={() => this.onPress_status(e, "interested", usr)}>
               <Text style ={{backgroundColor:
                             this.state.userStatus === "interested"
-                              ? "red"
-                              : "grey"
+                              ? "#FCDC4D"
+                              : "white"
                             }}>
                               <Text>interested</Text>
               </Text>
@@ -184,8 +217,8 @@ export default class EventView extends React.Component {
             <TouchableHighlight onPress={() => this.onPress_status(e, "declined", usr)}>
               <Text style ={{backgroundColor:
                             this.state.userStatus === "declined"
-                              ? "red"
-                              : "grey"
+                              ? "#FCDC4D"
+                              : "white"
                             }}>
                               <Text>Declined</Text>
               </Text>
