@@ -74,15 +74,15 @@ export default class Feed extends Component {
         var usr = this.props.navigation.getParam('usr')
 
         return(
-            this.state && <SafeAreaView>
-                <View>
+            this.state && <SafeAreaView style={styles.container}>
+                <View style={styles.header}>
                     <Icon
                         name='three-bars'
                         size={30}
-                        color='#000'
+                        color='#222'
                         onPress={() => this.props.navigation.toggleDrawer()}
                     />
-                    <Text>Thing!</Text>
+                    <Text style={styles.headerText}>                     Hot!</Text>
                 </View>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
@@ -115,11 +115,19 @@ export default class Feed extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 100,
+        // marginTop: 100,
     },
     header: {
-        flex: 1,
         padding:10,
+        // flex: 1,
+        width: 500,
+        flexDirection: 'row',
+        alignItems: 'flex-start'
+    },
+    headerText: {
+        // padding:10,
+        fontSize: 32,
+        alignSelf: 'center'
     },
     tags_container: {
         flex: 1,
