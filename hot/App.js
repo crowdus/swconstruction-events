@@ -4,7 +4,7 @@ const APIKEY = 'AIzaSyB9z1Rab2_34wUVl177HhwEAGa4nh2SnSk'
 
 import Feed from './components/pages/feed.js';
 import TagButton from './components/renderables/tagButton.js';
-import TagView from './components/pages/TagView.js';
+import TagView from './components/pages/tagView.js';
 import UserFeed from './components/pages/userFeed.js';
 import LogIn from './components/pages/login.js';
 import CreateEvent from './components/pages/createEvent.js';
@@ -15,11 +15,27 @@ import UserView from './components/pages/userView.js'
 
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+
 
 Geocoder.init(APIKEY, {language : "en"});
 
+const drawer = createDrawerNavigator({
+  Settings: {
+      screen: Settings,
+      navigationOptions: ({ navigation }) => ({
+          usr: navigation.getParam('usr'),
+      }),
+  }, Settings2: {
+    screen: Settings,
+    navigationOptions: ({ navigation }) => ({
+        usr: navigation.getParam('usr'),
+    }),
+  },
+}, {});
+
+
 const MainNavigator = createStackNavigator({
-  // Home: { screen: Home },
   LogIn: { screen: LogIn },
   Feed: { screen: Feed },
   UserFeed: { screen: UserFeed },
@@ -30,6 +46,7 @@ const MainNavigator = createStackNavigator({
   Settings: { screen: Settings },
   Registration: { screen: Registration },
   UserView: { screen: UserView },
+  Drawer: drawer
 });
 
 export const AppNav = createAppContainer(MainNavigator);

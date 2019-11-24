@@ -6,6 +6,12 @@ import Event from '../classes/event.js';
 import Tag from '../classes/tag.js';
 import TagButton from '../renderables/tagButton.js';
 import User from '../classes/user.js';
+import { DrawerActions } from '@react-navigation/routers';
+import Settings from './settings.js'
+import {NavigationActions} from 'react-navigation';
+
+
+var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
 
 
 // the class that renders the keys.
@@ -21,11 +27,10 @@ export default class Feed extends Component {
 
     // navigation options displayed at the top of the screen
     static navigationOptions = ({ navigation }) => {
-        var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
         return {
         headerLeft: () =>  (
             <Button
-                onPress={() => navigation.navigate('Settings', {user: userTA})}//alert('Iter2: Take me to settings, lists of events im going/interested/admin, following lists')}
+                onPress={() => {navigation.navigate('Drawer')} }
                 title="My profile"
                 color="#000"
             />

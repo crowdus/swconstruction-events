@@ -8,6 +8,7 @@ import TagButton from '../renderables/tagButton.js';
 import User from '../classes/user.js';
 
 
+
 // the class that renders the keys.
 export default class TagView extends Component {
 
