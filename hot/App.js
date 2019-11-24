@@ -34,7 +34,7 @@ const drawer = createDrawerNavigator({
     }),
     drawerLabel: 'Settings2',
   },
-}, {});
+}, {}); //{contentOptions: {items: ['LogIn']} }
 
 
 const MainNavigator = createDrawerNavigator({

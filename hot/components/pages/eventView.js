@@ -35,6 +35,10 @@ export default class EventView extends React.Component {
     }
   }
 
+  static navigationOptions = {
+    drawerLabel: () => null
+  }
+
   onPress_status = (e, status, usr) => {
     e.add_follower(usr, status, (eventuserid) => {
       console.log(eventuserid)
