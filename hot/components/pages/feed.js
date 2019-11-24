@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, TouchableOpacity} from 'react-native';
+import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event.js';
@@ -9,10 +9,17 @@ import User from '../classes/user.js';
 import { DrawerActions } from '@react-navigation/routers';
 import Settings from './settings.js'
 import {NavigationActions} from 'react-navigation';
+import Icon from 'react-native-vector-icons/Octicons'
 
 
 var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
 
+// const MenuIcon = ({navigation}) => <Icon
+//     name='three-bars'
+//     size={30}
+//     color='#000'
+//     onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+//     />;
 
 // the class that renders the keys.
 export default class Feed extends Component {
@@ -26,31 +33,18 @@ export default class Feed extends Component {
 
 
     // navigation options displayed at the top of the screen
-    static navigationOptions = ({ navigation }) => {
-        return {
-        headerLeft: () =>  (
-            <Button
-                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer()) }//{navigation.navigate('Drawer')} }
-                title="My profile"
-                color="#000"
-            />
-        ),
-        headerTitle: () => (
-            <Button
-                onPress={() => alert("Iter2: scroll through events that friends are going to, events nearby, and events you\'re interested in.")} //navigation.navigate('UserView)}
-                title="Explore"
-                color="#000"
-            />
-        ),
-        headerRight: () => (
-            <Button
-                onPress={() => navigation.navigate('CreateEvent')}
-                title="Create event"
-                color="#000"
-            />
-        ),
-      };
-    };
+
+    // static navigationOptions = ({ navigation }) => {
+    //     return {
+    //     headerLeft: () =>  (
+    //         <Button
+    //             onPress={() => navigation.dispatch(DrawerActions.toggleDrawer()) }//{navigation.navigate('Drawer')} }
+    //             title="My profile"
+    //             color="#000"
+    //         />
+    //     ),
+    //     }
+    // };
 
     // This is called just after the component
     // is first rendered. It changes the data showed there.
@@ -81,6 +75,15 @@ export default class Feed extends Component {
 
         return(
             this.state && <SafeAreaView>
+                <View>
+                    <Icon
+                        name='three-bars'
+                        size={30}
+                        color='#000'
+                        onPress={() => this.props.navigation.toggleDrawer()}
+                    />
+                    <Text>Thing!</Text>
+                </View>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}

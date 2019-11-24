@@ -51,15 +51,15 @@ const drawer = createDrawerNavigator({
 
 const MainNavigator = createDrawerNavigator({
   LogIn: { screen: LogIn },
-  
+
   Settings: { screen: Settings },
   Feed: { screen: Feed },
   CreateEvent: { screen: CreateEvent },
-  TagsFollowing: {screen: TagsFollowing},
-  UsersFollowing: {screen: UsersFollowing},
-  AdminEvents: {screen: AdminEvents},
-  UpcomingEvents: {screen: UpcomingEvents},
-  PastEvents: {screen: PastEvents},
+  TagsFollowing: { screen: TagsFollowing },
+  UsersFollowing: { screen: UsersFollowing },
+  AdminEvents: { screen: AdminEvents },
+  UpcomingEvents: { screen: UpcomingEvents },
+  PastEvents: { screen: PastEvents },
   // UserFeed: { screen: UserFeed },
   // UserView: { screen: UserView },
 

@@ -2,7 +2,7 @@
 
 /*
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, TouchableOpacity} from 'react-native';
+import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, TouchableOpacity} from 'react-native';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event';
 import EventCard from '../renderables/eventcard'
