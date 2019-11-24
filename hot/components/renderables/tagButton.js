@@ -10,6 +10,12 @@ export default class TagButton extends React.Component{
     super(props)
     this.props = props
   }
+
+  static navigationOptions = ({navigation}) => {
+    return {
+        drawerLabel: () => null
+    }
+  };
 // to explain the no adjunct stranding generalization
         //<TouchableOpacity style={styles.tag_view} onPress={function () {this.props.n.navigate('TagView', {tag:this.props.t, usr:usr})}}>
   render() {

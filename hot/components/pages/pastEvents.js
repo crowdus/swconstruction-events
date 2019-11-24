@@ -6,60 +6,76 @@ import Event from '../classes/event.js';
 import Tag from '../classes/tag.js';
 import TagButton from '../renderables/tagButton.js';
 import User from '../classes/user.js';
+import { DrawerActions } from '@react-navigation/routers';
+import Settings from './settings.js'
+import {NavigationActions} from 'react-navigation';
 
+
+var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
 
 
 // the class that renders the keys.
-export default class TagView extends Component {
+export default class PastEvents extends Component {
 
     constructor(props) {
         super(props)
         this.props = props
-        this.t = new Tag(0, this.props.navigation.getParam('tag'))
-        this.state = {data: []}
+        this.state = []
     }
 
-    // navigation options displayed at the top of the screen
 
-    static navigationOptions = ({navigation}) => {
+
+    // navigation options displayed at the top of the screen
+    static navigationOptions = ({ navigation }) => {
         return {
-            drawerLabel: () => null
-        }
+        headerLeft: () =>  (
+            <Button
+                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer()) }//{navigation.navigate('Drawer')} }
+                title="My profile"
+                color="#000"
+            />
+        ),
+        headerTitle: () => (
+            <Button
+                onPress={() => alert("Iter2: scroll through events that friends are going to, events nearby, and events you\'re interested in.")} //navigation.navigate('UserView)}
+                title="Explore"
+                color="#000"
+            />
+        ),
+        headerRight: () => (
+            <Button
+                onPress={() => navigation.navigate('CreateEvent')}
+                title="Create event"
+                color="#000"
+            />
+        ),
+      };
     };
 
     // This is called just after the component
     // is first rendered. It changes the data showed there.
     componentDidMount() {
-        fetch('http://hot-backend.herokuapp.com/events/tags/'.concat(this.t.name), {
+
+        fetch('http://hot-backend.herokuapp.com/events/', {
             method: 'GET',
-        })
-        .then((response) => response.json())
+        }).then((response) => response.json())
         .then((responseJson) => {
             var l = [];
             for (i in responseJson) {
                 i = responseJson[i]
-                console.log(i)
-                l.push(new Event(i['_id'], i['name'], i['desc'], 
-                                 i['start_date'], i['end_date'], 
-                                 i['addr'], i['tags'], i['admins']));
+                l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins']));
             }
-            this.setState({data:l});
-            return true;
+            this.setState({data:l})
         }).catch((error) => {
             console.error(error);
-            return false;
         });
-
-        //const {navigate} = this.props.navigation;
-        //const t = new Tag(0, this.props.navigation.getParam('tag'))
-        //this.setState({data: t.get_events()})
 
     }
 
     // the render function!
     // Shows the feed
     render() {
-        console.log("hello tagview")
+        console.log("hello feed")
         const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
 
@@ -80,8 +96,7 @@ export default class TagView extends Component {
                                         horizontal = {true}
                                         listKey="tags"
                                         data={item.get_tags()}
-                                        renderItem={({item}) => 
-                                            <TagButton t={item} n={this.props.navigation} usr={usr}/>}
+                                        renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr}/> }
                                         keyExtractor={item => item}
                                     />
                                 </SafeAreaView>
