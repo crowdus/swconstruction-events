@@ -36,7 +36,6 @@ export default class TagView extends Component {
             var l = [];
             for (i in responseJson) {
                 i = responseJson[i]
-                console.log(i)
                 l.push(new Event(i['_id'], i['name'], i['desc'], 
                                     i['start_date'], i['end_date'], 
                                     i['addr'], i['tags'], i['admins']));
@@ -57,12 +56,12 @@ export default class TagView extends Component {
             var l = [];
             for (i in responseJson) {
                 i = responseJson[i]
-                console.log(i)
                 l.push(new Event(i['_id'], i['name'], i['desc'], 
                                     i['start_date'], i['end_date'], 
                                     i['addr'], i['tags'], i['admins']));
             }
-            this.setState({data: l, t:this.state.t})
+            // there is a bug here -- it starts an update loop. 
+            if (this.state.data != l) this.setState({data: l, t:this.state.t})
         }).catch((error) => {
             console.error(error);
             return false;
