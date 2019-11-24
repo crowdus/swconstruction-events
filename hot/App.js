@@ -20,25 +20,25 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 
 Geocoder.init(APIKEY, {language : "en"});
 
-// const drawer = createDrawerNavigator({
-//   Settings: {
-//       screen: Settings,
-//       navigationOptions: ({ navigation }) => ({
-//           usr: navigation.getParam('usr'),
-//       }),
-//       drawerLabel: 'Settings',
-//   }, Settings2: {
-//     screen: Settings,
-//     navigationOptions: ({ navigation }) => ({
-//         usr: navigation.getParam('usr'),
-//     }),
-//     drawerLabel: 'Settings2',
-//   },
-// }, {});
+const drawer = createDrawerNavigator({
+  Settings: {
+      screen: Settings,
+      navigationOptions: ({ navigation }) => ({
+          usr: navigation.getParam('usr'),
+      }),
+      drawerLabel: 'Settings',
+  }, Settings2: {
+    screen: Settings,
+    navigationOptions: ({ navigation }) => ({
+        usr: navigation.getParam('usr'),
+    }),
+    drawerLabel: 'Settings2',
+  },
+}, {});
 
 
 const MainNavigator = createDrawerNavigator({
-  LogIn: { screen: LogIn },
+  LogIn: { screen: LogIn, drawerLabel: () => null },
   Feed: { screen: Feed },
   UserFeed: { screen: UserFeed },
   Event: { screen: EventView },
