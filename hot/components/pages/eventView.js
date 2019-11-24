@@ -36,7 +36,7 @@ export default class EventView extends React.Component {
   }
 
   static navigationOptions = {
-    drawerLabel: () => null
+      drawerLabel: () => null
   }
 
   onPress_status = (e, status, usr) => {
