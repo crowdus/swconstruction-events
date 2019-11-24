@@ -20,22 +20,24 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 
 Geocoder.init(APIKEY, {language : "en"});
 
-const drawer = createDrawerNavigator({
-  Settings: {
-      screen: Settings,
-      navigationOptions: ({ navigation }) => ({
-          usr: navigation.getParam('usr'),
-      }),
-  }, Settings2: {
-    screen: Settings,
-    navigationOptions: ({ navigation }) => ({
-        usr: navigation.getParam('usr'),
-    }),
-  },
-}, {});
+// const drawer = createDrawerNavigator({
+//   Settings: {
+//       screen: Settings,
+//       navigationOptions: ({ navigation }) => ({
+//           usr: navigation.getParam('usr'),
+//       }),
+//       drawerLabel: 'Settings',
+//   }, Settings2: {
+//     screen: Settings,
+//     navigationOptions: ({ navigation }) => ({
+//         usr: navigation.getParam('usr'),
+//     }),
+//     drawerLabel: 'Settings2',
+//   },
+// }, {});
 
 
-const MainNavigator = createStackNavigator({
+const MainNavigator = createDrawerNavigator({
   LogIn: { screen: LogIn },
   Feed: { screen: Feed },
   UserFeed: { screen: UserFeed },
@@ -46,7 +48,6 @@ const MainNavigator = createStackNavigator({
   Settings: { screen: Settings },
   Registration: { screen: Registration },
   UserView: { screen: UserView },
-  Drawer: drawer
 });
 
 export const AppNav = createAppContainer(MainNavigator);

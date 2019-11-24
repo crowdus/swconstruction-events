@@ -30,7 +30,7 @@ export default class Feed extends Component {
         return {
         headerLeft: () =>  (
             <Button
-                onPress={() => {navigation.navigate('Drawer')} }
+                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer()) }//{navigation.navigate('Drawer')} }
                 title="My profile"
                 color="#000"
             />
