@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 import User from '../classes/user.js';
+import Icon from 'react-native-vector-icons/Octicons'
 
 export default class LogIn extends React.Component {
   constructor(props) {

@@ -6,6 +6,7 @@ import {
   Alert,
 } from 'react-native';
 import Constants from 'expo-constants';
+import Icon from 'react-native-vector-icons/Octicons'
 
 
 export default class Search extends React.Component {
@@ -20,7 +21,7 @@ export default class Search extends React.Component {
     return {
         drawerLabel: () => "Search",
     }
-};
+  };
 
   updateSearch = search => {
     this.setState({search});

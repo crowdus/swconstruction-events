@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 import User from '../classes/user.js';
+import Icon from 'react-native-vector-icons/Octicons'
 
 //userTA is the person we are viewing
 export var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])

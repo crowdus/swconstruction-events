@@ -6,6 +6,7 @@ import Geocoder from 'react-native-geocoding';
 import {
   Alert,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Octicons'
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {

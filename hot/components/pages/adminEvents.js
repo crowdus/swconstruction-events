@@ -9,6 +9,7 @@ import User from '../classes/user.js';
 import { DrawerActions } from '@react-navigation/routers';
 import Settings from './settings.js'
 import {NavigationActions} from 'react-navigation';
+import Icon from 'react-native-vector-icons/Octicons'
 
 
 var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
@@ -58,6 +59,15 @@ export default class AdminEvents extends Component {
 
         return(
             this.state && <SafeAreaView>
+                <View style={{padding:10, flexDirection: 'row'}}>
+                    <Icon
+                        name='three-bars'
+                        size={30}
+                        color='#222'
+                        onPress={() => this.props.navigation.toggleDrawer()}
+                    />
+                    <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Admin Events</Text>
+                </View>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}

@@ -34,7 +34,7 @@ export default class Feed extends Component {
 
     static navigationOptions = ({navigation}) => {
         return {
-            drawerLabel: () => "Feed",
+            drawerLabel: () => "Explore",
         }
     };
 
@@ -67,14 +67,14 @@ export default class Feed extends Component {
 
         return(
             this.state && <SafeAreaView style={styles.container}>
-                <View style={styles.header}>
+                <View style={{padding:10, flexDirection: 'row'}}>
                     <Icon
                         name='three-bars'
                         size={30}
                         color='#222'
                         onPress={() => this.props.navigation.toggleDrawer()}
                     />
-                    <Text style={styles.headerText}>                     Hot!</Text>
+                    <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Explore</Text>
                 </View>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList

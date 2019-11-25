@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import User from '../classes/user.js';
 import TagButton from '../renderables/tagButton'
+import Icon from 'react-native-vector-icons/Octicons'
 
 /* Helper function to render tags and admins */
 function renderArray(arr, n, usr){

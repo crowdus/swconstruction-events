@@ -6,6 +6,7 @@ import Event from '../classes/event.js';
 import Tag from '../classes/tag.js';
 import TagButton from '../renderables/tagButton.js';
 import User from '../classes/user.js';
+import Icon from 'react-native-vector-icons/Octicons'
 
 
 // the class that renders the keys.
