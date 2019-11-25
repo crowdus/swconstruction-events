@@ -23,6 +23,12 @@ export default class Settings extends React.Component {
     }
   }
 
+  static navigationOptions = ({navigation}) => {
+    return {
+        drawerLabel: () => "Profile",
+    }
+  };
+
   render() {
     console.log("hello")
     console.log(this.state.user)

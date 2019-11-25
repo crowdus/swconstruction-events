@@ -22,6 +22,12 @@ export default class TagsFollowing extends Component {
         this.state = []
     }
 
+    static navigationOptions = ({navigation}) => {
+        return {
+            drawerLabel: () => "Tags Following",
+        }
+    };
+
 
 
     // This is called just after the component

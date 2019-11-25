@@ -21,7 +21,7 @@ export default class TagView extends Component {
 
     static navigationOptions = ({navigation}) => {
         return {
-            drawerLabel: () => null
+            drawerLabel: () => null,
         }
     };
 

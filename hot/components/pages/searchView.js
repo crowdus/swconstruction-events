@@ -16,6 +16,12 @@ export default class Search extends React.Component {
     }
   }
 
+  static navigationOptions = ({navigation}) => {
+    return {
+        drawerLabel: () => "Search",
+    }
+};
+
   updateSearch = search => {
     this.setState({search});
     console.log(this.state.search)

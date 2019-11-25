@@ -26,6 +26,12 @@ export default class UserView extends React.Component {
     }
   }
 
+  static navigationOptions = ({navigation}) => {
+    return {
+        drawerLabel: () => "User View",
+    }
+  };
+
   render() {
     console.log("hello")
     console.log(this.state.user)

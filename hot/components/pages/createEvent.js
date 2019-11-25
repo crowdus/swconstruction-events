@@ -111,6 +111,12 @@ export default class CreateEvent extends React.Component {
     this.onPress = this.onPress.bind(this);
   }
 
+  static navigationOptions = ({navigation}) => {
+    return {
+        drawerLabel: () => "Create Event",
+    }
+};
+
     /* onForm Submit function */
   onPress = (usr) => {
     var value = this.refs.form.getValue();

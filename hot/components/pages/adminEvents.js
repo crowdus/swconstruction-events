@@ -23,33 +23,10 @@ export default class AdminEvents extends Component {
         this.state = []
     }
 
-
-
-    // navigation options displayed at the top of the screen
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({navigation}) => {
         return {
-        headerLeft: () =>  (
-            <Button
-                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer()) }//{navigation.navigate('Drawer')} }
-                title="My profile"
-                color="#000"
-            />
-        ),
-        headerTitle: () => (
-            <Button
-                onPress={() => alert("Iter2: scroll through events that friends are going to, events nearby, and events you\'re interested in.")} //navigation.navigate('UserView)}
-                title="Explore"
-                color="#000"
-            />
-        ),
-        headerRight: () => (
-            <Button
-                onPress={() => navigation.navigate('CreateEvent')}
-                title="Create event"
-                color="#000"
-            />
-        ),
-      };
+            drawerLabel: () => "Admin Events",
+        }
     };
 
     // This is called just after the component

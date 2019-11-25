@@ -32,19 +32,11 @@ export default class Feed extends Component {
 
 
 
-    // navigation options displayed at the top of the screen
-
-    // static navigationOptions = ({ navigation }) => {
-    //     return {
-    //     headerLeft: () =>  (
-    //         <Button
-    //             onPress={() => navigation.dispatch(DrawerActions.toggleDrawer()) }//{navigation.navigate('Drawer')} }
-    //             title="My profile"
-    //             color="#000"
-    //         />
-    //     ),
-    //     }
-    // };
+    static navigationOptions = ({navigation}) => {
+        return {
+            drawerLabel: () => "Feed",
+        }
+    };
 
     // This is called just after the component
     // is first rendered. It changes the data showed there.
