@@ -32,6 +32,15 @@ export default class Search extends React.Component {
     const {search} = this.state;
     return (
       <View style={styles.container}>
+        <View style={{padding:10, flexDirection: 'row'}}>
+          <Icon
+              name='three-bars'
+              size={30}
+              color='#222'
+              onPress={() => this.props.navigation.toggleDrawer()}
+          />
+          <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Search</Text>
+        </View>
       <SearchBar
         placeholder="Type..."
         onChangeText={this.updateSearch}

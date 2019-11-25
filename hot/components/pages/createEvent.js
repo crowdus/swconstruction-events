@@ -168,6 +168,15 @@ export default class CreateEvent extends React.Component {
     var usr = this.props.navigation.getParam('usr')
     return (
       <View style={styles.container}>
+        <View style={{padding:10, flexDirection: 'row'}}>
+          <Icon
+              name='three-bars'
+              size={30}
+              color='#222'
+              onPress={() => this.props.navigation.toggleDrawer()}
+          />
+          <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Create Event</Text>
+        </View>
         <ScrollView>
         <Form
           ref="form"

@@ -40,6 +40,15 @@ export default class UserView extends React.Component {
     const {navigate} = this.props.navigation;
     return (
       <View style={{ flex: 1, justifyContent: "left", alignItems: "center" }}>
+        <View style={{padding:10, flexDirection: 'row'}}>
+          <Icon
+              name='three-bars'
+              size={30}
+              color='#222'
+              onPress={() => this.props.navigation.toggleDrawer()}
+          />
+          <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   User</Text>
+        </View>
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
         </View>
         <View style={{ flex: 2, flexDirection: "column", justifyContent: "left", alignItems: "center" }}>

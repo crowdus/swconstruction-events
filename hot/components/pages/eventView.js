@@ -119,9 +119,17 @@ export default class EventView extends React.Component {
 
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", borderWidth:40, borderColor:"white"}}>
+              <Icon
+                name='three-bars'
+                size={30}
+                color='#222'
+                onPress={() => this.props.navigation.toggleDrawer()}
+                style={{marginRight: -20, alignSelf: "flex-start"}}
+              />
         <ScrollView>
             <Text>
-              <Text style={{fontSize: 50, fontStyle: "italic", fontWeight: "bold", textAlign: "center",}}>{"\n"}{e.get_name()}</Text>
+              <Text style={{fontSize: 50, fontStyle: "italic", fontWeight: "bold", textAlign: "center",}}>
+              {e.get_name()}</Text>
               {"\n\n"}Where: 
               <Text style={{fontSize: 20,}}>{"\n"}{e.get_address()}</Text>
 

@@ -39,9 +39,15 @@ export default class Settings extends React.Component {
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
         </View>
         <View style={{ flex: 1, flexDirection: "column", justifyContent: "left", alignItems: "center" }}>
-          <Text style={styles.titleText} onPress={this.onPressTitle}>
-            User Settings Page {"\n"}
-          </Text>
+        <View style={{padding:10, flexDirection: 'row', alignSelf: "flex-start"}}>
+          <Icon
+              name='three-bars'
+              size={30}
+              color='#222'
+              onPress={() => this.props.navigation.toggleDrawer()}
+          />
+          <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Create Event</Text>
+        </View>
           <Button
             title="Edit"
             color="#f194ff"
