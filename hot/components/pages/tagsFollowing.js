@@ -6,6 +6,7 @@ import TagButton from '../renderables/tagButton.js';
 import User from '../classes/user.js';
 import { DrawerActions } from '@react-navigation/routers';
 import Constants from 'expo-constants';
+import Icon from 'react-native-vector-icons/Octicons'
 
 
 
@@ -38,7 +39,15 @@ export default class TagsFollowing extends Component {
 
         return(
             this.state && <SafeAreaView style={styles.container}>
-                <Text style={{fontSize: 32}}>Tags Following</Text>
+                <View style={{padding:10, flexDirection: 'row'}}>
+                    <Icon
+                        name='three-bars'
+                        size={30}
+                        color='#222'
+                        onPress={() => this.props.navigation.toggleDrawer()}
+                    />
+                    <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Tags Following</Text>
+                </View>
                 <NavigationEvents onDidFocus={() => this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
