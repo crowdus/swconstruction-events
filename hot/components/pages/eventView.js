@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, ScrollView, SafeAreaView, FlatList} from 'react-native';
-import Event from '../classes/event.js'
 import {
   Button,
   Alert,
@@ -136,7 +135,7 @@ export default class EventView extends React.Component {
     if (current_is_admin) {
       return (
         <View>
-          <TouchableHighlight style={styles.button} onPress={() => {this.navigation.navigate('EditEvent', e)}} underlayColor='#99d9f4'>
+          <TouchableHighlight style={styles.button} onPress={() => {this.props.navigation.navigate('EditEvent', {evt: e})}} underlayColor='#99d9f4'>
             <Text>Edit Event</Text>
           </TouchableHighlight>
         </View>

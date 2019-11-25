@@ -12,6 +12,7 @@ import EventView from './components/pages/eventView.js';
 import Settings from './components/pages/settings.js'
 import Registration from './components/pages/registration.js'
 import UserView from './components/pages/userView.js'
+import EditEvent from './components/pages/editEvent.js'
 
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -30,6 +31,7 @@ const MainNavigator = createStackNavigator({
   Settings: { screen: Settings },
   Registration: { screen: Registration },
   UserView: { screen: UserView },
+  EditEvent: { screen: EditEvent },
 });
 
 export const AppNav = createAppContainer(MainNavigator);
