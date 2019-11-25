@@ -53,7 +53,7 @@ export default class TagsFollowing extends Component {
                     data={this.state.data}
                     renderItem={({item}) => 
                     <View style={styles.tagContainer}>
-                        <TouchableOpacity style={styles.tagName}><Text>{item}</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.tagName} onPress={function () {navigate('TagView', {tag:item, usr:usr})}}><Text>{item}</Text></TouchableOpacity>
                         <TouchableOpacity style={styles.followbutton} onPress={()=> console.log('unfollow '.concat(item))}>
                             <Text>Unfollow</Text>
                         </TouchableOpacity>

@@ -72,7 +72,6 @@ export default class TagView extends Component {
     // the render function!
     // Shows the feed
     render() {
-        console.log("hello tagview")
         const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
 
