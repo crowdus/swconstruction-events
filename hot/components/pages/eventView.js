@@ -10,6 +10,12 @@ import TagButton from '../renderables/tagButton'
 
 const points_to_boost = 1
 
+export const BASE_URL = 'https://hot-backend.herokuapp.com'
+export const fetch_headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+}
+
 /* Helper function to render tags and admins */
 function renderArray(arr){
   var retArr = []
@@ -22,6 +28,21 @@ function renderArray(arr){
     }
   }
   return retArr
+}
+
+function edit_database_event(event,cb){
+  fetch(`${BASE_URL}/events`, {
+    method: 'PUT',
+    headers: fetch_headers,
+    body: JSON.stringify(event)
+  })
+  .then((response) => response.text())
+  .then((responseVal) => {
+    cb(responseVal)
+  })
+  .catch((error) => {
+    cb(0)
+  });   
 }
 
 export default class EventView extends React.Component {
@@ -38,9 +59,19 @@ export default class EventView extends React.Component {
   }
 
   onPress_boost = (e, usr) => {
-    console.log("HEYHEYEHYEHYEHEYEHEYEHEHEHHE")
     if (e.set_boost(usr)) {
       if (usr.setPoint(usr.getPoint() - points_to_boost)) {
+        edit_database_event(e, (resp) => {
+          if (resp != 0) {
+            e.set_eventID(resp)
+            console.log(`switched to events screen for ${resp}`)
+            this.props.navigation.navigate('Event', {evt: validEvent, usr: usr})
+          }
+          else {
+            Alert.alert('Server Error: Try Again Later!')
+          }         
+        })
+        console.log(e.is_boosted())
         console.log("boost bruh")
         Alert.alert("Event is boosted!")
       }
@@ -73,9 +104,11 @@ export default class EventView extends React.Component {
     console.log("HEY, ARE WE GETTING HERE?")
     current_username = usr.getUserName()
     current_is_admin = e.get_admins().includes(current_username)
-    console.log(current_is_admin)
+    /* console.log(current_is_admin)
     console.log(usr)
-    console.log(e.get_admins())
+    console.log(e.get_admins())*/
+    console.log("IS THIS EVENT BOOSTED?")
+    console.log(e.is_boosted()) 
     if (e.is_boosted()) {
       return (
         <View>
@@ -91,6 +124,20 @@ export default class EventView extends React.Component {
         <View>
           <TouchableHighlight style={styles.button} onPress={() => {this.onPress_boost(e, usr)}} underlayColor='#99d9f4'>
             <Text>Boost this event!</Text>
+          </TouchableHighlight>
+        </View>
+      )
+    }
+  }
+
+  edit_display = (e, usr) => {
+    current_username = usr.getUserName()
+    current_is_admin = e.get_admins().includes(current_username)
+    if (current_is_admin) {
+      return (
+        <View>
+          <TouchableHighlight style={styles.button} onPress={() => {this.navigation.navigate('EditEvent', e)}} underlayColor='#99d9f4'>
+            <Text>Edit Event</Text>
           </TouchableHighlight>
         </View>
       )
@@ -150,7 +197,8 @@ export default class EventView extends React.Component {
         marked 'Interested' 
     </Text>)
 
-    const boost_disp = this.boost_display(e, usr)
+    var boost_disp = this.boost_display(e, usr)
+    var edit_disp = this.edit_display(e, usr)
 
     var going_str = (
       <Text> 
@@ -261,6 +309,8 @@ export default class EventView extends React.Component {
                 }
               }}
             />
+            <Text>{"\n\n\n"}</Text>
+            {edit_disp}
         </ScrollView>
       </View>
     );
