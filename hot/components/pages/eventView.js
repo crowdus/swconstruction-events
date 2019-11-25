@@ -65,10 +65,7 @@ export default class EventView extends React.Component {
             e.set_eventID(resp)
             console.log(`switched to events screen for ${resp}`)
             this.props.navigation.navigate('Event', {evt: validEvent, usr: usr})
-          }
-          else {
-            Alert.alert('Server Error: Try Again Later!')
-          }         
+          }       
         })
         console.log(e.is_boosted())
         console.log("boost bruh")
@@ -111,7 +108,7 @@ export default class EventView extends React.Component {
     if (e.is_boosted()) {
       return (
         <View>
-          <Text style={{fontSize: 20, color: Red,}}>
+          <Text style={{fontSize: 20, color: "Red", textAlign: "center"}}>
             This event is Boosted!
           </Text>
         </View>

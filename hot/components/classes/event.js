@@ -72,7 +72,7 @@ have more than 1 constructor
 */
 export default class Event extends Followable {
 
-    constructor(_id, name, desc, start, end, addr, tags, admins) {
+    constructor(_id, name, desc, start, end, addr, tags, admins, boost) {
         super()
         var isGoodEvent = is_valid_name(name) && 
                           is_valid_desc(desc) &&
@@ -85,7 +85,7 @@ export default class Event extends Followable {
         this.end_date = new Date(end)
         this.addr = addr
         this.loc = null
-        this.isBoosted = false
+        this.isBoosted = boost
         this.tags = tags
         this.admins = admins
         this.points = 10

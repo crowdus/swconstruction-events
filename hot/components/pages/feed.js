@@ -58,7 +58,7 @@ export default class Feed extends Component {
             var l = [];
             for (i in responseJson) {
                 i = responseJson[i]
-                l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins']));
+                l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins'], i['isBoosted']));
             }
             this.setState({data:l})
         }).catch((error) => {

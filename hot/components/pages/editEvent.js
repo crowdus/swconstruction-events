@@ -123,7 +123,7 @@ export default class EditEvent extends React.Component {
   }
 
     /* onForm Submit function */
-  onPress = (usr, id) => {
+  onPress = (usr, id, boost) => {
     var value = this.refs.form.getValue();
     if (value) { 
       console.log(value.name)
@@ -134,7 +134,8 @@ export default class EditEvent extends React.Component {
                             new Date(value.end_date),
                             value.addr,
                             parse_tags(value.tags),
-                            parse_admins(value.admins, usr.getUserName()))
+                            parse_admins(value.admins, usr.getUserName()),
+                            boost)
       
       if (!validEvent.is_null_event()) {
         console.log("onpr fn")
@@ -182,6 +183,7 @@ export default class EditEvent extends React.Component {
     var saved_end = saved_e.get_end_date()
     var saved_tags = list_str(saved_e.get_tags())
     var saved_admins = list_str(saved_e.get_admins())
+    var boost = saved_e.isBoosted()
 
     console.log(({}).toString.call(saved_addr).match(/\s([a-zA-Z]+)/)[1].toLowerCase())
     console.log(({}).toString.call(saved_start).match(/\s([a-zA-Z]+)/)[1].toLowerCase())
@@ -203,7 +205,7 @@ export default class EditEvent extends React.Component {
           options={options}
           value = {value}
         />
-        <TouchableHighlight style={styles.button} onPress={() => {this.onPress(usr, id)}} underlayColor='#99d9f4'>
+        <TouchableHighlight style={styles.button} onPress={() => {this.onPress(usr, id, boost)}} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Create</Text>
         </TouchableHighlight>
 

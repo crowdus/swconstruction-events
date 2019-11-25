@@ -122,7 +122,8 @@ export default class CreateEvent extends React.Component {
                             new Date(value.end_date),
                             value.addr,
                             parse_tags(value.tags),
-                            parse_admins(value.admins, usr.getUserName()))
+                            parse_admins(value.admins, usr.getUserName()),
+                            false)
       
       if (!validEvent.is_null_event()) {
         // Address Validity - Get latitude longitude points
