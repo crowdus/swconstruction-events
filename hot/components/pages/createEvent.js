@@ -6,6 +6,7 @@ import Geocoder from 'react-native-geocoding';
 import {
   Alert,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Octicons'
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {
@@ -111,6 +112,12 @@ export default class CreateEvent extends React.Component {
     this.onPress = this.onPress.bind(this);
   }
 
+  static navigationOptions = ({navigation}) => {
+    return {
+        drawerLabel: () => "Create Event",
+    }
+};
+
     /* onForm Submit function */
   onPress = (usr) => {
     var value = this.refs.form.getValue();
@@ -161,6 +168,15 @@ export default class CreateEvent extends React.Component {
     var usr = this.props.navigation.getParam('usr')
     return (
       <View style={styles.container}>
+        <View style={{padding:10, flexDirection: 'row'}}>
+          <Icon
+              name='three-bars'
+              size={30}
+              color='#222'
+              onPress={() => this.props.navigation.toggleDrawer()}
+          />
+          <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Create Event</Text>
+        </View>
         <ScrollView>
         <Form
           ref="form"

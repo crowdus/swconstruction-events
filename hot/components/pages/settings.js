@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 import User from '../classes/user.js';
+import Icon from 'react-native-vector-icons/Octicons'
 
 export var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
 
@@ -23,6 +24,12 @@ export default class Settings extends React.Component {
     }
   }
 
+  static navigationOptions = ({navigation}) => {
+    return {
+        drawerLabel: () => "Profile",
+    }
+  };
+
   render() {
     console.log("hello")
     console.log(this.state.user)
@@ -32,9 +39,15 @@ export default class Settings extends React.Component {
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
         </View>
         <View style={{ flex: 1, flexDirection: "column", justifyContent: "left", alignItems: "center" }}>
-          <Text style={styles.titleText} onPress={this.onPressTitle}>
-            User Settings Page {"\n"}
-          </Text>
+        <View style={{padding:10, flexDirection: 'row', alignSelf: "flex-start"}}>
+          <Icon
+              name='three-bars'
+              size={30}
+              color='#222'
+              onPress={() => this.props.navigation.toggleDrawer()}
+          />
+          <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Create Event</Text>
+        </View>
           <Button
             title="Edit"
             color="#f194ff"
