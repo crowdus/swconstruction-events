@@ -135,7 +135,7 @@ export default class EventView extends React.Component {
     if (current_is_admin) {
       return (
         <View>
-          <TouchableHighlight style={styles.button} onPress={() => {this.props.navigation.navigate('EditEvent', {evt: e})}} underlayColor='#99d9f4'>
+          <TouchableHighlight style={styles.button} onPress={() => {this.props.navigation.navigate('EditEvent', {evt: e, usr: usr})}} underlayColor='#99d9f4'>
             <Text>Edit Event</Text>
           </TouchableHighlight>
         </View>

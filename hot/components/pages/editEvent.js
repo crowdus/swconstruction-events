@@ -62,7 +62,9 @@ var options = {
   }
 };
 
-function add_event_to_database(event,cb){
+function change_event_database(event,cb){
+  console.log("UPDATE")
+  console.log(event)
   fetch(`${BASE_URL}/events`, {
     method: 'POST',
     headers: fetch_headers,
@@ -125,6 +127,7 @@ export default class EditEvent extends React.Component {
   onPress = (usr) => {
     var value = this.refs.form.getValue();
     if (value) { 
+      console.log(value.name)
       var validEvent = new Event(null, 
                             value.name,
                             value.desc,
@@ -135,11 +138,13 @@ export default class EditEvent extends React.Component {
                             parse_admins(value.admins, usr.getUserName()))
       
       if (!validEvent.is_null_event()) {
+        console.log("onpr fn")
         // Address Validity - Get latitude longitude points
         get_loc_from_addr(value.addr, validEvent, (loc) => {
           // Loc is valid
           if (loc != null) {
-            add_event_to_database(validEvent, (resp) => {
+            change_event_database(validEvent, (resp) => {
+              console.log("should've been put in db")
               if (resp != 0) {
                 validEvent.set_eventID(resp)
                 console.log(`switched to events screen for ${resp}`)
@@ -169,6 +174,7 @@ export default class EditEvent extends React.Component {
 
   render() {
     var saved_e = this.props.navigation.getParam('evt')
+    var usr = this.props.navigation.getParam('usr')
     var saved_name = saved_e.get_name()
     var saved_desc = saved_e.get_desc()
     var saved_addr = saved_e.get_address()
@@ -197,7 +203,7 @@ export default class EditEvent extends React.Component {
           options={options}
           value = {value}
         />
-        <TouchableHighlight style={styles.button} underlayColor='#99d9f4'>
+        <TouchableHighlight style={styles.button} onPress={() => {this.onPress(usr)}} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Create</Text>
         </TouchableHighlight>
 
