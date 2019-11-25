@@ -38,13 +38,16 @@ export default class TagsFollowing extends Component {
 
         return(
             this.state && <SafeAreaView style={styles.container}>
+                <Text style={{fontSize: 32}}>Tags Following</Text>
                 <NavigationEvents onDidFocus={() => this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) => 
                     <View style={styles.tagContainer}>
-                        <Text style={{alignSelf: 'flex-start', flex:1}}>{item}</Text>
-                        <Text style={styles.followbutton}>Unfollow</Text>
+                        <TouchableOpacity style={styles.tagName}><Text>{item}</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.followbutton} onPress={()=> console.log('unfollow '.concat(item))}>
+                            <Text>Unfollow</Text>
+                        </TouchableOpacity>
                     </View>}
                 />
             </SafeAreaView>
@@ -64,12 +67,22 @@ const styles = StyleSheet.create({
         marginTop: Constants.statusBarHeight,
     },
     followbutton: {
+        alignSelf: 'flex-end',
+        padding: 10,
+        marginRight: 20,
+        backgroundColor: '#efefef',
+    },
+    tagName: {
+        alignSelf: 'flex-start', 
         flex:1,
-        alignSelf: 'flex-end'
+        padding: 10,
+        marginLeft: 20,
     },
     tagContainer: {
+        padding: 10,
         flex: 1,
         flexDirection: 'row',
-        padding: 10
+        borderBottomWidth: 2,
+        borderColor: '#eee'
     },
 });
