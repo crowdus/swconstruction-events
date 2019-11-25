@@ -32,8 +32,7 @@ var options = {
   fields: {
     name: {
       label: 'Event Name',
-      maxLength: 128,
-      value: 'what to heck'
+      maxLength: 128
     },
     desc: {
       label: 'Event Description',
@@ -66,7 +65,7 @@ function change_event_database(event,cb){
   console.log("UPDATE")
   console.log(event)
   fetch(`${BASE_URL}/events`, {
-    method: 'POST',
+    method: 'PUT',
     headers: fetch_headers,
     body: JSON.stringify(event)
   })
@@ -124,11 +123,11 @@ export default class EditEvent extends React.Component {
   }
 
     /* onForm Submit function */
-  onPress = (usr) => {
+  onPress = (usr, id) => {
     var value = this.refs.form.getValue();
     if (value) { 
       console.log(value.name)
-      var validEvent = new Event(null, 
+      var validEvent = new Event(id, 
                             value.name,
                             value.desc,
                             new Date(value.start_date),
@@ -175,6 +174,7 @@ export default class EditEvent extends React.Component {
   render() {
     var saved_e = this.props.navigation.getParam('evt')
     var usr = this.props.navigation.getParam('usr')
+    var id = saved_e.get_eventID()
     var saved_name = saved_e.get_name()
     var saved_desc = saved_e.get_desc()
     var saved_addr = saved_e.get_address()
@@ -203,7 +203,7 @@ export default class EditEvent extends React.Component {
           options={options}
           value = {value}
         />
-        <TouchableHighlight style={styles.button} onPress={() => {this.onPress(usr)}} underlayColor='#99d9f4'>
+        <TouchableHighlight style={styles.button} onPress={() => {this.onPress(usr, id)}} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Create</Text>
         </TouchableHighlight>
 
