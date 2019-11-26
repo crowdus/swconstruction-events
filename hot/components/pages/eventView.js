@@ -195,7 +195,7 @@ export default class EventView extends React.Component {
             <Button
               title="Explore More"
               color="#f194ff"
-              onPress={() => this.props.navigation.navigate('Feed')}
+              onPress={() => this.props.navigation.navigate('Feed', {usr:usr})}
             />
             <Button
               title="Check In"

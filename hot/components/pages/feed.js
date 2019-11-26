@@ -10,16 +10,7 @@ import { DrawerActions } from '@react-navigation/routers';
 import Settings from './settings.js'
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Octicons'
-
-
-var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
-
-// const MenuIcon = ({navigation}) => <Icon
-//     name='three-bars'
-//     size={30}
-//     color='#000'
-//     onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-//     />;
+import EventCard from '../renderables/eventcard'
 
 // the class that renders the keys.
 export default class Feed extends Component {
@@ -29,8 +20,6 @@ export default class Feed extends Component {
         this.props = props
         this.state = []
     }
-
-
 
     static navigationOptions = ({navigation}) => {
         return {
@@ -61,10 +50,7 @@ export default class Feed extends Component {
     // the render function!
     // Shows the feed
     render() {
-        console.log("hello feed")
-        const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
-
         return(
             this.state && <SafeAreaView style={styles.container}>
                 <View style={{padding:10, flexDirection: 'row'}}>
@@ -80,23 +66,7 @@ export default class Feed extends Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) =>
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
-                            <View style={styles.evt_card}>
-                                <Text style={styles.evt_title}>{item.get_name()}</Text>
-                                <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
-                                <Text style={styles.evt_addr}>{item.get_address()}</Text>
-                                <Text style={styles.evt_desc}>{item.get_desc()}</Text>
-                                <SafeAreaView style={styles.tags_container}>
-                                    <FlatList
-                                        horizontal = {true}
-                                        listKey="tags"
-                                        data={item.get_tags()}
-                                        renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr}/> }
-                                        keyExtractor={item => item}
-                                    />
-                                </SafeAreaView>
-                            </View>
-                        </TouchableOpacity>}
+                        <EventCard event={item} navigation={this.props.navigation} usr={usr}/>}
                 />
             </SafeAreaView>
         );

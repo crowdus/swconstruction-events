@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView} from 'react-native';
+import { FlatList, TouchableOpacity, StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import TagButton from '../renderables/tagButton';
 
 export default class EventCard extends React.Component{
@@ -9,22 +9,26 @@ export default class EventCard extends React.Component{
 
   render() {
     var item = this.props.event
+    const {navigate} = this.props.navigation;
+    var usr = this.props.usr
     return (
-      <View style={styles.evt_card}>
-          <Text style={styles.evt_title}>{item.get_name()}</Text>
-          <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
-          <Text style={styles.evt_addr}>{item.get_address()}</Text>
-          <Text style={styles.evt_desc}>{item.get_desc()}</Text>
-          <SafeAreaView style={styles.tags_container}>
-              <FlatList
-                  horizontal = {true}
-                  listKey="tags"
-                  data={item.get_tags()}
-                  renderItem={({item}) => <TagButton t={`#${item}`}/> }
-                  keyExtractor={item => item}
-              />
-          </SafeAreaView>
-      </View>
+      <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
+        <View style={styles.evt_card}>
+            <Text style={styles.evt_title}>{item.get_name()}</Text>
+            <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
+            <Text style={styles.evt_addr}>{item.get_address()}</Text>
+            <Text style={styles.evt_desc}>{item.get_desc()}</Text>
+            <SafeAreaView style={styles.tags_container}>
+                <FlatList
+                    horizontal = {true}
+                    listKey="tags"
+                    data={item.get_tags()}
+                    renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr}/> }
+                    keyExtractor={item => item}
+                />
+            </SafeAreaView>
+        </View>
+      </TouchableOpacity>
     );
   }
 

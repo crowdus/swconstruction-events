@@ -57,7 +57,7 @@ export default class LogIn extends React.Component {
               // TODO: call to get some TA user
               // TODO: pass in user to feed
               console.log("hello")
-              navigate('Feed', {user: userTA})
+              navigate('Feed', {usr: userTA})
             }
             else{
               Alert.alert("Incorrect login")

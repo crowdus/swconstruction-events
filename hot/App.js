@@ -23,7 +23,7 @@ import Search from './components/pages/searchView.js'
 
 import {createAppContainer} from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-
+import MapFeed from './components/pages/mapFeed'
 
 Geocoder.init(APIKEY, {language : "en"});
 
@@ -56,6 +56,7 @@ const MainNavigator = createDrawerNavigator({
   TagView: { screen: TagView },
   TagButton: { screen: TagButton },
   Registration: { screen: Registration },
+  MapFeed: {screen: MapFeed}
 });
 
 export const AppNav = createAppContainer(MainNavigator);
