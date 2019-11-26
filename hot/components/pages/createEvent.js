@@ -165,6 +165,7 @@ export default class CreateEvent extends React.Component {
   }
 
   render() {
+    console.log(GLOBAL.testText);
     var usr = this.props.navigation.getParam('usr')
     return (
       <View style={styles.container}>

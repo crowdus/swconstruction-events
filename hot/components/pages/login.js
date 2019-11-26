@@ -8,6 +8,8 @@ import Constants from 'expo-constants';
 import User from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
 
+import { globVars } from '../classes/core.js'
+
 export default class LogIn extends React.Component {
   constructor(props) {
     super(props);
@@ -57,7 +59,8 @@ export default class LogIn extends React.Component {
               // TODO: call to get some TA user
               // TODO: pass in user to feed
               console.log("hello")
-              navigate('Feed', {user: userTA})
+              globVars.user = userTA;
+              navigate('Feed')
             }
             else{
               Alert.alert("Incorrect login")
