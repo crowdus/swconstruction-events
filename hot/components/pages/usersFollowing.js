@@ -40,7 +40,6 @@ export default class UsersFollowing extends Component {
             friends.push(JSON.stringify(friendid).valueOf());
         }
         friends = Array.from(friends);
-        console.log(typeof friends);
         fetch('http://hot-backend.herokuapp.com/users/', {
             method: 'GET',
         }).then((response) => response.json())
@@ -49,8 +48,6 @@ export default class UsersFollowing extends Component {
             for (i in responseJson) {
                 alluser = responseJson[i]
                 check = JSON.stringify(alluser['_id']);
-                console.log(check);
-                console.log(JSON.stringify(friends[0]));
                 // console.log(check.valueOf() ===  JSON.stringify(friends[0]).valueOf());
                 if(friends.includes(check.valueOf()))
                     l.push(new User(alluser['_id'], alluser['username'], alluser['firstname'], alluser['lastname'], alluser['email'], alluser['datejoined'], alluser['password'], alluser['point'], alluser['friends']));
@@ -65,7 +62,6 @@ export default class UsersFollowing extends Component {
     // the render function!
     // Shows the feed
     render() {
-        console.log("hello feed")
         const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
 
@@ -84,7 +80,7 @@ export default class UsersFollowing extends Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) => 
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('UserView')}}>
+                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('UserView', {friend:item})}}>
                             <View style={styles.evt_card}>
                                 <Text style={styles.evt_title}>{item.getUserName()}</Text>
                             </View>
