@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import User from '../classes/user.js';
 import TagButton from '../renderables/tagButton'
+import Icon from 'react-native-vector-icons/Octicons'
 
 const points_to_boost = 1
 
@@ -55,6 +56,10 @@ export default class EventView extends React.Component {
       'eventUserID': '',
       'userStatus': '',
     }
+  }
+
+  static navigationOptions = {
+    drawerLabel: () => null
   }
 
   onPress_boost = (e, usr) => {
@@ -204,10 +209,23 @@ export default class EventView extends React.Component {
     </Text>)
 
     return (
+<<<<<<< HEAD
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginTop: '10%', marginLeft: '5%', marginRight: '5%',}}>
         <ScrollView showsVerticalScrollIndicator={false}>
+=======
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", borderWidth:40, borderColor:"white"}}>
+              <Icon
+                name='three-bars'
+                size={30}
+                color='#222'
+                onPress={() => this.props.navigation.toggleDrawer()}
+                style={{marginRight: -20, alignSelf: "flex-start"}}
+              />
+        <ScrollView>
+>>>>>>> 7d32fbd8b518009d757cd8ffb932d3c62785eb42
             <Text>
-              <Text style={{fontSize: 50, fontStyle: "italic", fontWeight: "bold", textAlign: "center",}}>{"\n"}{e.get_name()}</Text>
+              <Text style={{fontSize: 50, fontStyle: "italic", fontWeight: "bold", textAlign: "center",}}>
+              {e.get_name()}</Text>
               {"\n\n"}Where: 
               <Text style={{fontSize: 20,}}>{"\n"}{e.get_address()}</Text>
 

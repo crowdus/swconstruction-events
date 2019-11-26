@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, TouchableOpacity} from 'react-native';
+import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event.js';
@@ -10,6 +10,12 @@ export default class TagButton extends React.Component{
     super(props)
     this.props = props
   }
+
+  static navigationOptions = ({navigation}) => {
+    return {
+        drawerLabel: () => null
+    }
+  };
 // to explain the no adjunct stranding generalization
         //<TouchableOpacity style={styles.tag_view} onPress={function () {this.props.n.navigate('TagView', {tag:this.props.t, usr:usr})}}>
   render() {
@@ -17,7 +23,7 @@ export default class TagButton extends React.Component{
     const t = this.props.t
     const usr = this.props.usr
     return (
-        <TouchableOpacity style={styles.tag_view} onPress={function () {n.push('TagView', {tag:t, usr:usr})}}>
+        <TouchableOpacity style={styles.tag_view} onPress={function () {n.navigate('TagView', {tag:t, usr:usr})}}>
             <Text>{this.props.t}</Text>
         </TouchableOpacity>
     )

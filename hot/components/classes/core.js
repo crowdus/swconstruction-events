@@ -6,3 +6,8 @@ export const fetch_headers = {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
 }
+
+export var globVars = {
+  test: 'asdf',
+  user: null,
+}

@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, TouchableOpacity} from 'react-native';
+import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event.js';
 import Tag from '../classes/tag.js';
+import TagButton from '../renderables/tagButton.js';
 import User from '../classes/user.js';
+import { DrawerActions } from '@react-navigation/routers';
+import Settings from './settings.js'
+import {NavigationActions} from 'react-navigation';
+import Icon from 'react-native-vector-icons/Octicons'
 
 
-// function to render Tags in the event cards
-function TagUI({t}) {
-    return (
-        <View style={styles.tag_view}><Text style={styles.tag_text}>{t}</Text></View>
-    );
-}
+var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
 
 
 // the class that renders the keys.
-export default class UserFeed extends Component {
+export default class PastEvents extends Component {
 
     constructor(props) {
         super(props)
@@ -24,31 +24,13 @@ export default class UserFeed extends Component {
         this.state = []
     }
 
+
+
     // navigation options displayed at the top of the screen
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({navigation}) => {
         return {
-        headerLeft: () =>  (
-            <Button
-                onPress={() => navigation.navigate('Settings')}
-                title="My profile"
-                color="#000"
-            />
-        ),
-        headerTitle: () => (
-            <Button
-                onPress={() => navigation.navigate('UserView')}
-                title="temp userView"
-                color="#000"
-            />
-        ),
-        headerRight: () => (
-            <Button
-                onPress={() => navigation.navigate('CreateEvent')}
-                title="Create event"
-                color="#000"
-            />
-        ),
-      };
+            drawerLabel: () => "Past Events",
+        }
     };
 
     // This is called just after the component
@@ -74,15 +56,26 @@ export default class UserFeed extends Component {
     // the render function!
     // Shows the feed
     render() {
-        console.log("hello userfeed")
+        console.log("hello feed")
         const {navigate} = this.props.navigation;
+        var usr = this.props.navigation.getParam('usr')
+
         return(
             this.state && <SafeAreaView>
+                <View style={{padding:10, flexDirection: 'row'}}>
+                <Icon
+                    name='three-bars'
+                    size={30}
+                    color='#222'
+                    onPress={() => this.props.navigation.toggleDrawer()}
+                />
+                <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Past Events</Text>
+                </View>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) =>
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item})}}>
+                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
                             <View style={styles.evt_card}>
                                 <Text style={styles.evt_title}>{item.get_name()}</Text>
                                 <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
@@ -93,7 +86,7 @@ export default class UserFeed extends Component {
                                         horizontal = {true}
                                         listKey="tags"
                                         data={item.get_tags()}
-                                        renderItem={({item}) => <TagUI t={item}/> }
+                                        renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr}/> }
                                         keyExtractor={item => item}
                                     />
                                 </SafeAreaView>

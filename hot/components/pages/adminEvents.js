@@ -12,19 +12,11 @@ import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Octicons'
 
 
-import {globVars} from '../classes/core.js'
-
 var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
 
-// const MenuIcon = ({navigation}) => <Icon
-//     name='three-bars'
-//     size={30}
-//     color='#000'
-//     onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-//     />;
 
 // the class that renders the keys.
-export default class Feed extends Component {
+export default class AdminEvents extends Component {
 
     constructor(props) {
         super(props)
@@ -32,18 +24,15 @@ export default class Feed extends Component {
         this.state = []
     }
 
-
-
     static navigationOptions = ({navigation}) => {
         return {
-            drawerLabel: () => "Explore",
+            drawerLabel: () => "Admin Events",
         }
     };
 
     // This is called just after the component
     // is first rendered. It changes the data showed there.
     componentDidMount() {
-        console.log(globVars.user.username);
 
         fetch('http://hot-backend.herokuapp.com/events/', {
             method: 'GET',
@@ -52,7 +41,7 @@ export default class Feed extends Component {
             var l = [];
             for (i in responseJson) {
                 i = responseJson[i]
-                l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins'], i['isBoosted']));
+                l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins']));
             }
             this.setState({data:l})
         }).catch((error) => {
@@ -67,11 +56,9 @@ export default class Feed extends Component {
         console.log("hello feed")
         const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
-        console.log("USER")
-        console.log(usr)
 
         return(
-            this.state && <SafeAreaView style={styles.container}>
+            this.state && <SafeAreaView>
                 <View style={{padding:10, flexDirection: 'row'}}>
                     <Icon
                         name='three-bars'
@@ -79,7 +66,7 @@ export default class Feed extends Component {
                         color='#222'
                         onPress={() => this.props.navigation.toggleDrawer()}
                     />
-                    <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Explore</Text>
+                    <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Admin Events</Text>
                 </View>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
@@ -112,19 +99,11 @@ export default class Feed extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // marginTop: 100,
+        marginTop: 100,
     },
     header: {
+        flex: 1,
         padding:10,
-        // flex: 1,
-        width: 500,
-        flexDirection: 'row',
-        alignItems: 'flex-start'
-    },
-    headerText: {
-        // padding:10,
-        fontSize: 32,
-        alignSelf: 'center'
     },
     tags_container: {
         flex: 1,

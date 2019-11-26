@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, Icon, TouchableOpacity} from 'react-native';
+import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event.js';
 import Tag from '../classes/tag.js';
 import TagButton from '../renderables/tagButton.js';
 import User from '../classes/user.js';
+import Icon from 'react-native-vector-icons/Octicons'
 
 
 // the class that renders the keys.
@@ -14,75 +15,78 @@ export default class TagView extends Component {
     constructor(props) {
         super(props)
         this.props = props
-        this.t = new Tag(0, this.props.navigation.getParam('tag'))
-        this.state = {data: []}
+        this.state = {data: [], t: this.props.navigation.getParam('tag')}
     }
 
     // navigation options displayed at the top of the screen
-    static navigationOptions = ({ navigation }) => {
+
+    static navigationOptions = ({navigation}) => {
         return {
-        headerLeft: () =>  (
-            <Button
-                onPress={() => navigation.navigate('Settings', {usr: navigation.getParam('usr')})}//alert('Iter2: Take me to settings, lists of events im going/interested/admin, following lists')}
-                title="My profile"
-                color="#000"
-            />
-        ),
-        headerTitle: () => (
-            <Button
-                onPress={() => navigation.navigate('Feed', {usr: navigation.getParam('usr')})}
-                title="Explore"
-                color="#000"
-            />
-        ),
-        headerRight: () => (
-            <Button
-                onPress={() => navigation.navigate('CreateEvent')}
-                title="Create event"
-                color="#000"
-            />
-        ),
-      };
+            drawerLabel: () => null,
+        }
     };
 
     // This is called just after the component
     // is first rendered. It changes the data showed there.
     componentDidMount() {
-        fetch('http://hot-backend.herokuapp.com/events/tags/'.concat(this.t.name), {
-            method: 'GET',
+        fetch('http://hot-backend.herokuapp.com/events/tags/'.concat(this.state.t), {
+        method: 'GET',
         })
         .then((response) => response.json())
         .then((responseJson) => {
             var l = [];
             for (i in responseJson) {
                 i = responseJson[i]
-                console.log(i)
                 l.push(new Event(i['_id'], i['name'], i['desc'], 
-                                 i['start_date'], i['end_date'], 
-                                 i['addr'], i['tags'], i['admins']));
+                                    i['start_date'], i['end_date'], 
+                                    i['addr'], i['tags'], i['admins']));
             }
-            this.setState({data:l});
-            return true;
+            this.setState({data: l, t:this.state.t})
         }).catch((error) => {
             console.error(error);
             return false;
         });
-
-        //const {navigate} = this.props.navigation;
-        //const t = new Tag(0, this.props.navigation.getParam('tag'))
-        //this.setState({data: t.get_events()})
-
     }
+
+    componentDidUpdate() {
+        fetch('http://hot-backend.herokuapp.com/events/tags/'.concat(this.state.t), {
+        method: 'GET',
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            var l = [];
+            for (i in responseJson) {
+                i = responseJson[i]
+                l.push(new Event(i['_id'], i['name'], i['desc'], 
+                                    i['start_date'], i['end_date'], 
+                                    i['addr'], i['tags'], i['admins']));
+            }
+            // there is a bug here -- it starts an update loop. 
+            if (this.state.data != l) this.setState({data: l, t:this.state.t})
+        }).catch((error) => {
+            console.error(error);
+            return false;
+        });
+    }
+    
 
     // the render function!
     // Shows the feed
     render() {
-        console.log("hello tagview")
         const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
 
         return(
-            this.state && <SafeAreaView>
+            this.state.t && this.state.data && <SafeAreaView>
+                <View style={{padding:10, flexDirection: 'row'}}>
+                <Icon
+                    name='three-bars'
+                    size={30}
+                    color='#222'
+                    onPress={() => this.props.navigation.toggleDrawer()}
+                />
+                <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   {this.state.t}</Text>
+                </View>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
@@ -98,8 +102,10 @@ export default class TagView extends Component {
                                         horizontal = {true}
                                         listKey="tags"
                                         data={item.get_tags()}
-                                        renderItem={({item}) => 
-                                            <TagButton t={item} n={this.props.navigation} usr={usr}/>}
+                                        renderItem={({item}) =>
+                                        <TouchableOpacity style={styles.tag_view} onPress={() => { this.setState({t: item, data:[]}); console.log(item) }}>
+                                            <Text>{item}</Text>
+                                        </TouchableOpacity> }
                                         keyExtractor={item => item}
                                     />
                                 </SafeAreaView>

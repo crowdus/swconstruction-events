@@ -4,6 +4,7 @@ import t from 'tcomb-form-native';
 import User from '../classes/user.js'
 import { createAppContainer} from 'react-navigation';
 import { createStackNavigator} from 'react-navigation-stack';
+import Icon from 'react-native-vector-icons/Octicons'
 
 /* Create Form Structure for the form builder library*/
 const Form = t.form.Form;
@@ -57,6 +58,12 @@ export default class Registration extends React.Component {
   constructor(props){
     super(props)
   }
+
+  static navigationOptions = ({navigation}) => {
+    return {
+        drawerLabel: () => null
+    }
+  };
 
   /* onForm Submit function */
   onPress = () => {
