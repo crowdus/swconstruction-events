@@ -170,18 +170,29 @@ export async function constructUser(username, firstname, lastname, email, datejo
   return auser;
 }
 
+export async function isGoodUser(username, firstname, lastname, email, password){
+  const duplicate = await checkduplicatename(username);
+  return check_valid_name(username) &&
+         check_valid_name(firstname) &&
+         check_valid_name(lastname) &&
+         check_valid_email(email) &&
+         check_valid_password(password)&& duplicate;
+}
+
+
 // User Class
 export default class User extends Followable {
 
     constructor(_id, username, firstname, lastname, email, datejoined, password, point, friends) {
         super()
         // Validate Attributes
-        var isGoodUser = check_valid_name(username) &&
-                         check_valid_name(firstname) &&
-                         check_valid_name(lastname) &&
-                         check_valid_email(email) &&
-                         check_valid_password(password);
-        if (!isGoodUser) {
+        var goodUser = isGoodUser(username, firstname, lastname, email, password)
+        // check_valid_name(username) &&
+        //                  check_valid_name(firstname) &&
+        //                  check_valid_name(lastname) &&
+        //                  check_valid_email(email) &&
+        //                  check_valid_password(password);
+        if (!goodUser) {
           this._id = ""
           this.username = ""
           this.firstname = ""
@@ -233,7 +244,7 @@ export default class User extends Followable {
         }
         async function set(){
           const response = await fetch(`${BASE_URL}/users/`, {
-            method: 'POST',
+            method: 'PUT',
             headers: fetch_headers,
             body: JSON.stringify({
               _id: this._id,
@@ -356,7 +367,7 @@ export default class User extends Followable {
       })
       .then((response) => response.json())
       .then((responseText) => {
-          console.log("got status for evenet")
+          console.log("got status for event")
           cb(responseText)
       })
       .catch((error) => {
@@ -429,16 +440,21 @@ export default class User extends Followable {
       return true;
     }
 
-    get_friends_interested(eventid){
-      //compare the result from get_status_people("interested", eventid) to our friends list. Loop and keep the
-      //similarities between the list.
-      return [];
-    }
 
-    get_friends_going(eventid){
-      //compare the result from get_status_people("going", eventid) to our friends list. Loop and keep the
-      //similarities between the list.
-      return [];
+    async get_friends_attending(eventid,status){
+      // get the list of friends interested in or going to the event
+      try{
+        const response = await fetch(`${BASE_URL}/queryFriendsAttendingEvent/${this._id}/${eventid}/${status}`, {
+          method: 'GET',
+          headers: fetch_headers})
+        const json = response.json()
+        return json;
+        }
+      catch(err){
+        console.log(err)
+        return null;
+      }
+      return null;
     }
 
     checkIn(event){

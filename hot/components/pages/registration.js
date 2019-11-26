@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, ScrollView, Button, Alert} from 'react-native';
 import t from 'tcomb-form-native';
-import User, {isGoodUser, constructUser } from '../classes/user.js'
+import User, {isGoodUser, get_user_from_username, constructUser } from '../classes/user.js'
 import { createAppContainer} from 'react-navigation';
 import { createStackNavigator} from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Octicons'
@@ -60,19 +60,30 @@ export default class Registration extends React.Component {
   };
 
   /* onForm Submit function */
-  onPress = () => {
+  onPress = async () => {
     console.log('Inside Submit Button in Registration!')
     var value = this.refs.form.getValue();
-    var valid = isGoodUser(value.username, value.firstname, value.lastname, value.email, value.password)
-    console.log('Registration: ' + value.username)
-    console.log(valid)
+    const checkdup = await get_user_from_username(value.username);
+    if("friends" in checkdup){
+      Alert.alert('', 'Username taken', 
+      [
+        { text: 'Retry',
+          onPress: () => this.props.navigation.navigate('Registration')
+        }
+      ]
+      )
+    }
+    else{
+      var valid = isGoodUser(value.username, value.firstname, value.lastname, value.email, value.password)
+    // console.log('Registration: ' + value.username)
+    // console.log(valid)
     if (value) {
-      console.log(value)
-      console.log(valid)
+      // console.log(value)
+      // console.log(valid)
       if (valid) {
-        console.log('Inside check valid! it was valid')
+        // console.log('Inside check valid! it was valid')
         var newUser = constructUser(value.username, value.firstname, value.lastname, value.email, new Date().getDate(), value.password, 0, [], [0,0])
-        console.log("success!")
+        // console.log("success!")
         Alert.alert(
           '',
           'Success! Please log in.',
@@ -94,6 +105,7 @@ export default class Registration extends React.Component {
       console.log("Form Error")
     }
   }
+}
 
   render() {
     console.log('Rendering registration page!')
