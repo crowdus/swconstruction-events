@@ -27,7 +27,8 @@ export default class LogIn extends React.Component {
   }
 
   render() {
-    var userTA = new User("5dcd241d8a5d632450dea810", "johndoe12", "John", "Doe", "johndoe@email.com", new Date(), "Password123", 0, ['am0002'])
+    var userTA = new User("5dcd241d8a5d632450dea810", "user1", "John", "Doe", "johndoe@email.com", new Date(), "Password123", 1, ['am0002'])
+    console.log("USERTA: " + userTA._id5)
     const {navigate} = this.props.navigation;
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

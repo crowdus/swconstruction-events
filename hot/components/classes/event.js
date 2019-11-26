@@ -197,7 +197,7 @@ export default class Event extends Followable {
     
     // Admins
     get_admins() { return this.admins }
-    is_admin(username) { return (this.admins.includes(username))}
+    is_admin(user) { return (this.admins.includes(user.getUserName()))}
     add_admin(admin) {
         if (!this.admins.includes(admin)) {
             this.admins.push(admin)
@@ -208,10 +208,10 @@ export default class Event extends Followable {
     
     // Boost
     is_boosted() { return this.isBoosted }
-    set_boost(username) {
-        if(this.is_admin(username)) {
+    set_boost(user) {
+        if(this.is_admin(user)) {
             this.isBoosted = true
-        return true
+            return true
         }
         return false
     }

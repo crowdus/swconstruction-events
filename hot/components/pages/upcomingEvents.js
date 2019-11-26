@@ -23,9 +23,7 @@ export default class UpcomingEvents extends Component {
         this.props = props
         this.state = []
     }
-
-
-
+    
     // navigation options displayed at the top of the screen
     static navigationOptions = ({navigation}) => {
         return {

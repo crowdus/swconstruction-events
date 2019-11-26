@@ -6,8 +6,6 @@ import Geocoder from 'react-native-geocoding';
 import {
   Alert,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Octicons'
-import { globVars } from '../classes/core.js';
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {
@@ -33,19 +31,16 @@ const currTime = new Date()
 var options = {
   fields: {
     name: {
-      placeholder: 'Hot Chocolate Study Break',
       label: 'Event Name',
       maxLength: 128
     },
     desc: {
       label: 'Event Description',
-      placeholder: 'Meet us over Hot Cocoa!',
       maxLength: 1000,
       multiline: true
     },
     addr: {
       label: 'Address',
-      placeholder: "123 Main Street",
       maxLength: 500,
       multiline: true,
       numberOfLines: 2
@@ -60,17 +55,17 @@ var options = {
       minuteInterval: 10,
     },
     tags: {
-      placeholder: "study,chocolate,..."
     },
     admins: {
-      placeholder: "user1,user2,..."
     }
   }
 };
 
-function add_event_to_database(event,cb){
+function change_event_database(event,cb){
+  console.log("UPDATE")
+  console.log(event)
   fetch(`${BASE_URL}/events`, {
-    method: 'POST',
+    method: 'PUT',
     headers: fetch_headers,
     body: JSON.stringify(event)
   })
@@ -83,6 +78,20 @@ function add_event_to_database(event,cb){
   });   
 }
 
+// this fn will be used to turn tags/admins lists back into a string in order to display it in the edit form
+function list_str(input_list) {
+    ret = ""
+    for (x in input_list) {
+        console.log(input_list)
+        console.log(x)
+        ret += input_list[x]
+        ret += ", "
+    }
+    if (input_list.length > 0) {
+        ret = ret.slice(0, -2)
+    }
+    return ret
+}
 
 function parse_tags(tag_str){
   x = new Set()
@@ -107,23 +116,18 @@ function parse_admins(admin_str, username){
   return Array.from(x)
 }
 
-export default class CreateEvent extends React.Component {
+export default class EditEvent extends React.Component {
   constructor(props){
     super(props)
     this.onPress = this.onPress.bind(this);
   }
 
-  static navigationOptions = ({navigation}) => {
-    return {
-        drawerLabel: () => "Create Event",
-    }
-};
-
     /* onForm Submit function */
-  onPress = (usr) => {
+  onPress = (usr, id, boost) => {
     var value = this.refs.form.getValue();
     if (value) { 
-      var validEvent = new Event(null, 
+      console.log(value.name)
+      var validEvent = new Event(id, 
                             value.name,
                             value.desc,
                             new Date(value.start_date),
@@ -131,14 +135,16 @@ export default class CreateEvent extends React.Component {
                             value.addr,
                             parse_tags(value.tags),
                             parse_admins(value.admins, usr.getUserName()),
-                            false)
+                            boost)
       
       if (!validEvent.is_null_event()) {
+        console.log("onpr fn")
         // Address Validity - Get latitude longitude points
         get_loc_from_addr(value.addr, validEvent, (loc) => {
           // Loc is valid
           if (loc != null) {
-            add_event_to_database(validEvent, (resp) => {
+            change_event_database(validEvent, (resp) => {
+              console.log("should've been put in db")
               if (resp != 0) {
                 validEvent.set_eventID(resp)
                 console.log(`switched to events screen for ${resp}`)
@@ -167,26 +173,39 @@ export default class CreateEvent extends React.Component {
   }
 
   render() {
-    var usr = globVars.user
-    
+    var saved_e = this.props.navigation.getParam('evt')
+    var usr = this.props.navigation.getParam('usr')
+    var id = saved_e.get_eventID()
+    var saved_name = saved_e.get_name()
+    var saved_desc = saved_e.get_desc()
+    var saved_addr = saved_e.get_address()
+    var saved_start = saved_e.get_start_date()
+    var saved_end = saved_e.get_end_date()
+    var saved_tags = list_str(saved_e.get_tags())
+    var saved_admins = list_str(saved_e.get_admins())
+    var boost = saved_e.isBoosted()
+
+    console.log(({}).toString.call(saved_addr).match(/\s([a-zA-Z]+)/)[1].toLowerCase())
+    console.log(({}).toString.call(saved_start).match(/\s([a-zA-Z]+)/)[1].toLowerCase())
+
+    var value = {
+        name: `${saved_name}`,
+        desc: `${saved_desc}`,
+        addr: `${saved_addr}`,
+        tags: `${saved_tags}`,
+        admins: `${saved_admins}`,
+    }
+
     return (
       <View style={styles.container}>
-        <View style={{padding:10, flexDirection: 'row'}}>
-          <Icon
-              name='three-bars'
-              size={30}
-              color='#222'
-              onPress={() => this.props.navigation.toggleDrawer()}
-          />
-          <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Create Event</Text>
-        </View>
         <ScrollView>
         <Form
           ref="form"
           type={event}
           options={options}
+          value = {value}
         />
-        <TouchableHighlight style={styles.button} onPress={() => {this.onPress(usr)}} underlayColor='#99d9f4'>
+        <TouchableHighlight style={styles.button} onPress={() => {this.onPress(usr, id, boost)}} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Create</Text>
         </TouchableHighlight>
 

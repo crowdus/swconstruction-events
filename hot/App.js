@@ -6,14 +6,21 @@ import Feed from './components/pages/feed.js';
 import TagButton from './components/renderables/tagButton.js';
 import TagView from './components/pages/tagView.js';
 
+/* FOLLOWING PAGE */
 import TagsFollowing from './components/pages/tagsFollowing.js';
 import UsersFollowing from './components/pages/usersFollowing.js';
 
+/* TODO: TOO MANY FILES! 
+
+These can all be like a feed showing file 
+*/
 import AdminEvents from './components/pages/adminEvents.js';
 import UpcomingEvents from './components/pages/upcomingEvents.js';
 import PastEvents from './components/pages/pastEvents.js';
+
 import EventView from './components/pages/eventView.js';
 import CreateEvent from './components/pages/createEvent.js';
+/* CREATE AND EDIT EVENT CAN BE SAME FILE TOO */
 
 import LogIn from './components/pages/login.js';
 import Settings from './components/pages/settings.js'
