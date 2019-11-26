@@ -132,31 +132,43 @@ export async function get_events_from_admin(username) {
   return null;
 }
 
-// setUserID(_userID)
-// }
-
-export function setUserID(_user){
-  auser = fetch('${BASE_URL}/users/', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: _user.username,
-      firstname: _user.firstname,
-      lastname: _user.lastname,
-      email: _user.email,
-      datejoined: _user.datejoined,
-      password: _user.password,
-      friends: _user.friends,
-      point: _user.point
-    }),
-  });
-  _user._id = auser._id;
-  return true;
+export async function setUserID(_user){
+  // console.log(_user.username);
+  try{
+    const response = await fetch(`${BASE_URL}/users/`, {
+      method: 'POST',
+      headers: fetch_headers,
+      body: JSON.stringify({
+        username: _user.username,
+        firstname: _user.firstname,
+        lastname: _user.lastname,
+        email: _user.email,
+        datejoined: _user.datejoined,
+        password: _user.password,
+        friends: _user.friends,
+        point: _user.point
+      }),
+    });
+    new_user = await get_user_from_username(_user.username);
+    // console.log(new_user);
+    _user._id = new_user._id;
+    return true;
+  }
+  catch(err){
+    console.log(err)
+    return null;
+  }
+  return null;
 }
 
+
+export async function constructUser(username, firstname, lastname, email, datejoined, password, point, friends){
+  const auser = new User(null, username, firstname, lastname, email, datejoined, password, point, friends)
+  await setUserID(auser);
+  // console.log(auser);
+  // await setUserID(auser);
+  return auser;
+}
 
 // User Class
 export default class User extends Followable {
@@ -195,11 +207,6 @@ export default class User extends Followable {
       }
     }
 
-    construct_user(username, firstname, lastname, email, datejoined, password, point, friends){
-      auser = new User(null, username, firstname, lastname, email, datejoined, password, point, friends)
-      setUserID(auser);
-    }
-
     // Getters and Setters
     getUserID() {return this._id;}
     getUserName() {return this.username}
@@ -220,11 +227,33 @@ export default class User extends Followable {
           if (!("friends" in coolfriend)){
             return true
           }
+          else if (coolfriend._id == this._id)
+            return true
           return false
         }
+        async function set(){
+          const response = await fetch(`${BASE_URL}/users/`, {
+            method: 'POST',
+            headers: fetch_headers,
+            body: JSON.stringify({
+              _id: this._id,
+              username: _name,
+              firstname: this.firstname,
+              lastname: this.lastname,
+              email: this.email,
+              datejoined: this.datejoined,
+              password: this.password,
+              friends: this.friends,
+              point: this.point
+            }),
+          });
+        }
         var result = await check();
-        if (result)
-          this.username = _name
+        if (result){
+          await set();
+          return true;
+          //this.username = _name
+        }
         return result;
       }
     }
@@ -260,12 +289,9 @@ export default class User extends Followable {
         return result;
       }
     }
-    //   if (check_valid_email(_email)){
-    //     this.email = _email;
-    //     return true;
-    //   }
-    //   return false;
-    // }
+
+
+
     setDateJoined(_date) {
       if (_date == "")
         return false;
@@ -288,22 +314,6 @@ export default class User extends Followable {
       this.point = point;
       return true;
     }
-    // async follow_user(_username){
-    //   if(_username == this.username) return false;
-    //   coolfriend = await get_user_from_username(_username);
-    //   //need query to access repeat followed
-    //   if (!("friends" in coolfriend)){
-    //     return false
-    //   }
-    //   if (this.friends.length === 0){
-    //     this.friends = [_username];
-    //     return true;
-    //   }
-    //   if (this.friends.includes(_username))
-    //     return false
-    //   this.friends.push(_username);
-    //   return true;
-    // }
 
 
     // the follow/ unfollow functions are changed during iter2 to be
