@@ -80,10 +80,11 @@ describe('testing getters and setters', () => {
 
     // });
 
-    test ('test constructor', () => {
+    test ('test constructor and setUserID', () => {
 
         var check = new Date('2019-01-02');
         const good_user = new User(null, "fong28", "fong", "hong", "fonghong@gmail.com", (new Date('2019-01-02')), "Fonghong28",12, '');
+        expect(good_user.getUserID()).not.toBeNull();
         expect(good_user.getUserName()).toBe("fong28");
         expect(good_user.getFirstName()).toBe("fong");
         expect(good_user.getLastName()).toBe("hong");
@@ -102,7 +103,6 @@ describe('testing getters and setters', () => {
         expect(bad_user.getPoint()).toBe(0);
 
     });
-
 
     test('testing get/set UserName', async () => {
         // will check for repeated UserNames
@@ -581,7 +581,7 @@ test('loc check !!', function() {
 /*
 - Function to see which events related to certain tag requires database
 - Tag to follow
-- 
+-
 */
 
 test('constructor!!', function() {
