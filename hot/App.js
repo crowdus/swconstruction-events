@@ -62,7 +62,7 @@ const MainNavigator = createDrawerNavigator({
   PastEvents: { screen: PastEvents },
   MapFeed: { screen: MapFeed },
   // UserFeed: { screen: UserFeed },
-  // UserView: { screen: UserView },
+  UserView: { screen: UserView },
 
   // invisible
   Event: { screen: EventView },
