@@ -23,6 +23,10 @@ import Search from './components/pages/searchView.js'
 
 import {createAppContainer} from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
+import React, { Component } from 'react';
+// import { createStore, combineReducers } from 'redux';
+
+// let store = createStore(combineReducers({ count: counter }));
 
 
 Geocoder.init(APIKEY, {language : "en"});
@@ -59,5 +63,21 @@ const MainNavigator = createDrawerNavigator({
 });
 
 export const AppNav = createAppContainer(MainNavigator);
-
 export default AppNav;
+
+// const Navigation = createAppContainer(MainNavigator);
+
+// // Render the app container component with the provider around it
+// export default class App extends React.Component {
+
+//   constructor(props) {
+//     super(props);
+//     this.props.glob = 'asdf'
+//   }
+
+//   render() {
+//     return (
+//       <Navigation />
+//     );
+//   }
+// }
