@@ -132,6 +132,31 @@ export async function get_events_from_admin(username) {
   return null;
 }
 
+// setUserID(_userID)
+// }
+
+export function setUserID(_user){
+  auser = fetch('${BASE_URL}/users/', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username: _user.username,
+      firstname: _user.firstname,
+      lastname: _user.lastname,
+      email: _user.email,
+      datejoined: _user.datejoined,
+      password: _user.password,
+      friends: _user.friends,
+      point: _user.point
+    }),
+  });
+  _user._id = auser._id;
+  return true;
+}
+
 
 // User Class
 export default class User extends Followable {
@@ -170,6 +195,11 @@ export default class User extends Followable {
       }
     }
 
+    construct_user(username, firstname, lastname, email, datejoined, password, point, friends){
+      auser = new User(null, username, firstname, lastname, email, datejoined, password, point, friends)
+      setUserID(auser);
+    }
+
     // Getters and Setters
     getUserID() {return this._id;}
     getUserName() {return this.username}
@@ -180,10 +210,6 @@ export default class User extends Followable {
     getPassword() {return this.password;}
     getPoint() {return this.point;}
 
-
-    // setUserID(_userID) { //userIDs must use only alphanumerical and have at least one number and one alphabetical number
-    //   return true;
-    // }
     async setUserName(_name) {
       var bool = check_valid_name(_name)
       if (!bool)

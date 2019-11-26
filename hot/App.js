@@ -24,6 +24,11 @@ import Search from './components/pages/searchView.js'
 import {createAppContainer} from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import MapFeed from './components/pages/mapFeed'
+import React, { Component } from 'react';
+// import { createStore, combineReducers } from 'redux';
+
+// let store = createStore(combineReducers({ count: counter }));
+
 
 Geocoder.init(APIKEY, {language : "en"});
 
@@ -48,6 +53,7 @@ const MainNavigator = createDrawerNavigator({
   AdminEvents: { screen: AdminEvents },
   UpcomingEvents: { screen: UpcomingEvents },
   PastEvents: { screen: PastEvents },
+  MapFeed: { screen: MapFeed },
   // UserFeed: { screen: UserFeed },
   // UserView: { screen: UserView },
 
@@ -56,9 +62,8 @@ const MainNavigator = createDrawerNavigator({
   TagView: { screen: TagView },
   TagButton: { screen: TagButton },
   Registration: { screen: Registration },
-  MapFeed: {screen: MapFeed}
 });
 
 export const AppNav = createAppContainer(MainNavigator);
-
 export default AppNav;
+

@@ -12,6 +12,17 @@ import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Octicons'
 import EventCard from '../renderables/eventcard'
 
+import {globVars} from '../classes/core.js'
+
+var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
+
+// const MenuIcon = ({navigation}) => <Icon
+//     name='three-bars'
+//     size={30}
+//     color='#000'
+//     onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+//     />;
+
 // the class that renders the keys.
 export default class Feed extends Component {
 
@@ -30,6 +41,7 @@ export default class Feed extends Component {
     // This is called just after the component
     // is first rendered. It changes the data showed there.
     componentDidMount() {
+        console.log(globVars.user.username);
 
         fetch('http://hot-backend.herokuapp.com/events/', {
             method: 'GET',
@@ -50,7 +62,7 @@ export default class Feed extends Component {
     // the render function!
     // Shows the feed
     render() {
-        var usr = this.props.navigation.getParam('usr')
+        var usr = globVars.user
         return(
             this.state && <SafeAreaView style={styles.container}>
                 <View style={{padding:10, flexDirection: 'row'}}>

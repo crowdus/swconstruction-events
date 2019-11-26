@@ -7,6 +7,7 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Octicons'
+import { globVars } from '../classes/core.js';
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {
@@ -165,7 +166,8 @@ export default class CreateEvent extends React.Component {
   }
 
   render() {
-    var usr = this.props.navigation.getParam('usr')
+    var usr = globVars.user
+    
     return (
       <View style={styles.container}>
         <View style={{padding:10, flexDirection: 'row'}}>

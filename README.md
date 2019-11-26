@@ -16,7 +16,7 @@ npm install
 
 Preferred Method:
 ```
-expo start
+npm start
 ```
 This will open Metro Bundler in your browser. From here you have a variety of options to view the app. If you have xcode or adb already installed, you can run the app on an iOS simulator or on your android phone over adb. But we recommend installing the “Expo” app on the Google Play or App Store, which will allow you to scan the QR code that shows up on the Metro Bundler web page and run the app on your phone.
 
