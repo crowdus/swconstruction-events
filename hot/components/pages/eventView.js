@@ -251,6 +251,8 @@ export default class EventView extends React.Component {
 
   render() {
     var e = this.props.navigation.getParam('evt')
+    console.log("RENDERRR")
+    console.log(e)
     var usr = globVars.user
     var renderTags = renderArray(e.get_tags())
     var renderAdmins = renderArray(e.get_admins())
