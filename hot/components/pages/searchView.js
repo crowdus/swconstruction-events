@@ -1,11 +1,16 @@
 import React from 'react';
 import { FlatList, SafeAreaView, TouchableOpacity, StyleSheet, Text, TextInput, View, Image, Button, Alert } from 'react-native';
+import {withNavigation} from 'react-navigation';
+import {NavigationEvents} from "react-navigation";
 import { SearchBar } from 'react-native-elements';
 import TagButton from '../renderables/tagButton.js';
 import Event from '../classes/event.js';
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Octicons';
 import EventCard from '../renderables/eventcard';
+import {NavigationActions} from 'react-navigation';
+import {globVars} from '../classes/core';
+import User from '../classes/user.js';
 
 
 export default class Search extends React.Component {
@@ -41,6 +46,7 @@ export default class Search extends React.Component {
   render() {
     const {search} = this.state;
     var usr = this.props.navigation.getParam('usr');
+    const {navigate} = this.props.navigation;
 
     return (
       <View style={styles.container}>
@@ -71,7 +77,7 @@ export default class Search extends React.Component {
               <FlatList
                   data={this.state.userData}
                   renderItem={({item}) =>
-                      <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
+                      <TouchableOpacity style={styles.evt_card} onPress={() => navigate('UserView', {friend: item})}>
                           <View style={styles.evt_card}>
                               <Text style={styles.evt_title}>{item['username']}</Text>
                               <Text style={styles.evt_title}>{item['_id']}</Text>
