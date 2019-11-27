@@ -132,7 +132,6 @@ export default class CreateEvent extends React.Component {
                             parse_tags(value.tags),
                             parse_admins(value.admins, usr.getUserName()),
                             false)
-      
       if (!validEvent.is_null_event()) {
         // Address Validity - Get latitude longitude points
         get_loc_from_addr(value.addr, validEvent, (loc) => {
@@ -149,7 +148,6 @@ export default class CreateEvent extends React.Component {
               }         
             })
           }
-          // Loc is invalid
           else {
             Alert.alert('Form Error: Invalid Address')
           }

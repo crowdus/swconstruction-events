@@ -183,7 +183,7 @@ export default class EditEvent extends React.Component {
     var saved_end = saved_e.get_end_date()
     var saved_tags = list_str(saved_e.get_tags())
     var saved_admins = list_str(saved_e.get_admins())
-    var boost = saved_e.isBoosted()
+    var boost = saved_e.is_boosted()
 
     console.log(({}).toString.call(saved_addr).match(/\s([a-zA-Z]+)/)[1].toLowerCase())
     console.log(({}).toString.call(saved_start).match(/\s([a-zA-Z]+)/)[1].toLowerCase())

@@ -350,6 +350,7 @@ export default class User extends Followable {
           cb(responseText)
       })
       .catch((error) => {
+          console.error(error)
           cb(null)
       });
     }

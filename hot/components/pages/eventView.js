@@ -7,6 +7,7 @@ import {
 import User from '../classes/user.js';
 import TagButton from '../renderables/tagButton'
 import Icon from 'react-native-vector-icons/Octicons'
+import Event from '../classes/event.js';
 
 const points_to_boost = 1
 
@@ -41,6 +42,7 @@ function edit_database_event(event,cb){
     cb(responseVal)
   })
   .catch((error) => {
+    console.error(error)
     cb(0)
   });   
 }
@@ -55,6 +57,7 @@ export default class EventView extends React.Component {
       'going_friends': [],
       'eventUserID': '',
       'userStatus': '',
+      'event': this.props.navigation.getParam('evt')
     }
   }
 
@@ -69,7 +72,7 @@ export default class EventView extends React.Component {
           if (resp != 0) {
             e.set_eventID(resp)
             console.log(`switched to events screen for ${resp}`)
-            this.props.navigation.navigate('Event', {evt: validEvent, usr: usr})
+            this.props.navigation.navigate('Event', {evt: e, usr: usr})
           }       
         })
         console.log(e.is_boosted())
@@ -77,7 +80,6 @@ export default class EventView extends React.Component {
         Alert.alert("Event is boosted!")
       }
       else {
-        console.log("failed :(")
         Alert.alert("Boost failed :(, you don't have enough points")
       }
     }
@@ -91,7 +93,7 @@ export default class EventView extends React.Component {
     })
   }
 
-  viewUsers = (status) => {
+  onPress_viewUsers = (status) => {
     var userList = []
     if (status == 'Going') {
       userList = this.state.interested_people
@@ -145,6 +147,23 @@ export default class EventView extends React.Component {
     }
   }
 
+  async getUpdatedEvent(id, cb){
+    fetch(`${BASE_URL}/events/${id}`, {
+      method: 'GET',
+      headers: fetch_headers,
+    })
+    .then((response) => response.json())
+    .then((i) => {
+      var x = new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins'], i['isBoosted'], i['hot_level'])
+      cb(x)
+    })
+    .catch((error) => {
+      console.error(error)
+      cb(0)
+    });  
+  }
+
+
   async getAttendeeStatus(e, usr) {
     e.get_status_people("interested", (l) => {
       this.setState({interested_people:l})
@@ -154,6 +173,7 @@ export default class EventView extends React.Component {
         this.setState({going_people:l})
       }
     })
+    
     e.get_status_friends(usr, "interested", (l) => {
       if (l) {
         this.setState({interested_friends:l})
@@ -170,7 +190,7 @@ export default class EventView extends React.Component {
         this.setState({userStatus:userEventObj['status']})
         this.setState({eventUserID:userEventObj['_id']})
       }
-    })
+    }) 
   }
 
   componentDidMount() {
@@ -178,12 +198,15 @@ export default class EventView extends React.Component {
     var usr = this.props.navigation.getParam('usr')
     
     // Make API call
+    this.getUpdatedEvent(e.get_eventID(), (evt) => {
+      this.setState({event: evt})
+    })
     this.getAttendeeStatus(e, usr)
   }
 
   render() {
     console.log(this.state)
-    var e = this.props.navigation.getParam('evt')
+    var e = this.state.event
     var usr = this.props.navigation.getParam('usr')
     var renderTags = renderArray(e.get_tags())
     var renderAdmins = renderArray(e.get_admins())
@@ -251,14 +274,14 @@ export default class EventView extends React.Component {
               Attendees: 
               </Text>
 
-              <TouchableHighlight onPress={() => this.viewUsers('interested')}>
+              <TouchableHighlight onPress={() => this.onPress_viewUsers('interested')}>
                 <Text>
                   Interested: {"\n"}
                   {interested_str}
                 </Text>
               </TouchableHighlight>
 
-              <TouchableHighlight onPress={() => this.viewUsers('going')}>
+              <TouchableHighlight onPress={() => this.onPress_viewUsers('going')}>
                 <Text>
                   Going: {"\n"}
                   {going_str}
