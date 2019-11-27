@@ -82,6 +82,7 @@ export default class Feed extends Component {
     // the render function!
     // Shows the feed
     render() {
+        console.log(globVars)
         var usr = globVars.user
         return(
             this.state && <SafeAreaView style={styles.container}>

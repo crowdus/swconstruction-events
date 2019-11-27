@@ -33,6 +33,7 @@ import {createAppContainer} from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import MapFeed from './components/pages/mapFeed'
 import React, { Component } from 'react';
+import EditEvent from './components/pages/editEvent'
 // import { createStore, combineReducers } from 'redux';
 
 // let store = createStore(combineReducers({ count: counter }));
@@ -73,6 +74,7 @@ const MainNavigator = createDrawerNavigator({
   TagView: { screen: TagView },
   TagButton: { screen: TagButton },
   Registration: { screen: Registration },
+  EditEvent: {screen: EditEvent},
 });
 
 export const AppNav = createAppContainer(MainNavigator);

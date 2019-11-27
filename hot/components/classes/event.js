@@ -259,7 +259,7 @@ export default class Event extends Followable {
 
     /* Get all friends that have a certain status for an event */
     get_status_friends(user, status, cb) {
-        fetch(`${BASE_URL}/queryFriendsAttendingEvent?&userId=${user._id}&eventId=${this.get_eventID()}&status=${status}`, {
+        fetch(`${BASE_URL}/queryFriendsAttendingEvent?userId=${user._id}&eventId=${this.get_eventID()}&status=${status}`, {
             method: 'GET',
             headers: fetch_headers,
         })
@@ -271,7 +271,6 @@ export default class Event extends Followable {
             console.error(error);
             cb(null)
         });
-        return []
     }
 
     /* Set User-Event status (set user's status for the given event) */

@@ -78,7 +78,8 @@ export default class LogIn extends React.Component {
               // TODO: call to get some TA user
               // TODO: pass in user to feed
               console.log("valid combo from login page, logging in...\n")
-              globVars.user = get_user_from_username(this.state.username);
+              var u = finduser
+              globVars.user = new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends'])
               navigate('Feed')
             }
             else{

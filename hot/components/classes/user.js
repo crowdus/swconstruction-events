@@ -81,8 +81,6 @@ export async function get_user_from_username(username) {
     console.log(err)
     return null;
   }
-  return null;
-
 }
 
 export async function get_user_from_email(email) {
@@ -354,6 +352,7 @@ export default class User extends Followable {
           cb(responseText)
       })
       .catch((error) => {
+          console.error(error)
           cb(null)
       });
     }
