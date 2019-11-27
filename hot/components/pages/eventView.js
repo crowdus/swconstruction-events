@@ -8,7 +8,7 @@ import User from '../classes/user.js';
 import TagButton from '../renderables/tagButton'
 import Icon from 'react-native-vector-icons/Octicons'
 
-const points_to_boost = 1
+const points_to_boost = 30
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {

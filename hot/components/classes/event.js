@@ -216,8 +216,15 @@ export default class Event extends Followable {
         return false
     }
 
-    get_points() { return this.points }
-    set_points(points) { this.points = points }
+    // Points is not a attribute of the class, but is just a result of whether the event is boosted or not
+    get_points() { 
+        if (this.is_boosted()) {
+            return 15
+        }
+        else {
+            return 10
+        }
+    }
 
     edit_event(user, event_name, description, start, end, loc, tags, admins) {
         return true;
