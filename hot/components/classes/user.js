@@ -170,13 +170,12 @@ export async function constructUser(username, firstname, lastname, email, datejo
   return auser;
 }
 
-export async function isGoodUser(username, firstname, lastname, email, password){
-  const duplicate = await checkduplicatename(username);
+export function isGoodUser(username, firstname, lastname, email, password){
   return check_valid_name(username) &&
          check_valid_name(firstname) &&
          check_valid_name(lastname) &&
          check_valid_email(email) &&
-         check_valid_password(password)&& duplicate;
+         check_valid_password(password);
 }
 
 
@@ -228,6 +227,8 @@ export default class User extends Followable {
     getPassword() {return this.password;}
     getPoint() {return this.point;}
 
+    setID(_id) {this._id = _id;}
+
     async setUserName(_name) {
       var bool = check_valid_name(_name)
       if (!bool)
@@ -242,32 +243,14 @@ export default class User extends Followable {
             return true
           return false
         }
-        async function set(){
-          const response = await fetch(`${BASE_URL}/users/`, {
-            method: 'PUT',
-            headers: fetch_headers,
-            body: JSON.stringify({
-              _id: this._id,
-              username: _name,
-              firstname: this.firstname,
-              lastname: this.lastname,
-              email: this.email,
-              datejoined: this.datejoined,
-              password: this.password,
-              friends: this.friends,
-              point: this.point
-            }),
-          });
-        }
         var result = await check();
         if (result){
-          await set();
-          return true;
-          //this.username = _name
+          this.username = _name
         }
         return result;
       }
     }
+
     setFirstName(_firstname) {
       if (check_valid_name(_firstname)){
         this.firstname = _firstname;

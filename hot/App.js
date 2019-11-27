@@ -27,6 +27,7 @@ import Settings from './components/pages/settings.js'
 import Registration from './components/pages/registration.js'
 import UserView from './components/pages/userView.js'
 import Search from './components/pages/searchView.js'
+import EditUser from './components/pages/editUser.js'
 
 import {createAppContainer} from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
@@ -51,7 +52,7 @@ Geocoder.init(APIKEY, {language : "en"});
 const MainNavigator = createDrawerNavigator({
   LogIn: { screen: LogIn },
 
-  Settings: { screen: Settings },
+  Settings: { screen: EditUser },
   Search: { screen: Search },
   Feed: { screen: Feed },
   CreateEvent: { screen: CreateEvent },
@@ -62,10 +63,13 @@ const MainNavigator = createDrawerNavigator({
   PastEvents: { screen: PastEvents },
   MapFeed: { screen: MapFeed },
   // UserFeed: { screen: UserFeed },
-  UserView: { screen: UserView },
+  
+  UsersFollowing: {screen: UsersFollowing},
+  // UserEdit: {screen: EditUser},
 
   // invisible
   Event: { screen: EventView },
+  UserView: { screen: UserView },
   TagView: { screen: TagView },
   TagButton: { screen: TagButton },
   Registration: { screen: Registration },
