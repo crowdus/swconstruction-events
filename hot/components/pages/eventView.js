@@ -239,7 +239,7 @@ export default class EventView extends React.Component {
     // Make API call
     this.getAttendeeStatus(e, usr)
     this.getUpdatedEvent(e.get_eventID())
-    this.getAttendeeStatus(this.state.event, usr)
+    this.getAttendeeStatus(e, usr)
     this._getLocationAsync();
   }
 
