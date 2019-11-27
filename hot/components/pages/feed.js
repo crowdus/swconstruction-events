@@ -31,16 +31,9 @@ export default class Feed extends Component {
     constructor(props) {
         super(props)
         this.props = props
-        this.state = []
-        this.loc = null
-    }
-
-    getLoc() {
-        return this.loc
-    }
-
-    setLoc(loc) {
-        this.loc = loc
+        this.state = {
+            loc : null
+        }
     }
 
     static navigationOptions = ({navigation}) => {
@@ -55,7 +48,7 @@ export default class Feed extends Component {
           alert.alert("Permission to access location was denied")
         }
         let location = await Location.getCurrentPositionAsync({});
-        this.setLoc({ location });
+        this.setState({ loc: location });
       };
 
     // This is called just after the component
@@ -82,7 +75,7 @@ export default class Feed extends Component {
     // the render function!
     // Shows the feed
     render() {
-        console.log(globVars)
+        console.log(JSON.stringify(this.state.loc))
         var usr = globVars.user
         return(
             this.state && <SafeAreaView style={styles.container}>

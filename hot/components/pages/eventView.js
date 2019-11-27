@@ -9,6 +9,8 @@ import TagButton from '../renderables/tagButton'
 import Icon from 'react-native-vector-icons/Octicons'
 import Event from '../classes/event.js';
 import { globVars } from '../classes/core.js';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 const points_to_boost = 30
 
@@ -58,9 +60,19 @@ export default class EventView extends React.Component {
       'going_friends': [],
       'eventUserID': '',
       'userStatus': '',
-      'event': this.props.navigation.getParam('evt')
+      'event': this.props.navigation.getParam('evt'),
+      loc: null
     }
   }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      alert.alert("Permission to access location was denied")
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ loc: location });
+  };
 
   static navigationOptions = {
     drawerLabel: () => null
@@ -192,9 +204,11 @@ export default class EventView extends React.Component {
       this.setState({event: evt})
     })
     this.getAttendeeStatus(e, usr)
+    this._getLocationAsync();
   }
 
   render() {
+    console.log(JSON.stringify(this.state.loc))
     var e = this.state.event
     var usr = globVars.user
     var renderTags = renderArray(e.get_tags())
