@@ -99,7 +99,8 @@ export default class EventView extends React.Component {
     e.add_follower(usr, status, (eventuserid) => {
       console.log(eventuserid)
       this.getAttendeeStatus(e, usr)
-      Alert.alert(`Marked as ${status}`)
+      var pts = e.get_points()
+      Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
     })
   }
 
@@ -166,6 +167,36 @@ export default class EventView extends React.Component {
     });  
   }
 
+  deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
+
+  getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+    if (typeof lat1 === 'undefined' || typeof lon1 === 'undefined' ||
+        typeof lat2 === 'undefined' || typeof lon2 === 'undefined') {
+      return Infinity;
+    }
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);
+    var dLon = deg2rad(lon2-lon1);
+    var a =
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  locCheck(e) {
+    lat1 = e.get_lat()
+    long1 = e.get_long()
+    lat2 = this.state.loc['latitude']
+    long2 = this.state.loc['longitude']
+    dist = this.getDistanceFromLatLonInKm(lat1, long1, lat2, long2)
+    return (dist < 0.1)
+  }
 
   async getAttendeeStatus(e, usr) {
     e.get_status_people("interested", (l) => {
@@ -336,11 +367,14 @@ export default class EventView extends React.Component {
                 start = e.get_start_date()
                 end = e.get_end_date()
                 curr = new Date()
-                if ((start < curr) && (curr < end)){
-                  this.onPress_status(e, "checkedIn")
+                if (!(start < curr && curr < end)){
+                  Alert.alert("Event Not In Session")
+                }
+                else if (this.locCheck(e)) {
+                  Alert.alert("You are too far from the event")
                 }
                 else{
-                  Alert.alert("Event Not In Session")
+                  this.onPress_status(e, "checkedIn", usr)
                 }
               }}
             />
