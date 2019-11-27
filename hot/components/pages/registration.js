@@ -78,10 +78,7 @@ export default class Registration extends React.Component {
     // console.log('Registration: ' + value.username)
     // console.log(valid)
     if (value) {
-      // console.log(value)
-      // console.log(valid)
       if (valid) {
-        // console.log('Inside check valid! it was valid')
         var newUser = constructUser(value.username, value.firstname, value.lastname, value.email, new Date().getDate(), value.password, 0, [], [0,0])
         // console.log("success!")
         Alert.alert(

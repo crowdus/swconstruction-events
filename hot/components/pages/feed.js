@@ -14,8 +14,6 @@ import EventCard from '../renderables/eventcard'
 
 import {globVars} from '../classes/core.js'
 
-var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
-
 // const MenuIcon = ({navigation}) => <Icon
 //     name='three-bars'
 //     size={30}

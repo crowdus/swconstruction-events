@@ -9,6 +9,8 @@ import TagButton from '../renderables/tagButton'
 import Icon from 'react-native-vector-icons/Octicons'
 import Event from '../classes/event.js';
 import { globVars } from '../classes/core.js';
+import {NavigationEvents} from "react-navigation";
+
 
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
@@ -84,7 +86,6 @@ export default class EventView extends React.Component {
 
   onPress_status = (e, status, usr) => {
     e.add_follower(usr, status, (eventuserid) => {
-      console.log(eventuserid)
       this.getAttendeeStatus(e, usr)
       Alert.alert(`Marked as ${status}`)
     })
@@ -137,16 +138,14 @@ export default class EventView extends React.Component {
     }
   }
 
-  async getUpdatedEvent(id){
+  getUpdatedEvent(id){
     fetch(`${BASE_URL}/events/${id}`, {
       method: 'GET',
       headers: fetch_headers,
     })
     .then((response) => response.json())
     .then((i) => {
-      console.log("getting updated")
       var x = new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins'], i['loc'], i['isBoosted'], i['hot_level'])
-      console.log(x)
       this.setState({event: x})
     })
     .catch((error) => {
@@ -155,7 +154,7 @@ export default class EventView extends React.Component {
   }
 
 
-  async getAttendeeStatus(e, usr) {
+  getAttendeeStatus(e, usr) {
     e.get_status_people("interested", (l) => {
       this.setState({interested_people:l})
     })
@@ -176,7 +175,6 @@ export default class EventView extends React.Component {
       }
     })
     usr.get_status_for_event(e, (userEventObj) => {
-      console.log(userEventObj)
       if (userEventObj){
         this.setState({userStatus:userEventObj['status']})
         this.setState({eventUserID:userEventObj['_id']})
@@ -184,16 +182,14 @@ export default class EventView extends React.Component {
     }) 
   }
 
-  componentWillMount(){
+  componentDidMount() {
+    console.log("update")
     var e = this.props.navigation.getParam('evt')
     var usr = globVars.user
     
     // Make API call
+    this.getAttendeeStatus(e, usr)
     this.getUpdatedEvent(e.get_eventID())
-    this.getAttendeeStatus(this.state.event, usr)
-  }
-
-  componentDidMount() {
   }
 
   render() {
@@ -231,6 +227,7 @@ export default class EventView extends React.Component {
                 onPress={() => this.props.navigation.toggleDrawer()}
                 style={{marginRight: -20, alignSelf: "flex-start"}}
               />
+        <NavigationEvents onDidFocus={()=>this.componentDidMount()}/>
         <ScrollView showsVerticalScrollIndicator={false}>
             <Text>
               <Text style={{fontSize: 50, fontStyle: "italic", fontWeight: "bold", textAlign: "center",}}>

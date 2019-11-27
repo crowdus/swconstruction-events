@@ -9,4 +9,5 @@ export const fetch_headers = {
 
 export var globVars = {
   user: null,
+  points_to_boost : 0
 }

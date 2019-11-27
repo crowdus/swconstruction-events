@@ -13,7 +13,7 @@ export default class EventCard extends React.Component{
     const {navigate} = this.props.navigation;
     var usr = globVars.user
     return (
-      <TouchableOpacity style={styles.evt_card} onPress={() => {navigate('Event', {evt:item})}}>
+      <TouchableOpacity style={styles.evt_card} onPress={() => {this.props.navigation.navigate('Event', {evt:item})}}>
         <View style={styles.evt_card}>
             <Text style={styles.evt_title}>{item.get_name()}</Text>
             <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
