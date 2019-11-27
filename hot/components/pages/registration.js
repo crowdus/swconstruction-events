@@ -21,27 +21,27 @@ const newUser = t.struct({
 var options = {
   fields: {
     username: {
-      placeholder: 'Must contain at least one letter. No special characters please',
+      placeholder: 'Username',
       label: 'Username',
       //maxLength: 100
     },
     firstname: {
-      placeholder: 'David',
+      placeholder: 'First Name',
       label: 'Firstname',
       //maxLength: 100
     },
     lastname: {
-      placeholder: 'Johnson',
+      placeholder: 'Last Name',
       label: 'Lastname',
       //maxLength: 100
     },
     email: {
-      placeholder:'davidjohnson@gmail.com',
+      placeholder:'Email Address',
       label: 'Email address',
       //maxLength: 100
     },
     password: {
-      placeholder: 'Must contain at least one alphabetical and one numeric character',
+      placeholder: 'Password',
       label: 'Password',
       //maxLength: 20
     }
@@ -80,7 +80,7 @@ export default class Registration extends React.Component {
     if (value) {
       if (valid) {
         var newUser = constructUser(value.username, value.firstname, value.lastname, value.email, new Date().getDate(), value.password, 0, [], [0,0])
-        // console.log("success!")
+        console.log("success!")
         Alert.alert(
           '',
           'Success! Please log in.',
@@ -90,9 +90,15 @@ export default class Registration extends React.Component {
             }
           ]
         );
-      }
-      else {
+      } else {
         // reset form
+        Alert.alert('', 'Invalid entry', 
+        [
+          { text: 'Retry',
+            onPress: () => this.props.navigation.navigate('Registration')
+          }
+        ]
+        )
         console.log("Error! Try Again")
       }
     }
@@ -108,6 +114,11 @@ export default class Registration extends React.Component {
     console.log('Rendering registration page!')
     return (
       <View style={styles.container}>
+        <Text>
+          Requirements: {'\n'}{'\n'}
+            Username and password may only consist of alphanumeric characters.{'\n'}{'\n'}
+            Passwords must be at least 10 characters long.{'\n'}{'\n'}
+        </Text>
         <ScrollView>
         <Form
           ref="form"
