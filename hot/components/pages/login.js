@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
-import PasswordInputText from 'react-native-hide-show-password-input';
 import {
   Button,
   Alert,
