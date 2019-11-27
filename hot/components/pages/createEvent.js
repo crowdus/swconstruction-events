@@ -74,8 +74,9 @@ function add_event_to_database(event,cb){
     headers: fetch_headers,
     body: JSON.stringify(event)
   })
-  .then((response) => response.text())
+  .then((response) => response.json())
   .then((responseVal) => {
+    console.log(responseVal)
     cb(responseVal)
   })
   .catch((error) => {
@@ -131,14 +132,12 @@ export default class CreateEvent extends React.Component {
                             value.addr,
                             parse_tags(value.tags),
                             parse_admins(value.admins, usr.getUserName()),
-                            null,
                             false)
       if (!validEvent.is_null_event()) {
         // Address Validity - Get latitude longitude points
         get_loc_from_addr(value.addr, validEvent, (loc) => {
           // Loc is valid
           if (loc != null) {
-            validEvent.set_loc(loc)
             add_event_to_database(validEvent, (resp) => {
               if (resp != 0) {
                 validEvent.set_eventID(resp)

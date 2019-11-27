@@ -47,6 +47,7 @@ export default class Feed extends Component {
         }
         let location = await Location.getCurrentPositionAsync({});
         this.setState({ loc: location });
+        globVars.user.set_location(location['coords']['latitude'], location['coords']['longitude'])
       };
 
     // This is called just after the component

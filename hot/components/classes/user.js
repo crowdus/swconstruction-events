@@ -341,14 +341,12 @@ export default class User extends Followable {
     }
 
     get_status_for_event(event, cb) {
-      console.log(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`)
       fetch(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`, {
         method: 'GET',
         headers: fetch_headers,
       })
       .then((response) => response.json())
       .then((responseText) => {
-          console.log("got status for event")
           cb(responseText)
       })
       .catch((error) => {
@@ -394,13 +392,12 @@ export default class User extends Followable {
     // number of points
 
     set_location(lat, long) {
-      this.lat = lat
-      this.long = long
+      this.location = [lat, long]
     }
 
     get_location() {
       //returns the lat long of the user in an array
-      return [0, 0]
+      return this.location
     }
 
     addPoint(_event){

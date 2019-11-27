@@ -83,7 +83,13 @@ export default class LogIn extends React.Component {
               navigate('Feed')
             }
             else{
+              //comment back in if you dont want to type in everytime
+              //u = {"_id":"5dddae422c94dc00172c059d","refs":{},"updater":{},"username":"JiayiLin135","firstname":"quest","lastname":"racer","email":"questracer@gmail.com","datejoined":"1970-01-01T00:00:00.026Z","password":"Questracer1234","point":0,"friends":[],"location":[]}
+              //globVars.user = new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends'])
+              //console.log(globVars.user)
+              //navigate('Feed')
               Alert.alert("Incorrect login")
+              
             }
           }}
         />

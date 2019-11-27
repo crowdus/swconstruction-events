@@ -10,7 +10,8 @@ import Icon from 'react-native-vector-icons/Octicons'
 import Event from '../classes/event.js';
 import { globVars } from '../classes/core.js';
 import {NavigationEvents} from "react-navigation";
-
+import MapView from "react-native-maps";
+var dateFormat = require("dateformat")
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
@@ -20,19 +21,6 @@ export const fetch_headers = {
   'Content-Type': 'application/json',
 }
 
-/* Helper function to render tags and admins */
-function renderArray(arr){
-  var retArr = []
-  if (arr.length == 0) {
-    retArr.push(<Text> None </Text>)
-  }
-  else {
-    for (let i in arr) {
-      retArr.push(<TagButton t={arr[i]}></TagButton>)
-    }
-  }
-  return retArr
-}
 
 function edit_database_event(event,cb){
   fetch(`${BASE_URL}/events`, {
@@ -45,7 +33,6 @@ function edit_database_event(event,cb){
     cb(responseVal)
   })
   .catch((error) => {
-    console.error(error)
     cb(0)
   });   
 }
@@ -61,8 +48,22 @@ export default class EventView extends React.Component {
       'eventUserID': '',
       'userStatus': '',
       'loc': null,
-      'event': null
     }
+  }
+
+
+  /* Helper function to render tags and admins */
+  renderArray(arr, e){
+    var retArr = []
+    if (arr.length == 0) {
+      retArr.push(<Text> None </Text>)
+    }
+    else {
+      for (let i in arr) {
+        retArr.push(<TagButton t={arr[i]} n={this.props.navigation} usr={globVars.user} lvl_idx={e.get_hot_level() - 1}></TagButton>)
+      }
+    }
+    return retArr
   }
 
   _getLocationAsync = async () => {
@@ -188,18 +189,11 @@ export default class EventView extends React.Component {
   }
 
   locCheck(e) {
-    console.log("helloooo")
-    console.log(e)
     lat1 = e.get_lat()
     long1 = e.get_long()
     lat2 = this.state.loc['coords']['latitude']
     long2 = this.state.loc['coords']['longitude']
     dist = this.getDistanceFromLatLonInKm(lat1, long1, lat2, long2)
-    console.log("DISTANCE:")
-    console.log(lat1)
-    console.log(lat2)
-    console.log(long1)
-    console.log(long2)
     return (dist < 0.1)
   }
 
@@ -228,28 +222,28 @@ export default class EventView extends React.Component {
         this.setState({userStatus:userEventObj['status']})
         this.setState({eventUserID:userEventObj['_id']})
       }
+      else{
+        this.setState({userStatus:''})
+        this.setState({eventUserID:''})
+      }
     }) 
   }
 
   componentDidMount() {
-    console.log("update")
     var e = this.props.navigation.getParam('evt')
     var usr = globVars.user
     
     // Make API call
     this.getAttendeeStatus(e, usr)
     this.getUpdatedEvent(e.get_eventID())
-    this.getAttendeeStatus(e, usr)
     this._getLocationAsync();
   }
 
   render() {
     var e = this.props.navigation.getParam('evt')
-    console.log("RENDERRR")
-    console.log(e)
     var usr = globVars.user
-    var renderTags = renderArray(e.get_tags())
-    var renderAdmins = renderArray(e.get_admins())
+    var renderTags = this.renderArray(e.get_tags(), e)
+    var renderAdmins = this.renderArray(e.get_admins(), e)
     // var renderStatus = renderStatusButtons()
 
     var numFriendsInt = this.state.interested_friends.length
@@ -271,6 +265,19 @@ export default class EventView extends React.Component {
         marked 'Going' 
     </Text>)
 
+    /*
+    Code to add map
+    <View styles={styles.container}>
+              <MapView
+                  initialRegion={{
+                    latitude: e.loc['lat'],
+                    longitude: e.loc['lng'],
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                  }}
+                />
+            </View>
+    */
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", borderWidth:40, borderColor:"white"}}>
               <Icon
@@ -293,12 +300,14 @@ export default class EventView extends React.Component {
 
               {"\n\n"}When: 
               <Text style={{fontSize: 20,}}>{"\n"}
-              {e.get_start_date().toDateString()} ({e.get_start_date().toTimeString()})
+              {dateFormat(e.get_start_date(), "m/d/yy h:MM TT")}
               - 
-              {e.get_end_date().toDateString()} ({e.get_end_date().toTimeString()})
+              {dateFormat(e.get_end_date(), "m/d/yy h:MM TT")}
               </Text>
-
+            </Text>
             
+
+            <Text>
               {"\n\n"} Tags: 
               </Text>
               {renderTags}
@@ -400,6 +409,11 @@ export default class EventView extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  map_container:{
+    flex:1,
+    width: 500,
+    height:300,
+  },
   tags_container: {
     flex: 1,
     padding:10
