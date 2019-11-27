@@ -8,6 +8,8 @@ import Constants from 'expo-constants';
 import User from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
 import {globVars} from '../classes/core';
+import {change_user_database} from './editUser.js'
+import { isGoodUser, get_user_from_id } from '../classes/user';
 
 //userTA is the person we are viewing
 export var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
@@ -93,13 +95,25 @@ export default class UserView extends React.Component {
           <Button
             title="Follow"
             color="#f194ff"
-            onPress={ () => {
-              if (user.friends.includes(e._id)) {
+            onPress={ async () => {
+              console.log(user.friends)
+              var converted_user = new User (user._id, user.username, user.firstname, user.lastname, user.email, user.datejoined, user.password, user.point, user.friends)
+              var checkfollow = converted_user['friends'].includes(e._id)
+              console.log(checkfollow);
+              if (checkfollow) {
                 Alert.alert("You already follow this user!")
               }
               else {
-                const value = user.follow_user(e._id);
+                // var converted_user = new User(user._id, user.username, user.firstname, user.lastname, user.email, user.datejoined, user.password, user.point, user.friends)
+                // console.log(converted_user)
+                const value = await converted_user.follow_user(e._id);
+                // console.log("This is value" + value)
                 if (value){
+                  // console.log(converted_user)
+                  var result = await change_user_database(converted_user)
+                  globVars.user = await get_user_from_id(user._id)
+                  user = globVars.user
+                  console.log(user.friends)
                   Alert.alert("Successfully followed!")
                 }
                 else Alert.alert("Following fails. Try Again!")
@@ -109,13 +123,21 @@ export default class UserView extends React.Component {
           <Button
             title="Unfollow"
             color="#f194ff"
-            onPress={ () => {
-              if (!user.friends.includes(e._id)) {
+            onPress={ async () => {
+              console.log(user.friends)
+              var converted_user = new User (user._id, user.username, user.firstname, user.lastname, user.email, user.datejoined, user.password, user.point, user.friends)
+              var checkfollow = converted_user['friends'].includes(e._id)
+              console.log(checkfollow)
+              if (!checkfollow){
                 Alert.alert("You are not following this user!")
               }
-              else {
-                const value = user.unfollow_user(e._id)
+              else{
+                const value = await converted_user.unfollow_user(e._id)
                 if (value){
+                  var result = await change_user_database(converted_user)
+                  globVars.user = await get_user_from_id(user._id)
+                  user = globVars.user
+                  console.log(user.friends)
                   Alert.alert("Successfully unfollow!")
                 }
                 else Alert.alert("Unfollow fails. Try again!")

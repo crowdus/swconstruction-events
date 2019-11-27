@@ -56,7 +56,7 @@ var options = {
   }
 }
 
-function change_user_database(user){
+export function change_user_database(user){
     // console.log("UPDATE")
     // console.log(user)
     fetch(`${BASE_URL}/users/`, {
