@@ -41,6 +41,7 @@ export default class UserView extends React.Component {
 
   render() {
     var e = this.props.navigation.getParam('friend')
+    var previous = this.props.navigation.getParam('previous')
     var user = globVars.user
     // console.log(e)
     console.log(user)
@@ -129,7 +130,11 @@ export default class UserView extends React.Component {
           <Button
           title="Back"
           color="#f194ff"
-          onPress={ () => navigate('UsersFollowing')}
+          onPress={ () => {
+            if (previous == 'search')
+              navigate('Search')
+            else if (previous == 'following')
+              navigate('UsersFollowing')}}
           />
           </View>
           <View style={{ flex: 5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>

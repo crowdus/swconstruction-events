@@ -77,7 +77,7 @@ export default class Search extends React.Component {
               <FlatList
                   data={this.state.userData}
                   renderItem={({item}) =>
-                      <TouchableOpacity style={styles.evt_card} onPress={() => navigate('UserView', {friend: item})}>
+                      <TouchableOpacity style={styles.evt_card} onPress={() => navigate('UserView', {friend: item, previous: 'search'})}>
                           <View style={styles.evt_card}>
                               <Text style={styles.evt_title}>{item['username']}</Text>
                               <Text style={styles.evt_title}>{item['_id']}</Text>
