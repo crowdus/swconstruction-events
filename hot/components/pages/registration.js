@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableHighlight, ScrollView, Button, Alert} from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, ScrollView, Button, Alert, KeyboardAvoidingView } from 'react-native';
 import t from 'tcomb-form-native';
 import User, {isGoodUser, get_user_from_username, constructUser } from '../classes/user.js'
 import { createAppContainer} from 'react-navigation';
@@ -113,28 +113,34 @@ export default class Registration extends React.Component {
   render() {
     console.log('Rendering registration page!')
     return (
-      <View style={styles.container}>
-        <Text>
-          Requirements: {'\n'}{'\n'}
-            Username and password may only consist of alphanumeric characters.{'\n'}{'\n'}
-            Passwords must be at least 10 characters long.{'\n'}{'\n'}
-        </Text>
+      <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="position" enabled   keyboardVerticalOffset={100}>
         <ScrollView>
-        <Form
-          ref="form"
-          type={newUser}
-          options={options}
-        />
-        <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Create</Text>
-        </TouchableHighlight>
+          <View style={styles.container}>
+            <Text>
+              Requirements: {'\n'}{'\n'}
+                Username and password may only consist of alphanumeric characters.{'\n'}{'\n'}
+                Passwords must be at least 10 characters long and contain at least one of each: {'\n'}
+                  Uppercase letter{'\n'}
+                  Lowercase letter{'\n'}
+                  Number{'\n'}{'\n'}
+            </Text>
+            <ScrollView>
+            <Form
+              ref="form"
+              type={newUser}
+              options={options}
+            />
+            <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
+              <Text style={styles.buttonText}>Create</Text>
+            </TouchableHighlight>
 
-        <Text onPress={this.onPress}>
-          {this.props.formStatus}
-        </Text>
-
+            <Text onPress={this.onPress}>
+              {this.props.formStatus}
+            </Text>
+            </ScrollView>
+          </View>
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
