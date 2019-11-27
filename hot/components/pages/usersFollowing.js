@@ -9,10 +9,9 @@ import User from '../classes/user.js';
 import { DrawerActions } from '@react-navigation/routers';
 import Settings from './settings.js'
 import {NavigationActions} from 'react-navigation';
-import Icon from 'react-native-vector-icons/Octicons'
+import Icon from 'react-native-vector-icons/Octicons';
+import {globVars} from '../classes/core';
 
-
-var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
 
 
 // the class that renders the keys.
@@ -24,8 +23,6 @@ export default class UsersFollowing extends Component {
         this.state = []
     }
 
-
-
     // navigation options displayed at the top of the screen
     static navigationOptions = ({navigation}) => {
         return {
@@ -36,15 +33,24 @@ export default class UsersFollowing extends Component {
     // This is called just after the component
     // is first rendered. It changes the data showed there.
     componentDidMount() {
-
-        fetch('http://hot-backend.herokuapp.com/events/', {
+        // console.log(globVars.user.friends);
+        var friends = [];
+        for (i in globVars.user.friends){
+            friendid = globVars.user.friends[i];
+            friends.push(JSON.stringify(friendid).valueOf());
+        }
+        friends = Array.from(friends);
+        fetch('http://hot-backend.herokuapp.com/users/', {
             method: 'GET',
         }).then((response) => response.json())
         .then((responseJson) => {
             var l = [];
             for (i in responseJson) {
-                i = responseJson[i]
-                l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins']));
+                alluser = responseJson[i]
+                check = JSON.stringify(alluser['_id']);
+                // console.log(check.valueOf() ===  JSON.stringify(friends[0]).valueOf());
+                if(friends.includes(check.valueOf()))
+                    l.push(new User(alluser['_id'], alluser['username'], alluser['firstname'], alluser['lastname'], alluser['email'], alluser['datejoined'], alluser['password'], alluser['point'], alluser['friends']));
             }
             this.setState({data:l})
         }).catch((error) => {
@@ -56,7 +62,6 @@ export default class UsersFollowing extends Component {
     // the render function!
     // Shows the feed
     render() {
-        console.log("hello feed")
         const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
 
@@ -74,22 +79,10 @@ export default class UsersFollowing extends Component {
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
-                    renderItem={({item}) =>
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
+                    renderItem={({item}) => 
+                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('UserView', {friend:item})}}>
                             <View style={styles.evt_card}>
-                                <Text style={styles.evt_title}>{item.get_name()}</Text>
-                                <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
-                                <Text style={styles.evt_addr}>{item.get_address()}</Text>
-                                <Text style={styles.evt_desc}>{item.get_desc()}</Text>
-                                <SafeAreaView style={styles.tags_container}>
-                                    <FlatList
-                                        horizontal = {true}
-                                        listKey="tags"
-                                        data={item.get_tags()}
-                                        renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr}/> }
-                                        keyExtractor={item => item}
-                                    />
-                                </SafeAreaView>
+                                <Text style={styles.evt_title}>{item.getUserName()}</Text>
                             </View>
                         </TouchableOpacity>}
                 />

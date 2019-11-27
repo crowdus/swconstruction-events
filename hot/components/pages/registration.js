@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, ScrollView, Button, Alert} from 'react-native';
 import t from 'tcomb-form-native';
-import User from '../classes/user.js'
+import User, {isGoodUser, get_user_from_username, constructUser } from '../classes/user.js'
 import { createAppContainer} from 'react-navigation';
 import { createStackNavigator} from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Octicons'
@@ -9,47 +9,41 @@ import Icon from 'react-native-vector-icons/Octicons'
 /* Create Form Structure for the form builder library*/
 const Form = t.form.Form;
 
-const newuser = t.struct({
+const newUser = t.struct({
   username: t.String,
   firstname: t.String,
   lastname: t.String,
   email: t.String,
-  datejoined: t.Date,
-  password : t.String
+  password: t.String
 });
 
 /* Set Form Placeholders and input validation settings */
-const currTime = new Date()
 var options = {
   fields: {
-    name: {
-      placeholder: 'David2019',
+    username: {
+      placeholder: 'Must contain at least one alphabetical and one numeric character',
       label: 'Username',
-      maxLength: 100
+      //maxLength: 100
     },
     firstname: {
       placeholder: 'David',
       label: 'Firstname',
-      maxLength: 100
+      //maxLength: 100
     },
     lastname: {
       placeholder: 'Johnson',
       label: 'Lastname',
-      maxLength: 100
+      //maxLength: 100
     },
     email: {
       placeholder:'davidjohnson@gmail.com',
       label: 'Email address',
-      maxLength: 100
-    },
-    datejoined: {
-      label: 'Date Joined',
-      minimumDate: currTime,
+      //maxLength: 100
     },
     password: {
-      placeholder: "",
+      placeholder: 'Must contain at least one alphabetical and one numeric character',
       label: 'Password',
-      maxLength: 20
+      //maxLength: 20
     }
   }
 }
@@ -66,13 +60,39 @@ export default class Registration extends React.Component {
   };
 
   /* onForm Submit function */
-  onPress = () => {
+  onPress = async () => {
+    console.log('Inside Submit Button in Registration!')
     var value = this.refs.form.getValue();
+    const checkdup = await get_user_from_username(value.username);
+    if("friends" in checkdup){
+      Alert.alert('', 'Username taken', 
+      [
+        { text: 'Retry',
+          onPress: () => this.props.navigation.navigate('Registration')
+        }
+      ]
+      )
+    }
+    else{
+      var valid = isGoodUser(value.username, value.firstname, value.lastname, value.email, value.password)
+    // console.log('Registration: ' + value.username)
+    // console.log(valid)
     if (value) {
-      var newUser = new User()
-      var checkvalid = newUser.constructionHelper(value)
+      // console.log(value)
+      // console.log(valid)
       if (valid) {
-        console.log("success!")
+        // console.log('Inside check valid! it was valid')
+        var newUser = constructUser(value.username, value.firstname, value.lastname, value.email, new Date().getDate(), value.password, 0, [], [0,0])
+        // console.log("success!")
+        Alert.alert(
+          '',
+          'Success! Please log in.',
+          [
+            { text: 'Return to Login Page',
+              onPress: () => this.props.navigation.navigate('LogIn')
+            }
+          ]
+        );
       }
       else {
         // reset form
@@ -80,18 +100,21 @@ export default class Registration extends React.Component {
       }
     }
     else{
+      console.log("Registration: value was null")
       // reset form
       console.log("Form Error")
     }
   }
+}
 
   render() {
+    console.log('Rendering registration page!')
     return (
       <View style={styles.container}>
         <ScrollView>
         <Form
           ref="form"
-          type={newuser}
+          type={newUser}
           options={options}
         />
         <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>

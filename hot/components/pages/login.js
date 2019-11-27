@@ -5,10 +5,23 @@ import {
   Alert,
 } from 'react-native';
 import Constants from 'expo-constants';
-import User from '../classes/user.js';
+import User, { get_user_from_username } from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
-
 import { globVars } from '../classes/core.js'
+
+// export async function validcombo(username, password){
+//   var ret = false;
+//   var auser;
+//   // console.log('checking valid combo')
+//   // console.log(get_user_from_username(username))
+//   if(auser = await get_user_from_username(username)){
+//     console.log(auser)
+//     if(auser.password === password){
+//       ret = true;
+//     }
+//   }
+//   return ret;
+// }
 
 export default class LogIn extends React.Component {
   constructor(props) {
@@ -27,9 +40,8 @@ export default class LogIn extends React.Component {
   }
 
   render() {
-    var userTA = new User("5dcd241d8a5d632450dea810", "user1", "John", "Doe", "johndoe@email.com", new Date(), "Password123", 1, ['am0002'])
-    console.log("USERTA: " + userTA._id5)
     const {navigate} = this.props.navigation;
+    // console.log('Hello from LogIn page!')
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>
@@ -55,12 +67,18 @@ export default class LogIn extends React.Component {
         <Button
           title="Log In"
           color="#f194ff"
-          onPress={ () => {
-            if (this.state.code == "" && this.state.username == "") {
+          onPress={ async () => {
+            // console.log('Username and passcode inputted: ' + this.state.username + '\n' + this.state.code)
+            var finduser = await get_user_from_username(this.state.username)
+            // console.log(this.state.code)
+            // console.log(finduser.password)
+            // console.log(finduser)
+            // console.log(finduser.password == this.state.code)
+            if (finduser.password == this.state.code) {
               // TODO: call to get some TA user
               // TODO: pass in user to feed
-              console.log("hello")
-              globVars.user = userTA;
+              console.log("valid combo from login page, logging in...\n")
+              globVars.user = get_user_from_username(this.state.username);
               navigate('Feed')
             }
             else{

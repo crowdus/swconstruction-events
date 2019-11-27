@@ -7,6 +7,7 @@ import {
 import Constants from 'expo-constants';
 import User from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
+import {globVars} from '../classes/core';
 
 //userTA is the person we are viewing
 export var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
@@ -23,7 +24,7 @@ export default class UserView extends React.Component {
       LNisInEditMode: false,
       emailIsInEditMode: false,
       passwordIsInEditMode: false,*/
-      EditMode : false
+      // EditMode : false
     }
   }
 
@@ -33,13 +34,21 @@ export default class UserView extends React.Component {
     }
   };
 
+  componentDidMount() {
+    var e = this.props.navigation.getParam('friend')
+    var user = this.props.navigation.getParam('usr')
+  }
+
   render() {
-    console.log("hello")
-    console.log(this.state.user)
-    console.log(this.state.viewer)
+    var e = this.props.navigation.getParam('friend')
+    var user = globVars.user
+    // console.log(e)
+    console.log(user)
     const {navigate} = this.props.navigation;
     return (
       <View style={{ flex: 1, justifyContent: "left", alignItems: "center" }}>
+        <View style={{ flex: 3, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
+        </View>
         <View style={{padding:10, flexDirection: 'row'}}>
           <Icon
               name='three-bars'
@@ -50,20 +59,49 @@ export default class UserView extends React.Component {
           <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   User</Text>
         </View>
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
-        </View>
-        <View style={{ flex: 2, flexDirection: "column", justifyContent: "left", alignItems: "center" }}>
-          <Text style={styles.titleText} onPress={this.onPressTitle}>
-            {this.state.user.username} {"\n"}
+        <Text style={styles.titleText} onPress={this.onPressTitle}>
+            {e.username} {"\n"}
           </Text>
+        </View>
+          <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
+            <Text>
+              Username:{"  "}{e.username}
+            </Text>
+          </View>
+          <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
+            <Text>
+              First Name:{"  "}{e.firstname}
+            </Text>
+          </View>
+          <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
+            <Text>
+              Last Name:{"  "}{e.lastname}
+            </Text>
+          </View>
+          <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
+            <Text>
+              Email Address:{"  "}{e.email}
+            </Text>
+          </View>
+          <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
+            <Text>
+              Score: {"  "} {e.point}
+            </Text>
+          </View>
+          <View style={{ flex: 4, flexDirection: "column", justifyContent: "left", alignItems: "center" }}>
           <Button
             title="Follow"
             color="#f194ff"
             onPress={ () => {
-              if (this.state.viewer.friends.includes(this.state.user.userID)) {
+              if (user.friends.includes(e._id)) {
                 Alert.alert("You already follow this user!")
               }
               else {
-                this.state.viewer.follow_user(this.state.user.userID)
+                const value = user.follow_user(e._id);
+                if (value){
+                  Alert.alert("Successfully followed!")
+                }
+                else Alert.alert("Following fails. Try Again!")
               }
             }}
           />
@@ -71,11 +109,15 @@ export default class UserView extends React.Component {
             title="Unfollow"
             color="#f194ff"
             onPress={ () => {
-              if (!this.state.viewer.friends.includes(this.state.user.userID)) {
+              if (!user.friends.includes(e._id)) {
                 Alert.alert("You are not following this user!")
               }
               else {
-                this.state.viewer.unfollow_user(this.state.user.userID)
+                const value = user.unfollow_user(e._id)
+                if (value){
+                  Alert.alert("Successfully unfollow!")
+                }
+                else Alert.alert("Unfollow fails. Try again!")
               }
             }}
           />
@@ -83,30 +125,12 @@ export default class UserView extends React.Component {
             {"\n\n"}
           </Text>
         </View>
-          <View style={{ flex: 0.25, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
-            <Text>
-              Username:{"  "}{this.state.user.username}
-            </Text>
-          </View>
-          <View style={{ flex: 0.25, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
-            <Text>
-              First Name:{"  "}{this.state.user.firstname}
-            </Text>
-          </View>
-          <View style={{ flex: 0.25, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
-            <Text>
-              Last Name:{"  "}{this.state.user.lastname}
-            </Text>
-          </View>
-          <View style={{ flex: 0.25, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
-            <Text>
-              Email Address:{"  "}{this.state.user.email}
-            </Text>
-          </View>
-          <View style={{ flex: 0.25, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
-            <Text>
-              Score: {"  "} {this.state.user.point}
-            </Text>
+        <View style={{ flex: 4, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
+          <Button
+          title="Back"
+          color="#f194ff"
+          onPress={ () => navigate('UsersFollowing')}
+          />
           </View>
           <View style={{ flex: 5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
           </View>

@@ -132,29 +132,50 @@ export async function get_events_from_admin(username) {
   return null;
 }
 
-// setUserID(_userID)
-// }
+export async function setUserID(_user){
+  // console.log(_user.username);
+  try{
+    const response = await fetch(`${BASE_URL}/users/`, {
+      method: 'POST',
+      headers: fetch_headers,
+      body: JSON.stringify({
+        username: _user.username,
+        firstname: _user.firstname,
+        lastname: _user.lastname,
+        email: _user.email,
+        datejoined: _user.datejoined,
+        password: _user.password,
+        friends: _user.friends,
+        point: _user.point
+      }),
+    });
+    new_user = await get_user_from_username(_user.username);
+    // console.log(new_user);
+    _user._id = new_user._id;
+    return true;
+  }
+  catch(err){
+    console.log(err)
+    return null;
+  }
+  return null;
+}
 
-export function setUserID(_user){
-  auser = fetch('${BASE_URL}/users/', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: _user.username,
-      firstname: _user.firstname,
-      lastname: _user.lastname,
-      email: _user.email,
-      datejoined: _user.datejoined,
-      password: _user.password,
-      friends: _user.friends,
-      point: _user.point
-    }),
-  });
-  _user._id = auser._id;
-  return true;
+
+export async function constructUser(username, firstname, lastname, email, datejoined, password, point, friends){
+  const auser = new User(null, username, firstname, lastname, email, datejoined, password, point, friends)
+  await setUserID(auser);
+  // console.log(auser);
+  // await setUserID(auser);
+  return auser;
+}
+
+export function isGoodUser(username, firstname, lastname, email, password){
+  return check_valid_name(username) &&
+         check_valid_name(firstname) &&
+         check_valid_name(lastname) &&
+         check_valid_email(email) &&
+         check_valid_password(password);
 }
 
 
@@ -164,12 +185,13 @@ export default class User extends Followable {
     constructor(_id, username, firstname, lastname, email, datejoined, password, point, friends) {
         super()
         // Validate Attributes
-        var isGoodUser = check_valid_name(username) &&
-                         check_valid_name(firstname) &&
-                         check_valid_name(lastname) &&
-                         check_valid_email(email) &&
-                         check_valid_password(password);
-        if (!isGoodUser) {
+        var goodUser = isGoodUser(username, firstname, lastname, email, password)
+        // check_valid_name(username) &&
+        //                  check_valid_name(firstname) &&
+        //                  check_valid_name(lastname) &&
+        //                  check_valid_email(email) &&
+        //                  check_valid_password(password);
+        if (!goodUser) {
           this._id = ""
           this.username = ""
           this.firstname = ""
@@ -195,11 +217,6 @@ export default class User extends Followable {
       }
     }
 
-    construct_user(username, firstname, lastname, email, datejoined, password, point, friends){
-      auser = new User(null, username, firstname, lastname, email, datejoined, password, point, friends)
-      setUserID(auser);
-    }
-
     // Getters and Setters
     getUserID() {return this._id;}
     getUserName() {return this.username}
@@ -209,6 +226,8 @@ export default class User extends Followable {
     getDateJoined() {return this.datejoined;}
     getPassword() {return this.password;}
     getPoint() {return this.point;}
+
+    setID(_id) {this._id = _id;}
 
     async setUserName(_name) {
       var bool = check_valid_name(_name)
@@ -220,14 +239,18 @@ export default class User extends Followable {
           if (!("friends" in coolfriend)){
             return true
           }
+          else if (coolfriend._id == this._id)
+            return true
           return false
         }
         var result = await check();
-        if (result)
+        if (result){
           this.username = _name
+        }
         return result;
       }
     }
+
     setFirstName(_firstname) {
       if (check_valid_name(_firstname)){
         this.firstname = _firstname;
@@ -260,12 +283,9 @@ export default class User extends Followable {
         return result;
       }
     }
-    //   if (check_valid_email(_email)){
-    //     this.email = _email;
-    //     return true;
-    //   }
-    //   return false;
-    // }
+
+
+
     setDateJoined(_date) {
       if (_date == "")
         return false;
@@ -288,22 +308,6 @@ export default class User extends Followable {
       this.point = point;
       return true;
     }
-    // async follow_user(_username){
-    //   if(_username == this.username) return false;
-    //   coolfriend = await get_user_from_username(_username);
-    //   //need query to access repeat followed
-    //   if (!("friends" in coolfriend)){
-    //     return false
-    //   }
-    //   if (this.friends.length === 0){
-    //     this.friends = [_username];
-    //     return true;
-    //   }
-    //   if (this.friends.includes(_username))
-    //     return false
-    //   this.friends.push(_username);
-    //   return true;
-    // }
 
 
     // the follow/ unfollow functions are changed during iter2 to be
@@ -346,7 +350,7 @@ export default class User extends Followable {
       })
       .then((response) => response.json())
       .then((responseText) => {
-          console.log("got status for evenet")
+          console.log("got status for event")
           cb(responseText)
       })
       .catch((error) => {
@@ -420,16 +424,21 @@ export default class User extends Followable {
       return true;
     }
 
-    get_friends_interested(eventid){
-      //compare the result from get_status_people("interested", eventid) to our friends list. Loop and keep the
-      //similarities between the list.
-      return [];
-    }
 
-    get_friends_going(eventid){
-      //compare the result from get_status_people("going", eventid) to our friends list. Loop and keep the
-      //similarities between the list.
-      return [];
+    async get_friends_attending(eventid,status){
+      // get the list of friends interested in or going to the event
+      try{
+        const response = await fetch(`${BASE_URL}/queryFriendsAttendingEvent/${this._id}/${eventid}/${status}`, {
+          method: 'GET',
+          headers: fetch_headers})
+        const json = response.json()
+        return json;
+        }
+      catch(err){
+        console.log(err)
+        return null;
+      }
+      return null;
     }
 
     checkIn(event){
