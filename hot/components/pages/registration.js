@@ -21,7 +21,7 @@ const newUser = t.struct({
 var options = {
   fields: {
     username: {
-      placeholder: 'Must contain at least one alphabetical and one numeric character',
+      placeholder: 'Must contain at least one letter. No special characters please',
       label: 'Username',
       //maxLength: 100
     },
