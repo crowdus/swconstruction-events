@@ -11,7 +11,8 @@ import Event from '../classes/event.js';
 import { globVars } from '../classes/core.js';
 import {NavigationEvents} from "react-navigation";
 
-
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {
@@ -59,9 +60,19 @@ export default class EventView extends React.Component {
       'going_friends': [],
       'eventUserID': '',
       'userStatus': '',
+      'loc': null,
       'event': null
     }
   }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      alert.alert("Permission to access location was denied")
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ loc: location });
+  };
 
   static navigationOptions = {
     drawerLabel: () => null
@@ -87,7 +98,8 @@ export default class EventView extends React.Component {
   onPress_status = (e, status, usr) => {
     e.add_follower(usr, status, (eventuserid) => {
       this.getAttendeeStatus(e, usr)
-      Alert.alert(`Marked as ${status}`)
+      var pts = e.get_points()
+      Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
     })
   }
 
@@ -153,6 +165,43 @@ export default class EventView extends React.Component {
     });  
   }
 
+  deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
+
+  getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+    if (typeof lat1 === 'undefined' || typeof lon1 === 'undefined' ||
+        typeof lat2 === 'undefined' || typeof lon2 === 'undefined') {
+      return Infinity;
+    }
+    var R = 6371; // Radius of the earth in km
+    var dLat = this.deg2rad(lat2-lat1);
+    var dLon = this.deg2rad(lon2-lon1);
+    var a =
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  locCheck(e) {
+    console.log("helloooo")
+    console.log(e)
+    lat1 = e.get_lat()
+    long1 = e.get_long()
+    lat2 = this.state.loc['coords']['latitude']
+    long2 = this.state.loc['coords']['longitude']
+    dist = this.getDistanceFromLatLonInKm(lat1, long1, lat2, long2)
+    console.log("DISTANCE:")
+    console.log(lat1)
+    console.log(lat2)
+    console.log(long1)
+    console.log(long2)
+    return (dist < 0.1)
+  }
 
   getAttendeeStatus(e, usr) {
     e.get_status_people("interested", (l) => {
@@ -190,10 +239,14 @@ export default class EventView extends React.Component {
     // Make API call
     this.getAttendeeStatus(e, usr)
     this.getUpdatedEvent(e.get_eventID())
+    this.getAttendeeStatus(this.state.event, usr)
+    this._getLocationAsync();
   }
 
   render() {
     var e = this.props.navigation.getParam('evt')
+    console.log("RENDERRR")
+    console.log(e)
     var usr = globVars.user
     var renderTags = renderArray(e.get_tags())
     var renderAdmins = renderArray(e.get_admins())
@@ -321,11 +374,20 @@ export default class EventView extends React.Component {
                 start = e.get_start_date()
                 end = e.get_end_date()
                 curr = new Date()
-                if ((start < curr) && (curr < end)){
-                  this.onPress_status(e, "checkedIn")
+                if (!(start < curr && curr < end)){
+                  Alert.alert("Event Not In Session")
+                }
+                else if (!this.locCheck(e)) {
+                  Alert.alert("You are too far from the event")
+                }
+                else if (e.get_admins().includes(usr.getUserName())) {
+                  Alert.alert("Admin can't check into own event")
+                }
+                else if (this.state.userStatus == "checkedIn") {
+                  Alert.alert("You've already checked in!")
                 }
                 else{
-                  Alert.alert("Event Not In Session")
+                  this.onPress_status(e, "checkedIn", usr)
                 }
               }}
             />

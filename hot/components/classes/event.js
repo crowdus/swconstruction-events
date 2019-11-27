@@ -25,6 +25,8 @@ export function is_valid_addr(addr, cb){
     Geocoder.from(addr)
     .then(json => {
         var location = json.results[0].geometry.location;
+        console.log("LOOOOCATION")
+        console.log(location)
         cb(location)
     })
     .catch(() => {
@@ -72,7 +74,7 @@ have more than 1 constructor
 */
 export default class Event extends Followable {
 
-    constructor(_id, name, desc, start, end, addr, tags, admins, loc=null, boost=false, hot_level=1) {
+    constructor(_id, name, desc, start, end, addr, tags, admins, loc, boost=false, hot_level=1) {
         super()
         var isGoodEvent = is_valid_name(name) && 
                           is_valid_desc(desc) &&
@@ -126,6 +128,17 @@ export default class Event extends Followable {
     set_eventID(id) {
         this._id = id
         return true
+    }
+
+    get_lat() {
+        console.log("HOEFHWIOFHWEIFHEWFH")
+        console.log(this.loc)
+        console.log("what?")
+        return this.loc['lat']
+    }
+    
+    get_long() {
+        return this.loc['lng']
     }
 
     // Name
@@ -216,8 +229,15 @@ export default class Event extends Followable {
         return false
     }
 
-    get_points() { return this.points }
-    set_points(points) { this.points = points }
+    // Points is not a attribute of the class, but is just a result of whether the event is boosted or not
+    get_points() { 
+        if (this.is_boosted()) {
+            return 15
+        }
+        else {
+            return 10
+        }
+    }
 
     edit_event(user, event_name, description, start, end, loc, tags, admins) {
         return true;

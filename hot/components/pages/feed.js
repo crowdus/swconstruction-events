@@ -11,6 +11,8 @@ import Settings from './settings.js'
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Octicons'
 import EventCard from '../renderables/eventcard'
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 import {globVars} from '../classes/core.js'
 
@@ -27,7 +29,9 @@ export default class Feed extends Component {
     constructor(props) {
         super(props)
         this.props = props
-        this.state = []
+        this.state = {
+            loc : null
+        }
     }
 
     static navigationOptions = ({navigation}) => {
@@ -35,6 +39,15 @@ export default class Feed extends Component {
             drawerLabel: () => "Explore",
         }
     };
+
+    _getLocationAsync = async () => {
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+          alert.alert("Permission to access location was denied")
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        this.setState({ loc: location });
+      };
 
     // This is called just after the component
     // is first rendered. It changes the data showed there.
@@ -54,7 +67,7 @@ export default class Feed extends Component {
         }).catch((error) => {
             console.error(error);
         });
-
+        this._getLocationAsync();
     }
 
     // the render function!
