@@ -57,8 +57,8 @@ var options = {
 }
 
 function change_user_database(user){
-    console.log("UPDATE")
-    console.log(user)
+    // console.log("UPDATE")
+    // console.log(user)
     fetch(`${BASE_URL}/users/`, {
       method: 'PUT',
       headers: fetch_headers,
@@ -120,16 +120,9 @@ export default class EditUser extends React.Component {
     }
 
     render() {
-      var usr = globVars.user
-      var user = null
-      for (i in usr){
-          var value = usr[i];
-          if (typeof value == 'object'){
-            user = value
-            break
-          }     
-      }
+      var user = globVars.user
       console.log(user)
+
       var saved_username = user.username
       var saved_firstname = user.firstname
       var saved_lastname = user.lastname
