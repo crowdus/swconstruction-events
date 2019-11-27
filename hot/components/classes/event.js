@@ -25,7 +25,8 @@ export function is_valid_addr(addr, cb){
     Geocoder.from(addr)
     .then(json => {
         var location = json.results[0].geometry.location;
-        this.loc = location
+        console.log("LOOOOCATION")
+        console.log(location)
         cb(location)
     })
     .catch(() => {
@@ -73,7 +74,7 @@ have more than 1 constructor
 */
 export default class Event extends Followable {
 
-    constructor(_id, name, desc, start, end, addr, tags, admins, loc=null, boost=false, hot_level=1) {
+    constructor(_id, name, desc, start, end, addr, tags, admins, loc, boost=false, hot_level=1) {
         super()
         var isGoodEvent = is_valid_name(name) && 
                           is_valid_desc(desc) &&
@@ -85,11 +86,7 @@ export default class Event extends Followable {
         this.start_date = new Date(start)
         this.end_date = new Date(end)
         this.addr = addr
-<<<<<<< HEAD
-        this.loc = 
-=======
         this.loc = loc
->>>>>>> 419186e6c008b4ecb35f9288950c3cd436968ed2
         this.isBoosted = boost
         this.tags = tags
         this.admins = admins
@@ -134,12 +131,14 @@ export default class Event extends Followable {
     }
 
     get_lat() {
+        console.log("HOEFHWIOFHWEIFHEWFH")
         console.log(this.loc)
+        console.log("what?")
         return this.loc['lat']
     }
     
     get_long() {
-        return this.loc['long']
+        return this.loc['lng']
     }
 
     // Name

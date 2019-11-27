@@ -60,7 +60,7 @@ export default class EventView extends React.Component {
       'going_friends': [],
       'eventUserID': '',
       'userStatus': '',
-      loc: null,
+      'loc': null,
       'event': null
     }
   }
@@ -178,11 +178,11 @@ export default class EventView extends React.Component {
       return Infinity;
     }
     var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2-lat1);
-    var dLon = deg2rad(lon2-lon1);
+    var dLat = this.deg2rad(lat2-lat1);
+    var dLon = this.deg2rad(lon2-lon1);
     var a =
       Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
       Math.sin(dLon/2) * Math.sin(dLon/2)
       ;
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
@@ -191,11 +191,18 @@ export default class EventView extends React.Component {
   }
 
   locCheck(e) {
+    console.log("helloooo")
+    console.log(e)
     lat1 = e.get_lat()
     long1 = e.get_long()
-    lat2 = this.state.loc['latitude']
-    long2 = this.state.loc['longitude']
+    lat2 = this.state.loc['coords']['latitude']
+    long2 = this.state.loc['coords']['longitude']
     dist = this.getDistanceFromLatLonInKm(lat1, long1, lat2, long2)
+    console.log("DISTANCE:")
+    console.log(lat1)
+    console.log(lat2)
+    console.log(long1)
+    console.log(long2)
     return (dist < 0.1)
   }
 
@@ -235,9 +242,11 @@ export default class EventView extends React.Component {
     // Make API call
     this.getUpdatedEvent(e.get_eventID())
     this.getAttendeeStatus(this.state.event, usr)
+    this._getLocationAsync();
   }
 
   componentDidMount() {
+
   }
 
   render() {
@@ -371,7 +380,7 @@ export default class EventView extends React.Component {
                 if (!(start < curr && curr < end)){
                   Alert.alert("Event Not In Session")
                 }
-                else if (this.locCheck(e)) {
+                else if (!this.locCheck(e)) {
                   Alert.alert("You are too far from the event")
                 }
                 else{
