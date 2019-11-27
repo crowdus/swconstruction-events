@@ -41,7 +41,7 @@ export default class LogIn extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    console.log('Hello from LogIn page!')
+    // console.log('Hello from LogIn page!')
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>

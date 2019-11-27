@@ -84,7 +84,8 @@ export default class EditUser extends React.Component {
     onPress = async (usr) => {
         var value = this.refs.form.getValue();
         const checkdup = await get_user_from_username(value.username);
-        if("friends" in checkdup){
+        if(("friends" in checkdup) && !(checkdup._id == usr._id)){
+          console.log(checkdup._id == usr._id)
           Alert.alert('', 'Username taken', 
           [
             { text: 'Retry',
@@ -154,6 +155,9 @@ export default class EditUser extends React.Component {
           />
           <TouchableHighlight style={styles.button} onPress={() => {this.onPress(user)}} underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Save</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => this.props.navigation.navigate('Feed')} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Quit</Text>
           </TouchableHighlight>
   
           <Text onPress={this.onPress}>

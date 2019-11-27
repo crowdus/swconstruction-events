@@ -30,6 +30,11 @@ function reset() {
     david = new User(null, "david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
 }
 
+function convert(realuser){
+    return new User(realuser._id, realuser.username, realuser.firstname, realuser.lastname, realuser.email,
+     realuser.datejoined, realuser.password, realuser.point, realuser.friends)
+}
+
 // // tests for validation functions
 // describe('testing validation functions', () => {
 //     test('testing check_valid_name', () => {
@@ -54,24 +59,22 @@ function reset() {
 
 // });
 
-describe('testing construct user', () => {
-    test('testing set_user_id', async () => {
-        userone = new User(null, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-        expect(await setUserID(userone)).toBe(true);
-    });
+// describe('testing construct user', () => {
+//     // test('testing set_user_id', async () => {
+//     //     userone = new User(null, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, ["5dcd241d8a5d632450dea810"]);
+//     //     expect(await setUserID(userone)).toBe(true);
+//     //     usertwo = new User(null, "calvin67", "calvin", "lee", "calvinlee@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
 
-    test('testing ', async () => {
-        const realuser = await constructUser("bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-        // console.log(realuser);
-    })
-})
+//     // });
 
-// describe('testing get friends going/interested', () => {
-//     test('get friends going', async () => {
-//         friends = get_friends_attending("5ddcc73008bfad00176be58b", "going");
-//         console.log(friends);
+//     test('testing ', async () => {
+//         const realuser = await constructUser("bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, ["5ddd7061b1e48e771577a390"]);
+//         const realuser2 = await constructUser("david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+        
+//         // console.log(realuser);
 //     })
 // })
+
 
 describe('testing getters and setters', () => {
     beforeAll(() => {
@@ -99,46 +102,46 @@ describe('testing getters and setters', () => {
 
     // });
 
-    test ('test constructor and setUserID', () => {
+    // test ('test constructor and setUserID', () => {
 
-        var check = new Date('2019-01-02');
-        const good_user = new User(null, "fong28", "fong", "hong", "fonghong@gmail.com", (new Date('2019-01-02')), "Fonghong28",12, '');
-        expect(good_user.getUserID()).toBe(null);
-        expect(good_user.getUserName()).toBe("fong28");
-        expect(good_user.getFirstName()).toBe("fong");
-        expect(good_user.getLastName()).toBe("hong");
-        expect(good_user.getEmail()).toBe("fonghong@gmail.com");
-        expect(good_user.getDateJoined()).toEqual(new Date('2019-01-02'));
-        expect(good_user.getPassword()).toBe("Fonghong28");
-        expect(good_user.getPoint()).toBe(12);
+    //     var check = new Date('2019-01-02');
+    //     const good_user = new User(null, "fong28", "fong", "hong", "fonghong@gmail.com", (new Date('2019-01-02')), "Fonghong28",12, '');
+    //     expect(good_user.getUserID()).toBe(null);
+    //     expect(good_user.getUserName()).toBe("fong28");
+    //     expect(good_user.getFirstName()).toBe("fong");
+    //     expect(good_user.getLastName()).toBe("hong");
+    //     expect(good_user.getEmail()).toBe("fonghong@gmail.com");
+    //     expect(good_user.getDateJoined()).toEqual(new Date('2019-01-02'));
+    //     expect(good_user.getPassword()).toBe("Fonghong28");
+    //     expect(good_user.getPoint()).toBe(12);
 
-        const bad_user = new User(null, "", "fong", "hong", "fonghong@gmail.com", (new Date('2019-01-02')), "Fonghong28",0, '');
-        expect(bad_user.getUserName()).toBe("");
-        expect(bad_user.getFirstName()).toBe("");
-        expect(bad_user.getLastName()).toBe("");
-        expect(bad_user.getEmail()).toBe("");
-        expect(bad_user.getDateJoined()).toBe(null);
-        expect(bad_user.getPassword()).toBe("");
-        expect(bad_user.getPoint()).toBe(0);
+    //     const bad_user = new User(null, "", "fong", "hong", "fonghong@gmail.com", (new Date('2019-01-02')), "Fonghong28",0, '');
+    //     expect(bad_user.getUserName()).toBe("");
+    //     expect(bad_user.getFirstName()).toBe("");
+    //     expect(bad_user.getLastName()).toBe("");
+    //     expect(bad_user.getEmail()).toBe("");
+    //     expect(bad_user.getDateJoined()).toBe(null);
+    //     expect(bad_user.getPassword()).toBe("");
+    //     expect(bad_user.getPoint()).toBe(0);
 
-    });
+    // });
 
     test('testing get/set UserName', async () => {
         // will check for repeated UserNames
         // can contain alphabet only/ alphabet + number
-        function convert(realuser){
-            return new User(realuser._id, realuser.username, realuser.firstname, realuser.lastname, realuser.email,
-             realuser.datejoined, realuser.password, realuser.point, realuser.friends)
-        }
-        var realuser = await constructUser("bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-        var realuserid = realuser._id;
-        console.log(realuserid);
-        expect(await realuser.setUserName("")).toBe(false);
-        expect(await realuser.setUserName("iambobby!")).toBe(false);
-        realuser = await get_user_from_id(realuserid);
+        
+        
+        var realuser = await get_user_from_id("5dddad5b2c94dc00172c059c")
+        // console.log(realuser);
         realuser = convert(realuser);
-        expect(realuser.getUserName()).toBe("bobby1234");
-        // console.log()
+        // expect(await realuser.setUserName("")).toBe(false);
+        // expect(await realuser.setUserName("iambobby!")).toBe(false);
+        // realuser = await get_user_from_id(realuser._id);
+        // realuser = convert(realuser);
+        // expect(realuser.getUserName()).toBe("st0020");
+        
+        expect(await realuser.setUserName("st0020iscool")).toBe(true);
+        // console.log(realuser);
 
         // expect(await realuser.setUserName("bobbyiscool")).toBe(true);
         // realuser = await get_user_from_id(realuserid);
@@ -163,106 +166,106 @@ describe('testing getters and setters', () => {
 
     }, 30000);
 
-    test("testing get/set FirstName", () => {
-        // check for alphanumeric input only
-        // do not need to check for repeated firstname
-        expect(bobby.setFirstName("")).toBe(false);
-        expect(bobby.setFirstName("iambobby!")).toBe(false);
-        expect(bobby.getFirstName()).toBe("bobby");
-        expect(bobby.setFirstName("bobbyiscool")).toBe(true);
-        expect(bobby.getFirstName()).toBe("bobbyiscool");
-        expect(bobby.setFirstName("bobby1234")).toBe(true);
-        expect(bobby.getFirstName()).toBe("bobby1234");
-        expect(bobby.setFirstName("2357>#$%")).toBe(false);
-        expect(bobby.setFirstName(32795)).toBe(false);
-        expect(bobby.getFirstName()).toBe("bobby1234");
+    // test("testing get/set FirstName", () => {
+    //     // check for alphanumeric input only
+    //     // do not need to check for repeated firstname
+    //     expect(bobby.setFirstName("")).toBe(false);
+    //     expect(bobby.setFirstName("iambobby!")).toBe(false);
+    //     expect(bobby.getFirstName()).toBe("bobby");
+    //     expect(bobby.setFirstName("bobbyiscool")).toBe(true);
+    //     expect(bobby.getFirstName()).toBe("bobbyiscool");
+    //     expect(bobby.setFirstName("bobby1234")).toBe(true);
+    //     expect(bobby.getFirstName()).toBe("bobby1234");
+    //     expect(bobby.setFirstName("2357>#$%")).toBe(false);
+    //     expect(bobby.setFirstName(32795)).toBe(false);
+    //     expect(bobby.getFirstName()).toBe("bobby1234");
 
-        expect(alice.setFirstName("bobby1234")).toBe(true);
-        expect(alice.getFirstName()).toBe("bobby1234");
-    });
+    //     expect(alice.setFirstName("bobby1234")).toBe(true);
+    //     expect(alice.getFirstName()).toBe("bobby1234");
+    // });
 
 
-    test("testing get/set LastName", () => {
-        // check for alphanumeric input only
-        // do not need to check for repeated firstname
-        expect(bobby.setLastName("")).toBe(false);
-        expect(bobby.setLastName("iambobby!")).toBe(false);
-        expect(bobby.getLastName()).toBe("johnson");
-        expect(bobby.setLastName("bobbyiscool")).toBe(true);
-        expect(bobby.getLastName()).toBe("bobbyiscool");
-        expect(bobby.setLastName("bobby1234")).toBe(true);
-        expect(bobby.getLastName()).toBe("bobby1234");
-        expect(bobby.setLastName("2357>#$%")).toBe(false);
-        expect(bobby.setLastName(32795)).toBe(false);
-        expect(bobby.getLastName()).toBe("bobby1234");
+    // test("testing get/set LastName", () => {
+    //     // check for alphanumeric input only
+    //     // do not need to check for repeated firstname
+    //     expect(bobby.setLastName("")).toBe(false);
+    //     expect(bobby.setLastName("iambobby!")).toBe(false);
+    //     expect(bobby.getLastName()).toBe("johnson");
+    //     expect(bobby.setLastName("bobbyiscool")).toBe(true);
+    //     expect(bobby.getLastName()).toBe("bobbyiscool");
+    //     expect(bobby.setLastName("bobby1234")).toBe(true);
+    //     expect(bobby.getLastName()).toBe("bobby1234");
+    //     expect(bobby.setLastName("2357>#$%")).toBe(false);
+    //     expect(bobby.setLastName(32795)).toBe(false);
+    //     expect(bobby.getLastName()).toBe("bobby1234");
 
-        expect(alice.setLastName("bobby1234")).toBe(true);
-        expect(alice.getLastName()).toBe("bobby1234");
-    });
+    //     expect(alice.setLastName("bobby1234")).toBe(true);
+    //     expect(alice.getLastName()).toBe("bobby1234");
+    // });
 
-    // test("testing get/set Location", () => {
-    //     expect(bobby.get_location().toBe([0,0]))
-    //     expect(bobby.set_location(40, 30)).toBeTruthy()
-    //     expect(bobby.get_location()).toBe([40, 30])
-    //     expect(bobby.set_location(100, 200)).toBeFalsy()
-    //     expect(bobby.get_location()).toBe([40, 30])
+    // // test("testing get/set Location", () => {
+    // //     expect(bobby.get_location().toBe([0,0]))
+    // //     expect(bobby.set_location(40, 30)).toBeTruthy()
+    // //     expect(bobby.get_location()).toBe([40, 30])
+    // //     expect(bobby.set_location(100, 200)).toBeFalsy()
+    // //     expect(bobby.get_location()).toBe([40, 30])
 
+    // // })
+
+    // test("testing get/set Email", async () => {
+    //     // check for the correct email address format, i.e. whether it contains @
+    //     // check for valid email address
+    //     expect(await bobby.setEmail("")).toBe(false);
+    //     expect(await bobby.setEmail("bobby@uchicago.edu")).toBe(true);
+    //     expect(bobby.getEmail()).toBe("bobby@uchicago.edu");
+    //     expect(await bobby.setEmail("bobbyfewhogbw32")).toBe(false);
+    //     expect(await bobby.setEmail("giww23#@%$@^@#")).toBe(false);
+    //     expect(await bobby.setEmail("bobby@gsnail.com")).toBe(true);
+    //     expect(bobby.getEmail()).toBe("bobby@gsnail.com");
+
+    //     expect(await alice.setEmail("ryleehancock@gmail.com")).toBe(false);
+    //     expect(await alice.setEmail("bobby@uchicago.edu")).toBe(true);
+    //     expect(await alice.setEmail("alicegmail.com")).toBe(false);
+    //     expect(alice.getEmail()).toBe("bobby@uchicago.edu");
+    // }, 30000);
+
+    // test("testing set/get Date", () => {
+    //     // check for valid date input
+    //     // in the format of YYYY-MM-DD
+    //     // test for corner cases: invalid format, invalid month/day
+    //     expect(bobby.setDateJoined("")).toBe(false);
+    //     expect(bobby.setDateJoined(new Date('2019-01-02'))).toBe(true);
+    //     expect(bobby.getDateJoined()).toEqual(new Date('2019-01-02'));
+    //     expect(bobby.setDateJoined(new Date('2019-02-31'))).toBe(true);
+    // });
+
+    // test("testing set/get password", () => {
+    //     // password must contain one lower case and one upper case and a number
+    //     // test for normal cases and passwords that include special symbols
+    //     // test for corner cases, i.e. does not contain upper case
+    //     // does not contain lower case
+    //     // does not contain number
+    //     expect(bobby.setPassword("")).toBe(false);
+    //     expect(bobby.setPassword("2019Iambobby")).toBe(true);
+    //     expect(bobby.getPassword()).toBe("2019Iambobby");
+    //     expect(bobby.setPassword("2019iambobby")).toBe(false);
+    //     expect(bobby.setPassword("Iambobby")).toBe(false);
+    //     expect(bobby.setPassword("2019Iambobby!")).toBe(true);
+    //     expect(bobby.setPassword("2019IAMBOBBY")).toBe(false);
+    //     expect(bobby.getPassword()).toBe("2019Iambobby!");
+    // });
+
+    // test("testing set/get points", () => {
+    //     // score may not be set to be negative
+    //     // if the input is invalid, it will return a false
+    //     // the score of user will remain unchanged
+    //     expect(bobby.setPoint(1)).toBe(true);
+    //     expect(bobby.getPoint()).toBe(1);
+    //     expect(bobby.setPoint(-10)).toBe(false);
+    //     expect(bobby.getPoint()).toBe(1);
+    //     expect(bobby.setPoint(20)).toBe(true);
+    //     expect(bobby.getPoint()).toBe(20);
     // })
-
-    test("testing get/set Email", async () => {
-        // check for the correct email address format, i.e. whether it contains @
-        // check for valid email address
-        expect(await bobby.setEmail("")).toBe(false);
-        expect(await bobby.setEmail("bobby@uchicago.edu")).toBe(true);
-        expect(bobby.getEmail()).toBe("bobby@uchicago.edu");
-        expect(await bobby.setEmail("bobbyfewhogbw32")).toBe(false);
-        expect(await bobby.setEmail("giww23#@%$@^@#")).toBe(false);
-        expect(await bobby.setEmail("bobby@gsnail.com")).toBe(true);
-        expect(bobby.getEmail()).toBe("bobby@gsnail.com");
-
-        expect(await alice.setEmail("ryleehancock@gmail.com")).toBe(false);
-        expect(await alice.setEmail("bobby@uchicago.edu")).toBe(true);
-        expect(await alice.setEmail("alicegmail.com")).toBe(false);
-        expect(alice.getEmail()).toBe("bobby@uchicago.edu");
-    }, 30000);
-
-    test("testing set/get Date", () => {
-        // check for valid date input
-        // in the format of YYYY-MM-DD
-        // test for corner cases: invalid format, invalid month/day
-        expect(bobby.setDateJoined("")).toBe(false);
-        expect(bobby.setDateJoined(new Date('2019-01-02'))).toBe(true);
-        expect(bobby.getDateJoined()).toEqual(new Date('2019-01-02'));
-        expect(bobby.setDateJoined(new Date('2019-02-31'))).toBe(true);
-    });
-
-    test("testing set/get password", () => {
-        // password must contain one lower case and one upper case and a number
-        // test for normal cases and passwords that include special symbols
-        // test for corner cases, i.e. does not contain upper case
-        // does not contain lower case
-        // does not contain number
-        expect(bobby.setPassword("")).toBe(false);
-        expect(bobby.setPassword("2019Iambobby")).toBe(true);
-        expect(bobby.getPassword()).toBe("2019Iambobby");
-        expect(bobby.setPassword("2019iambobby")).toBe(false);
-        expect(bobby.setPassword("Iambobby")).toBe(false);
-        expect(bobby.setPassword("2019Iambobby!")).toBe(true);
-        expect(bobby.setPassword("2019IAMBOBBY")).toBe(false);
-        expect(bobby.getPassword()).toBe("2019Iambobby!");
-    });
-
-    test("testing set/get points", () => {
-        // score may not be set to be negative
-        // if the input is invalid, it will return a false
-        // the score of user will remain unchanged
-        expect(bobby.setPoint(1)).toBe(true);
-        expect(bobby.getPoint()).toBe(1);
-        expect(bobby.setPoint(-10)).toBe(false);
-        expect(bobby.getPoint()).toBe(1);
-        expect(bobby.setPoint(20)).toBe(true);
-        expect(bobby.getPoint()).toBe(20);
-    })
 
 });
 
