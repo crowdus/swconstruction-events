@@ -8,6 +8,7 @@ import User from '../classes/user.js';
 import TagButton from '../renderables/tagButton'
 import Icon from 'react-native-vector-icons/Octicons'
 import Event from '../classes/event.js';
+import { globVars } from '../classes/core.js';
 
 const points_to_boost = 1
 
@@ -71,16 +72,13 @@ export default class EventView extends React.Component {
         edit_database_event(e, (resp) => {
           if (resp != 0) {
             e.set_eventID(resp)
-            console.log(`switched to events screen for ${resp}`)
             this.props.navigation.navigate('Event', {evt: e, usr: usr})
           }       
         })
-        console.log(e.is_boosted())
-        console.log("boost bruh")
-        Alert.alert("Event is boosted!")
+        Alert.alert("Event is boosted! -30 points")
       }
       else {
-        Alert.alert("Boost failed :(, you don't have enough points")
+        Alert.alert(`Failed: Boosts cost 30 points. You currently have ${usr.getPoint()} points.`)
       }
     }
   }
@@ -104,14 +102,8 @@ export default class EventView extends React.Component {
   }
 
   boost_display = (e, usr) => {
-    console.log("HEY, ARE WE GETTING HERE?")
     current_username = usr.getUserName()
     current_is_admin = e.get_admins().includes(current_username)
-    /* console.log(current_is_admin)
-    console.log(usr)
-    console.log(e.get_admins())*/
-    console.log("IS THIS EVENT BOOSTED?")
-    console.log(e.is_boosted()) 
     if (e.is_boosted()) {
       return (
         <View>
@@ -122,7 +114,6 @@ export default class EventView extends React.Component {
       )
     }
     else if (current_is_admin) {
-      console.log("HEY, RETURN THE BOOST BUTTON")
       return (
         <View>
           <TouchableHighlight style={styles.button} onPress={() => {this.onPress_boost(e, usr)}} underlayColor='#99d9f4'>
@@ -195,8 +186,7 @@ export default class EventView extends React.Component {
 
   componentDidMount() {
     var e = this.props.navigation.getParam('evt')
-    var usr = this.props.navigation.getParam('usr')
-    
+    var usr = globVars.user
     // Make API call
     this.getUpdatedEvent(e.get_eventID(), (evt) => {
       this.setState({event: evt})
@@ -205,9 +195,8 @@ export default class EventView extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     var e = this.state.event
-    var usr = this.props.navigation.getParam('usr')
+    var usr = globVars.user
     var renderTags = renderArray(e.get_tags())
     var renderAdmins = renderArray(e.get_admins())
     // var renderStatus = renderStatusButtons()

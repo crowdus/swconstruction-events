@@ -8,6 +8,5 @@ export const fetch_headers = {
 }
 
 export var globVars = {
-  test: 'asdf',
   user: null,
 }

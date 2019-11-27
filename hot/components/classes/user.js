@@ -81,8 +81,6 @@ export async function get_user_from_username(username) {
     console.log(err)
     return null;
   }
-  return null;
-
 }
 
 export async function get_user_from_email(email) {
