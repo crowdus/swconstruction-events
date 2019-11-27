@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, TouchableOpacity, StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import TagButton from '../renderables/tagButton';
+import { globVars } from '../classes/core';
 
 export default class EventCard extends React.Component{
   constructor(props) {
@@ -10,9 +11,9 @@ export default class EventCard extends React.Component{
   render() {
     var item = this.props.event
     const {navigate} = this.props.navigation;
-    var usr = this.props.usr
+    var usr = globVars.user
     return (
-      <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item})}}>
+      <TouchableOpacity style={styles.evt_card} onPress={() => {navigate('Event', {evt:item})}}>
         <View style={styles.evt_card}>
             <Text style={styles.evt_title}>{item.get_name()}</Text>
             <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>

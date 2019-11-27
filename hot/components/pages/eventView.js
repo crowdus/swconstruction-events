@@ -10,7 +10,6 @@ import Icon from 'react-native-vector-icons/Octicons'
 import Event from '../classes/event.js';
 import { globVars } from '../classes/core.js';
 
-const points_to_boost = 1
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {
@@ -58,7 +57,7 @@ export default class EventView extends React.Component {
       'going_friends': [],
       'eventUserID': '',
       'userStatus': '',
-      'event': this.props.navigation.getParam('evt')
+      'event': null
     }
   }
 
@@ -68,7 +67,7 @@ export default class EventView extends React.Component {
 
   onPress_boost = (e, usr) => {
     if (e.set_boost(usr)) {
-      if (usr.setPoint(usr.getPoint() - points_to_boost)) {
+      if (usr.setPoint(usr.getPoint() - globVars.points_to_boost)) {
         edit_database_event(e, (resp) => {
           if (resp != 0) {
             e.set_eventID(resp)
@@ -138,19 +137,20 @@ export default class EventView extends React.Component {
     }
   }
 
-  async getUpdatedEvent(id, cb){
+  async getUpdatedEvent(id){
     fetch(`${BASE_URL}/events/${id}`, {
       method: 'GET',
       headers: fetch_headers,
     })
     .then((response) => response.json())
     .then((i) => {
-      var x = new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins'], i['isBoosted'], i['hot_level'])
-      cb(x)
+      console.log("getting updated")
+      var x = new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins'], i['loc'], i['isBoosted'], i['hot_level'])
+      console.log(x)
+      this.setState({event: x})
     })
     .catch((error) => {
-      console.error(error)
-      cb(0)
+      //console.error(error)
     });  
   }
 
@@ -184,18 +184,20 @@ export default class EventView extends React.Component {
     }) 
   }
 
-  componentDidMount() {
+  componentWillMount(){
     var e = this.props.navigation.getParam('evt')
     var usr = globVars.user
+    
     // Make API call
-    this.getUpdatedEvent(e.get_eventID(), (evt) => {
-      this.setState({event: evt})
-    })
-    this.getAttendeeStatus(e, usr)
+    this.getUpdatedEvent(e.get_eventID())
+    this.getAttendeeStatus(this.state.event, usr)
+  }
+
+  componentDidMount() {
   }
 
   render() {
-    var e = this.state.event
+    var e = this.props.navigation.getParam('evt')
     var usr = globVars.user
     var renderTags = renderArray(e.get_tags())
     var renderAdmins = renderArray(e.get_admins())

@@ -42,7 +42,7 @@ export function get_loc_from_addr(new_addr, event, cb){
         cb(location)
     })
     .catch((error) => {
-        console.error(error)
+        //console.error(error)
         event.set_null()
         cb(null)
     })
@@ -84,7 +84,7 @@ export default class Event extends Followable {
         this.start_date = new Date(start)
         this.end_date = new Date(end)
         this.addr = addr
-        this.loc = null
+        this.loc = loc
         this.isBoosted = boost
         this.tags = tags
         this.admins = admins
