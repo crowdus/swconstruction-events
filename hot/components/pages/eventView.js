@@ -227,6 +227,7 @@ export default class EventView extends React.Component {
       }
     })
     usr.get_status_for_event(e, (userEventObj) => {
+      console.log("STATUSFRMUSEREVENTOBJ")
       console.log(userEventObj)
       if (userEventObj){
         this.setState({userStatus:userEventObj['status']})
@@ -384,6 +385,12 @@ export default class EventView extends React.Component {
                 }
                 else if (!this.locCheck(e)) {
                   Alert.alert("You are too far from the event")
+                }
+                else if (e.get_admins().includes(usr.getUserName())) {
+                  Alert.alert("Admin can't check into own event")
+                }
+                else if (this.state.userStatus == "checkedIn") {
+                  Alert.alert("You've already checked in!")
                 }
                 else{
                   this.onPress_status(e, "checkedIn", usr)
