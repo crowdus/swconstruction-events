@@ -28,6 +28,7 @@ import Registration from './components/pages/registration.js'
 import UserView from './components/pages/userView.js'
 import Search from './components/pages/searchView.js'
 import EditUser from './components/pages/editUser.js'
+import ProfileView from './components/pages/profileview.js'
 
 import {createAppContainer} from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
@@ -70,7 +71,7 @@ const MainNavigator = createDrawerNavigator({
 
   // invisible
   Event: { screen: EventView },
-  UserView: { screen: UserView },
+  UserView: { screen: ProfileView },
   TagView: { screen: TagView },
   TagButton: { screen: TagButton },
   Registration: { screen: Registration },

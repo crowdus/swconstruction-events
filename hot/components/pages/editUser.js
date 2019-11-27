@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-native';
 import t from 'tcomb-form-native';
-import User, {isGoodUser, get_user_from_id, get_user_from_username} from '../classes/user.js'
+import User, {isGoodUser, get_user_from_id, get_user_from_username, change_user_database} from '../classes/user.js'
 import Geocoder from 'react-native-geocoding';
 import {
   Alert,
