@@ -9,19 +9,19 @@ import User, { get_user_from_username } from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
 import { globVars } from '../classes/core.js'
 
-export async function validcombo(username, password){
-  var ret = false;
-  var auser;
-  console.log('checking valid combo')
-  console.log(get_user_from_username(username))
-  if(auser = await get_user_from_username(username)){
-    console.log(auser)
-    if(auser.password === password){
-      ret = true;
-    }
-  }
-  return ret;
-}
+// export async function validcombo(username, password){
+//   var ret = false;
+//   var auser;
+//   // console.log('checking valid combo')
+//   // console.log(get_user_from_username(username))
+//   if(auser = await get_user_from_username(username)){
+//     console.log(auser)
+//     if(auser.password === password){
+//       ret = true;
+//     }
+//   }
+//   return ret;
+// }
 
 export default class LogIn extends React.Component {
   constructor(props) {
@@ -67,9 +67,14 @@ export default class LogIn extends React.Component {
         <Button
           title="Log In"
           color="#f194ff"
-          onPress={ () => {
-            console.log('Username and passcode inputted: ' + this.state.username + '\n' + this.state.code)
-            if (validcombo(this.state.username, this.state.code)) {
+          onPress={ async () => {
+            // console.log('Username and passcode inputted: ' + this.state.username + '\n' + this.state.code)
+            var finduser = await get_user_from_username(this.state.username)
+            // console.log(this.state.code)
+            // console.log(finduser.password)
+            // console.log(finduser)
+            // console.log(finduser.password == this.state.code)
+            if (finduser.password == this.state.code) {
               // TODO: call to get some TA user
               // TODO: pass in user to feed
               console.log("valid combo from login page, logging in...\n")
