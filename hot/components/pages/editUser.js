@@ -56,23 +56,23 @@ var options = {
   }
 }
 
-export function change_user_database(user){
-    // console.log("UPDATE")
-    // console.log(user)
-    fetch(`${BASE_URL}/users/`, {
-      method: 'PUT',
-      headers: fetch_headers,
-      body: JSON.stringify(user)
-    })
-    .then((response) => response.text())
-    .then((responseVal) => {
-      return responseVal
-    })
-    .catch((error) => {
-      console.log(error)
-      return null
-    });   
-}
+/*export function change_user_database(user){
+  // console.log("UPDATE")
+  // console.log(user)
+  fetch(`${BASE_URL}/users/`, {
+    method: 'PUT',
+    headers: fetch_headers,
+    body: JSON.stringify(user)
+  })
+  .then((response) => response.text())
+  .then((responseVal) => {
+    return responseVal
+  })
+  .catch((error) => {
+    console.log(error)
+    return null
+  });   
+}*/
 
 export default class EditUser extends React.Component {
     constructor(props){

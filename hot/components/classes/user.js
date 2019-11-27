@@ -2,7 +2,8 @@
 
 import Followable from './followable';
 const fetch = require("node-fetch");
-import {BASE_URL, fetch_headers} from './core'
+import {BASE_URL, fetch_headers, globVars} from './core';
+//import {change_user_database, EditUser} from '../pages/editUser';
 
 // Validation Functions
 export function check_valid_name(str){
@@ -174,6 +175,24 @@ export function isGoodUser(username, firstname, lastname, email, password){
          check_valid_name(lastname) &&
          check_valid_email(email) &&
          check_valid_password(password);
+}
+
+export function change_user_database(user){
+  // console.log("UPDATE")
+  // console.log(user)
+  fetch(`${BASE_URL}/users/`, {
+    method: 'PUT',
+    headers: fetch_headers,
+    body: JSON.stringify(user)
+  })
+  .then((response) => response.text())
+  .then((responseVal) => {
+    return responseVal
+  })
+  .catch((error) => {
+    console.log(error)
+    return null
+  });   
 }
 
 
@@ -408,15 +427,30 @@ export default class User extends Followable {
       // var points = get_points(_event);
       // this.point += points;
       // return true;
-      return true;
+
+      if(!_event.is_admin(this)){
+        this.point += _event.get_points()
+        change_user_database(this)
+        return true
+      }
+      return false
     }
 
     // boost event: when a user chooses to use his point to boost event
     boost_event(_event){
       // 1. how many points can a user use to boost the event?
       // or is it, upon clicking every time, one point is used?
-
-      return true;
+      if(_event.is_admin(this)){
+        if(this.points <= globVars.points_to_boost){
+          this.points -= globVars.points_to_boost
+          return true
+        } else {
+          console.log("not enough points")
+          return false
+        }
+      } 
+      console.log("user is not admin")
+      return false;
     }
 
 
