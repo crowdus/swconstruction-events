@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
+import PasswordInputText from 'react-native-hide-show-password-input';
 import {
   Button,
   Alert,
@@ -46,29 +47,33 @@ export default class LogIn extends React.Component {
     <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="position" enabled   keyboardVerticalOffset={-280}>
       <ScrollView>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <View style={{justifyContent: "center", alignItems: "center"}}>
-              <Text>
-              Welcome to Hot! {"\n\n"}
-              Enter Username:
-            </Text>
-            <TextInput
-              placeholder="Username"
-              onChangeText={(username) => this.setState({username})}
-              value={this.state.username}
-            />
-            <Text>
-              {"\n"}
-              Beta Access Code:
-            </Text>
-            <TextInput
-              placeholder="Access Code"
-              onChangeText={(code) => this.setState({code})}
-              value={this.state.code}
-            />
-            </View>
-            <View>
-              <Button
-                title="Log In"
+        <View style={{justifyContent: "center", alignItems: "center"}}>
+          <Text>
+            Welcome to Hot! {"\n\n"}
+            Enter Username:
+          </Text>
+          <TextInput
+            placeholder="Username"
+            onChangeText={(username) => this.setState({username})}
+            value={this.state.username}
+          />
+          <Text>
+             {"\n"}
+            Beta Access Code:
+          </Text>
+        </View>
+        <View style={{justifyContent: "center", alignItems: "left"}}>
+          <TextInput 
+            textContentType={'password'} 
+            secureTextEntry={true}
+            placeholder="Password"
+            onChangeText={(code) => this.setState({code})}
+            value={this.state.code}
+          />
+        </View>
+        <View>
+          <Button
+            title="Log In"
                 color="#f194ff"
                 onPress={ async () => {
                   // console.log('Username and passcode inputted: ' + this.state.username + '\n' + this.state.code)
