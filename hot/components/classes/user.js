@@ -319,7 +319,7 @@ export default class User extends Followable {
     }
 
     setPoint(point){
-      if (point <0){
+      if (point < 0){
         return false;
       }
       this.point = point;
@@ -409,6 +409,9 @@ export default class User extends Followable {
     // FUNCTIONS THAT ARE IMPLEMENTED IN ITERATION 2
     // add point: when a user checks in for certain events, he will get certain
     // number of points
+    get_friends() {
+      return this.friends
+    }
 
     set_location(lat, long) {
       this.location = [lat, long]

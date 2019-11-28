@@ -11,62 +11,29 @@ import Settings from './settings.js'
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Octicons';
 import {globVars} from '../classes/core';
-
+import UserCard from '../renderables/usercard.js';
+import EventCard from '../renderables/eventcard.js';
 
 
 // the class that renders the keys.
-export default class UsersFollowing extends Component {
+export default class ViewListUsers extends Component {
 
     constructor(props) {
         super(props)
         this.props = props
-        this.state = []
     }
 
     // navigation options displayed at the top of the screen
     static navigationOptions = ({navigation}) => {
         return {
-            drawerLabel: () => "Users You're Following",
+            drawerLabel: () => null,
         }
     };
 
-    // This is called just after the component
-    // is first rendered. It changes the data showed there.
-    componentDidMount() {
-        // console.log(globVars.user.friends);
-        var friends = [];
-        for (i in globVars.user.friends){
-            friendid = globVars.user.friends[i];
-            friends.push(JSON.stringify(friendid).valueOf());
-        }
-        friends = Array.from(friends);
-        fetch('http://hot-backend.herokuapp.com/users/', {
-            method: 'GET',
-        }).then((response) => response.json())
-        .then((responseJson) => {
-            var l = [];
-            for (i in responseJson) {
-                alluser = responseJson[i]
-                check = JSON.stringify(alluser['_id']);
-                // console.log(check.valueOf() ===  JSON.stringify(friends[0]).valueOf());
-                if(friends.includes(check.valueOf()))
-                    l.push(new User(alluser['_id'], alluser['username'], alluser['firstname'], alluser['lastname'], alluser['email'], alluser['datejoined'], alluser['password'], alluser['point'], alluser['friends']));
-            }
-            this.setState({data:l})
-        }).catch((error) => {
-            console.error(error);
-        });
-
-    }
-
-    // the render function!
-    // Shows the feed
     render() {
-        const {navigate} = this.props.navigation;
-        var usr = this.props.navigation.getParam('usr')
-
+        var userList = this.props.navigation.getParam('userList')
         return(
-            this.state && <SafeAreaView>
+            <SafeAreaView>
                 <View style={{padding:10, flexDirection: 'row'}}>
                 <Icon
                     name='three-bars'
@@ -74,17 +41,13 @@ export default class UsersFollowing extends Component {
                     color='#222'
                     onPress={() => this.props.navigation.toggleDrawer()}
                 />
-                <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   Users Following</Text>
+                <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}> View Users </Text>
                 </View>
-                <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
-                    data={this.state.data}
-                    renderItem={({item}) => 
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('UserView', {friend:item, previous: 'following'})}}>
-                            <View style={styles.evt_card}>
-                                <Text style={styles.evt_title}>{item.getUserName()}</Text>
-                            </View>
-                        </TouchableOpacity>}
+                    data={userList}
+                    renderItem={({item}) => {
+                      return (<UserCard usr={item} n={this.props.navigation}/>)
+                    }}
                 />
             </SafeAreaView>
         );

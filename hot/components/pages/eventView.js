@@ -14,6 +14,7 @@ import MapView from "react-native-maps";
 var dateFormat = require("dateformat")
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import ViewListUsers from './viewListUsers'
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {
@@ -104,14 +105,16 @@ export default class EventView extends React.Component {
     })
   }
 
-  onPress_viewUsers = (status) => {
-    var userList = []
-    if (status == 'Going') {
-      userList = this.state.interested_people
-    }
-    if (status == 'Interested'){
-      userList = this.state.going_people
-    }
+  onPress_viewUsers = (e, status) => {
+    console.log(`view ${status}`)
+    e.get_status_people(status, (l) => {
+      var userList = []
+      for (i in l){
+        var u = l[i]
+        userList.push(new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends']))
+      }
+      this.props.navigation.navigate('ViewListUsers', {userList:userList})
+    })
   }
 
   boost_display = (e, usr) => {
@@ -324,14 +327,14 @@ export default class EventView extends React.Component {
               Attendees: 
               </Text>
 
-              <TouchableHighlight onPress={() => this.onPress_viewUsers('interested')}>
+              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'interested')}>
                 <Text>
                   Interested: {"\n"}
                   {interested_str}
                 </Text>
               </TouchableHighlight>
 
-              <TouchableHighlight onPress={() => this.onPress_viewUsers('going')}>
+              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'going')}>
                 <Text>
                   Going: {"\n"}
                   {going_str}
