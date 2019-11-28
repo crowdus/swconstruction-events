@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableHighlight, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, ScrollView } from 'react-native';
 import t from 'tcomb-form-native';
 import User, {isGoodUser, get_user_from_id, get_user_from_username, change_user_database} from '../classes/user.js'
 import Geocoder from 'react-native-geocoding';
@@ -152,7 +152,7 @@ export default class EditUser extends React.Component {
                 Save
               </Text>
             </TouchableHighlight>
-            <TouchableHighlight style={styles.button} onPress={() => this.props.navigation.navigate('Feed')} underlayColor='#99d9f4'>
+            <TouchableHighlight style={styles.button} onPress={() => this.props.navigation.navigate('Profile')} underlayColor='#99d9f4'>
               <Text style={styles.buttonText}>
                 Quit
               </Text>
