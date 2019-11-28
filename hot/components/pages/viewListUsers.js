@@ -34,15 +34,6 @@ export default class ViewListUsers extends Component {
         var userList = this.props.navigation.getParam('userList')
         return(
             <SafeAreaView>
-                <View style={{padding:10, flexDirection: 'row'}}>
-                <Icon
-                    name='three-bars'
-                    size={30}
-                    color='#222'
-                    onPress={() => this.props.navigation.toggleDrawer()}
-                />
-                <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}> View Users </Text>
-                </View>
                 {userList.length == 0 ? <Text style={{fontSize: 20, fontStyle: 'italics'}}> No Users to Show </Text> : 
                     <FlatList
                     data={userList}

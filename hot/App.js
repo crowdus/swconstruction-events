@@ -69,6 +69,14 @@ const evtNavigator = createStackNavigator({
             drawerLabel: () => null
         }),
     },
+    ViewListUsers: {screen: ViewListUsers,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <HeaderBackButton onPress={()=>navigation.goBack(null)} />,
+            drawerLabel: () => null
+        }),
+    },
+    UserView: { screen: ProfileView },
+    FriendView: { screen: UserView },
 }); 
 
 const regNavigator = createStackNavigator({
@@ -104,12 +112,9 @@ const MainNavigator = createDrawerNavigator({
   UsersFollowing: {screen: UsersFollowing},
 
   // invisible
-  UserView: { screen: ProfileView },
-  FriendView: {screen: UserView},
   TagButton: { screen: TagButton, navigationOptions: {drawerLabel: () => null}},
   EditEvent: {screen: EditEvent, navigationOptions: {drawerLabel: () => null}},
   regNav: {screen: regNavigator, navigationOptions: {drawerLabel: () => null}},
-  ViewListUsers: {screen: ViewListUsers},
 });
 
 
