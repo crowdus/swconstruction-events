@@ -140,7 +140,7 @@ export default class CreateEvent extends React.Component {
           if (loc != null) {
             add_event_to_database(validEvent, (resp) => {
               if (resp['error']) {
-                Alert.alert("bad admins")
+                Alert.alert("Make sure your admins are existing users")
               }
               else if (resp != 0) {
                 validEvent.set_eventID(resp)
