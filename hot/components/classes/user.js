@@ -203,7 +203,7 @@ export function isGoodUser(username, firstname, lastname, email, password){
 
 export function change_user_database(user){
   // console.log("UPDATE")
-  // console.log(user)
+  console.log(JSON.stringify(user))
   user.username = user.username
   fetch(`${BASE_URL}/users/`, {
     method: 'PUT',
@@ -224,7 +224,7 @@ export function change_user_database(user){
 // User Class
 export default class User extends Followable {
 
-    constructor(_id, username, firstname, lastname, email, datejoined, password, point, friends) {
+    constructor(_id, username, firstname, lastname, email, datejoined, password, point, friends, tags) {
         super()
         // Validate Attributes
         var goodUser = isGoodUser(username, firstname, lastname, email, password)
@@ -244,6 +244,7 @@ export default class User extends Followable {
           this.point = 0
           this.friends = []
           this.location = [0,0]
+          this.tags = []
         }
         else{
           this._id = _id
@@ -256,6 +257,7 @@ export default class User extends Followable {
           this.point = point
           this.friends = friends
           this.location = []
+          this.tags = tags
       }
     }
 
@@ -381,6 +383,26 @@ export default class User extends Followable {
       this.friends = this.friends.filter(e => e !== _userid)
       return true
     }
+    
+    async follow_tag(tag){
+      if (this.friends.length === 0){
+        this.tags = [tag];
+        return true;
+      }
+      else if (this.tags.includes(tag))
+        return false
+      await this.tags.push(tag);
+      change_user_database(this)
+      return true;
+    }
+
+    async unfollow_tag(tag){
+      if (! this.tags.includes(tag))
+        return false
+      this.tags = this.tags.filter(e => e !== tag)
+      change_user_database(this)
+      return true
+    }
 
     get_status_for_event(event, cb) {
       fetch(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`, {
@@ -467,17 +489,14 @@ export default class User extends Followable {
     boost_event(_event){
       // 1. how many points can a user use to boost the event?
       // or is it, upon clicking every time, one point is used?
-      if(_event.is_admin(this)){
-        if(this.points <= globVars.points_to_boost){
+      
+      if(this.points <= globVars.points_to_boost){
           this.points -= globVars.points_to_boost
           return true
         } else {
           console.log("not enough points")
           return false
         }
-      } 
-      console.log("user is not admin")
-      return false;
     }
 
 
