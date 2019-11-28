@@ -20,17 +20,17 @@ const newUser = t.struct({
 var options = {
   fields: {
     username: {
-      placeholder: 'Username',
+      placeholder: 'Only alphanumeric, at least one letter. ',
       label: 'Username',
       //maxLength: 100
     },
     firstname: {
-      placeholder: 'First Name',
+      placeholder: 'Only alphanumeric characters',
       label: 'Firstname',
       //maxLength: 100
     },
     lastname: {
-      placeholder: 'Last Name',
+      placeholder: 'Only alphanumeric characters',
       label: 'Lastname',
       //maxLength: 100
     },
@@ -40,7 +40,7 @@ var options = {
       //maxLength: 100
     },
     password: {
-      placeholder: 'Password',
+      placeholder: 'min 10 characters, must contain upper&lower&number',
       label: 'Password',
       //maxLength: 20
     }
@@ -131,6 +131,14 @@ export default class Registration extends React.Component {
             <Text onPress={this.onPress}>
               {this.props.formStatus}
             </Text>
+            <Button
+                title="Back to LogIn"
+                color="#f194ff"
+                onPress={ () => {
+                    console.log("hello")
+                    this.props.navigation.navigate('LogIn')
+                }}
+              />
             </ScrollView>
           </View>
     );
