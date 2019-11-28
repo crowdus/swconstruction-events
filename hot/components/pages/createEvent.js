@@ -139,7 +139,10 @@ export default class CreateEvent extends React.Component {
           // Loc is valid
           if (loc != null) {
             add_event_to_database(validEvent, (resp) => {
-              if (resp != 0) {
+              if (resp['error']) {
+                Alert.alert("Make sure your admins are existing users")
+              }
+              else if (resp != 0) {
                 validEvent.set_eventID(resp)
                 console.log(`switched to events screen for ${resp}`)
                 this.props.navigation.navigate('Event', {evt: validEvent})

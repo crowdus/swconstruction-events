@@ -221,21 +221,32 @@ export default class Event extends Followable {
     
     // Boost
     is_boosted() { return this.isBoosted }
+
     set_boost(user) {
-        if(this.is_admin(user)) {
-            this.isBoosted = true
-            return true
+        if (!this.is_null_event()) {
+            if(this.is_admin(user)) {
+                this.isBoosted = true
+                return true
+            }
+            return false
         }
-        return false
+        else {
+            return null
+        }
     }
 
     // Points is not a attribute of the class, but is just a result of whether the event is boosted or not
     get_points() { 
-        if (this.is_boosted()) {
-            return 15
+        if (!this.is_null_event()) {
+            if (this.is_boosted()) {
+                return 15
+            }
+            else {
+                return 10
+            }
         }
         else {
-            return 10
+            return null
         }
     }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableHighlight, ScrollView} from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, ScrollView } from 'react-native';
 import t from 'tcomb-form-native';
 import User, {isGoodUser, get_user_from_id, get_user_from_username, change_user_database} from '../classes/user.js'
 import Geocoder from 'react-native-geocoding';
@@ -100,14 +100,15 @@ export default class EditUser extends React.Component {
                 var valid = isGoodUser(value.username, value.firstname, value.lastname, value.email, value.password)
                 console.log(valid)
                 if (valid) {
-                    var validUser = new User(usr._id, value.username, value.firstname, value.lastname, value.email, new Date().getDate(), value.password, 0, []);
+                    var validUser = new User(usr._id, value.username, value.firstname, value.lastname, value.email, usr.datejoined, value.password, 0, []);
                     console.log("start updating database")
                     var result = change_user_database(validUser) 
                     Alert.alert("Successfully updated!")
-                    var updateduser = get_user_from_id(usr._id)
+                    var updateduser = await get_user_from_id(usr._id)
                     console.log(updateduser)
                     globVars.user = updateduser
-                    this.props.navigation.navigate('Feed')
+                    console.log(globVars.user)
+                    this.props.navigation.navigate('EditUser')
                 }
                 else {
                     Alert.alert("False Input: check your input")
@@ -140,23 +141,25 @@ export default class EditUser extends React.Component {
       return (
         <View style={styles.container}>
           <ScrollView>
-          <Form
-            ref="form"
-            type={newUser}
-            options={options}
-            value = {value}
-          />
-          <TouchableHighlight style={styles.button} onPress={() => {this.onPress(user)}} underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.button} onPress={() => this.props.navigation.navigate('Feed')} underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Quit</Text>
-          </TouchableHighlight>
-  
-          <Text onPress={this.onPress}>
-            {this.props.formStatus}
-          </Text>
-  
+            <Form
+              ref="form"
+              type={newUser}
+              options={options}
+              value = {value}
+            />
+            <TouchableHighlight style={styles.button} onPress={() => {this.onPress(user)}} underlayColor='#99d9f4'>
+              <Text style={styles.buttonText}>
+                Save
+              </Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.button} onPress={() => this.props.navigation.navigate('Profile')} underlayColor='#99d9f4'>
+              <Text style={styles.buttonText}>
+                Quit
+              </Text>
+            </TouchableHighlight>
+            <Text onPress={this.onPress}>
+              {this.props.formStatus}
+            </Text>
           </ScrollView>
         </View>
       );

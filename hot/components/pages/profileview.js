@@ -8,7 +8,7 @@ import Constants from 'expo-constants';
 import User from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
 import {globVars} from '../classes/core';
-import {change_user_database} from './editUser.js'
+import EditUser, {change_user_database} from './editUser.js'
 import { isGoodUser, get_user_from_id } from '../classes/user';
 
 export default class ProfileView extends React.Component {
@@ -17,12 +17,16 @@ export default class ProfileView extends React.Component {
       this.state = {
       }
     }
+      onPress = () => {
+        console.log("inside edit button")
+        this.props.navigation.navigate('EditUser')
+      }
   
-    static navigationOptions = ({navigation}) => {
+    /*static navigationOptions = ({navigation}) => {
       return {
           drawerLabel: () => "Your Profile",
       }
-    };
+    };*/
   
     // componentDidMount() {
     //   var e = this.props.navigation.getParam('friend')
@@ -32,7 +36,7 @@ export default class ProfileView extends React.Component {
     render() {
       var user = globVars.user
       console.log(user)
-      const {navigate} = this.props.navigation;
+      //const {navigate} = this.props.navigation;
       return (
         <View style={{ flex: 1, justifyContent: "left", alignItems: "center" }}>
           <View style={{ flex: 3, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
@@ -81,9 +85,9 @@ export default class ProfileView extends React.Component {
               {"\n\n"}
             </Text>
             <Button
-                title="Edit"
-                color="#f194ff"
-                onPress={ () => {navigate('Settings')}}
+              title="Edit"
+              color="#f194ff"
+              onPress = {this.onPress}
             />
           </View>
           <View style={{ flex: 4, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>

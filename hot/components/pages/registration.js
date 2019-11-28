@@ -107,7 +107,8 @@ export default class Registration extends React.Component {
     console.log('Rendering registration page!')
     return (
           <View style={styles.container}>
-            <ScrollView>
+          <KeyboardAvoidingView style={{ justifyContent: 'left' }} behavior="position" enabled>
+          <ScrollView>
             <Text>
               <Text style={{fontSize: 20}}> Registration Requirements: </Text>
               {'\n'}{'\n'}
@@ -117,13 +118,11 @@ export default class Registration extends React.Component {
                   {'\t'} -Lowercase letter{'\n'}
                   {'\t'} -Number{'\n'}{'\n'}
             </Text>
-            <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}}>
             <Form
               ref="form"
               type={newUser}
               options={options}
             />
-            </KeyboardAvoidingView>
             <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
               <Text style={styles.buttonText}>Create</Text>
             </TouchableHighlight>
@@ -132,14 +131,16 @@ export default class Registration extends React.Component {
               {this.props.formStatus}
             </Text>
             <Button
-                title="Back to LogIn"
+                title="Back to Login"
                 color="#f194ff"
                 onPress={ () => {
-                    console.log("hello")
+                    console.log("hello from registration, going back to login")
                     this.props.navigation.navigate('LogIn')
                 }}
               />
-            </ScrollView>
+              </ScrollView>
+            </KeyboardAvoidingView>
+
           </View>
     );
   }
