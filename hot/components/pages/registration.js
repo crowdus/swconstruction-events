@@ -79,7 +79,7 @@ export default class Registration extends React.Component {
     // console.log(valid)
     if (value) {
       if (valid) {
-        var newUser = constructUser(value.username, value.firstname, value.lastname, value.email, new Date().getDate(), value.password, 0, [], [0,0])
+        var newUser = constructUser(value.username, value.firstname, value.lastname, value.email, new Date(), value.password, 0, [], [0,0])
         console.log("success!")
         Alert.alert(
           '',
