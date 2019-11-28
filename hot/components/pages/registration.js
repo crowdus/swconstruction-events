@@ -117,13 +117,11 @@ export default class Registration extends React.Component {
                   {'\t'} -Lowercase letter{'\n'}
                   {'\t'} -Number{'\n'}{'\n'}
             </Text>
-            <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}}>
             <Form
               ref="form"
               type={newUser}
               options={options}
             />
-            </KeyboardAvoidingView>
             <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
               <Text style={styles.buttonText}>Create</Text>
             </TouchableHighlight>

@@ -76,6 +76,11 @@ export default class ProfileView extends React.Component {
                 Points: {"  "} {user.point}
               </Text>
             </View>
+            <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
+              <Text>
+                Date Joined: {"  "} {user.datejoined}
+              </Text>
+            </View>
             <View style={{ flex: 4, flexDirection: "column", justifyContent: "left", alignItems: "center" }}>
             <Text>
               {"\n\n"}
