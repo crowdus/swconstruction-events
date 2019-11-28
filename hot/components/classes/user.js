@@ -3,8 +3,6 @@
 import Followable from './followable';
 const fetch = require("node-fetch");
 import {BASE_URL, fetch_headers, globVars} from './core';
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
-import { string } from '../../../../Library/Caches/typescript/3.6/node_modules/@types/prop-types';
 //import {change_user_database, EditUser} from '../pages/editUser';
 
 // Validation Functions
