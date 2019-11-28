@@ -90,7 +90,9 @@ function parse_tags(tag_str){
   if (tag_str != null && tag_str != "") {
       tagArray = tag_str.split(/[ ,]+/)
       for (var tag of tagArray) {
-          x.add(tag.toLowerCase()) /* TODO: make these sets instead of arrays */
+          if (tag.length > 0) {
+            x.add(tag.toLowerCase())
+          }
       }
   }
   return Array.from(x)
@@ -102,7 +104,9 @@ function parse_admins(admin_str, username){
   if (admin_str != null && admin_str != "") {
       adArray = admin_str.split(/[ ,]+/)
       for (var ad of adArray) {
-          x.add(ad.toLowerCase()) /* TODO: make these sets instead of arrays */
+        if (tag.length > 0) {
+          x.add(ad.toLowerCase())
+        }
       }
   }
   return Array.from(x)
