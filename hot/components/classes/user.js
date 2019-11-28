@@ -203,7 +203,7 @@ export function isGoodUser(username, firstname, lastname, email, password){
 
 export function change_user_database(user){
   // console.log("UPDATE")
-  // console.log(user)
+  console.log(JSON.stringify(user))
   user.username = user.username
   fetch(`${BASE_URL}/users/`, {
     method: 'PUT',
@@ -224,7 +224,7 @@ export function change_user_database(user){
 // User Class
 export default class User extends Followable {
 
-    constructor(_id, username, firstname, lastname, email, datejoined, password, point, friends) {
+    constructor(_id, username, firstname, lastname, email, datejoined, password, point, friends, tags) {
         super()
         // Validate Attributes
         var goodUser = isGoodUser(username, firstname, lastname, email, password)
@@ -244,6 +244,7 @@ export default class User extends Followable {
           this.point = 0
           this.friends = []
           this.location = [0,0]
+          this.tags = []
         }
         else{
           this._id = _id
@@ -256,6 +257,7 @@ export default class User extends Followable {
           this.point = point
           this.friends = friends
           this.location = []
+          this.tags = tags
       }
     }
 
@@ -379,6 +381,26 @@ export default class User extends Followable {
         return false
       }
       this.friends = this.friends.filter(e => e !== _userid)
+      return true
+    }
+    
+    async follow_tag(tag){
+      if (this.friends.length === 0){
+        this.tags = [tag];
+        return true;
+      }
+      else if (this.tags.includes(tag))
+        return false
+      await this.tags.push(tag);
+      change_user_database(this)
+      return true;
+    }
+
+    async unfollow_tag(tag){
+      if (! this.tags.includes(tag))
+        return false
+      this.tags = this.tags.filter(e => e !== tag)
+      change_user_database(this)
       return true
     }
 

@@ -8,7 +8,8 @@ import TagButton from '../renderables/tagButton.js';
 import User from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
 import EventCard from '../renderables/eventcard'
-
+import {globVars} from '../classes/core.js'
+import {change_user_database} from '../classes/user.js'
 
 // the class that renders the keys.
 export default class TagView extends Component {
@@ -56,10 +57,14 @@ export default class TagView extends Component {
     // Shows the feed
     render() {
         const navigation = this.props.navigation;
-        var usr = this.props.navigation.getParam('usr')
+        var usr = globVars.user
 
         return(
             this.state.t && this.state.data && <SafeAreaView>
+                <Button 
+                    title="Follow"
+                    onPress={()=> {usr.follow_tag(this.state.t); change_user_database(usr); console.log(usr.tags);}}
+                />
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
