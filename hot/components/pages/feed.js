@@ -54,7 +54,7 @@ export class Feed extends Component {
         var usr = globVars.user
         
         if (this.state.loc) {
-            fetch(this.url(), {
+            fetch('http://hot-backend.herokuapp.com/events/', {
                 method: 'GET',
             }).then((response) => response.json())
             .then((responseJson) => {
