@@ -467,17 +467,14 @@ export default class User extends Followable {
     boost_event(_event){
       // 1. how many points can a user use to boost the event?
       // or is it, upon clicking every time, one point is used?
-      if(_event.is_admin(this)){
-        if(this.points <= globVars.points_to_boost){
+      
+      if(this.points <= globVars.points_to_boost){
           this.points -= globVars.points_to_boost
           return true
         } else {
           console.log("not enough points")
           return false
         }
-      } 
-      console.log("user is not admin")
-      return false;
     }
 
 
