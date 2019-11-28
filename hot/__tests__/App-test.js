@@ -591,11 +591,11 @@ test('event addr', function() {
 
 test('event points !!', function() {
     const event = new Event("", "", "", "", "", "", "", "");
-    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["alicehey"], null, false, 1)
     expect(event.get_points()).toBe(null)
     expect(event.set_boost()).toBe(null)
     expect(event2.get_points()).toBe(10)
-    expect(event2.set_boost()).toBeTruthy()
+    expect(event2.set_boost(alice)).toBeTruthy()
     expect(event2.get_points()).toBe(15)
 })
 
@@ -617,12 +617,12 @@ test('event tags', function() {
 
 test('booboobooboosted !', function() {
     const event = new Event("", "", "", "", "", "", "", "");
-    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["alicehey"], null, false, 1)
     expect(event.is_boosted()).toBeFalsy()
     expect(event2.is_boosted()).toBeFalsy()
-    expect(event.set_boost()).toBeTruthy()
-    expect(event2.set_boost()).toBeTruthy()
-    expect(event.is_boosted()).toBeTruthy()
+    expect(event.set_boost()).toBe(null)
+    expect(event2.set_boost(alice)).toBeTruthy()
+    expect(event.is_boosted()).toBe(null)
     expect(event2.is_boosted()).toBeTruthy()
 })
 
@@ -650,60 +650,11 @@ test('user following event !!', function() {
 });
 
 test('setting boost !!', function() {
-    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
-    expect(event2.set_boost("not_admin")).toBeFalsy()
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["alicehey"], null, false, 1)
+    expect(event2.set_boost(bobby)).toBeFalsy()
     expect(event2.is_boosted()).toBeFalsy()
-    expect(event2.set_boost("admin")).toBeTruthy()
+    expect(event2.set_boost(alice)).toBeTruthy()
     expect(event2.is_boosted()).toBeTruthy()
-})
-
-test('admin edit event !!', function() {
-    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
-    expect(event2.edit_event("not_admin", null, "new desc", null, null, null, null)).toBeFalsy()
-    expect(event2.get_desc().toBe("desc"))
-    expect(event2.get_name()).toBe("e")
-    expect(event2.edit_event("admin", "new title", "new desc", null, null, null, null)).toBeTruthy()
-    expect(event2.get_name()).toBe("new title")
-    expect(event2.get_desc()).toBe("new desc")
-    expect(event2.get_address()).toBe("12 st.")
-    expect(event2.edit_event("admin", null, null, null, null, null, ["admin2", "admin3"])).toBeTruthy()
-    expect(event2.edit_event("admin2", "new admin title", null, null, null, null, null)).toBeTruthy()
-    expect(event2.get_name()).toBe("new admin title")
-    expect(event2.edit_event("admin", null, null, null, null, null, ["admin2"])).toBeTruthy()
-    expect(event2.get_admins()).toEqual(["admin", "admin2", "admin3"])
-})
-
-test('get hot level !!', function() {
-    // For now, each 4 users checking in raises your event by one hot level
-    // This is our map test: the hot levels will show how big the event's marker will be on the map
-    const event1 = new Event("5dccea31f8b3c20017ac03c0", "e1", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
-    expect(event1.get_hot_level()).toBe(1)
-    expect(event1.set_boost()).toBeTruthy()
-    expect(event1.get_hot_level()).toBe(1)
-    bobby = new User(null, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-    alice = new User(null, "alicehey", "alice", "moore", "alicemoore@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-    calvin = new User(null, "calvin67", "calvin", "lee", "calvinlee@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-    david = new User(null, "david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-    expect(event1.addFollower(bobby, "CheckedIn")).toBeTruthy()
-    expect(event1.get_hot_level()).toBe(1)
-    expect(event1.addFollower(alice, "CheckedIn")).toBeTruthy()
-    expect(event1.get_hot_level()).toBe(1)
-    expect(event1.addFollower(calvin, "CheckedIn")).toBeTruthy()
-    expect(event1.get_hot_level()).toBe(1)
-    expect(event1.addFollower(david, "CheckedIn")).toBeTruthy()
-    expect(event1.get_hot_level()).toBe(2)
-    michael = new User(null, "spuyten", "michael", "woo", "mwoo@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-    harry = new User(null, "singer", "harry", "lum", "lum@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-    eric = new User(null, "mrpewpew", "eric", "bao", "biggitybao@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-    victoria = new User(null, "ithinkweALLsing", "victoria", "justice", "torivega@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-    expect(event1.addFollower(michael, "CheckedIn")).toBeTruthy()
-    expect(event1.get_hot_level()).toBe(2)
-    expect(event1.addFollower(harry, "CheckedIn")).toBeTruthy()
-    expect(event1.get_hot_level()).toBe(2)
-    expect(event1.addFollower(eric, "CheckedIn")).toBeTruthy()
-    expect(event1.get_hot_level()).toBe(2)
-    expect(event1.addFollower(victoria, "CheckedIn")).toBeTruthy()
-    expect(event1.get_hot_level()).toBe(3)
 })
 
 // // ---------- Tag Tests ---------------------------

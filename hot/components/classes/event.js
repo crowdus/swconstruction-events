@@ -221,12 +221,18 @@ export default class Event extends Followable {
     
     // Boost
     is_boosted() { return this.isBoosted }
+
     set_boost(user) {
-        if(this.is_admin(user)) {
-            this.isBoosted = true
-            return true
+        if (!this.is_null_event()) {
+            if(this.is_admin(user)) {
+                this.isBoosted = true
+                return true
+            }
+            return false
         }
-        return false
+        else {
+            return null
+        }
     }
 
     // Points is not a attribute of the class, but is just a result of whether the event is boosted or not
@@ -307,7 +313,6 @@ export default class Event extends Followable {
             cb(responseText)
         })
         .catch((error) => {
-            console.log("is it this?")
             console.error(error);
             cb(null)
         });
