@@ -36,6 +36,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import MapFeed from './components/pages/mapFeed'
 import React, { Component } from 'react';
 import EditEvent from './components/pages/editEvent'
+import ViewListUsers from './components/pages/viewListUsers'
 // import { createStore, combineReducers } from 'redux';
 
 // let store = createStore(combineReducers({ count: counter }));
@@ -107,7 +108,8 @@ const MainNavigator = createDrawerNavigator({
   FriendView: {screen: UserView},
   TagButton: { screen: TagButton, navigationOptions: {drawerLabel: () => null}},
   EditEvent: {screen: EditEvent, navigationOptions: {drawerLabel: () => null}},
-  regNav: {screen: regNavigator, navigationOptions: {drawerLabel: () => null}}
+  regNav: {screen: regNavigator, navigationOptions: {drawerLabel: () => null}},
+  ViewListUsers: {screen: ViewListUsers},
 });
 
 

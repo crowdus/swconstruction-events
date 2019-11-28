@@ -80,6 +80,7 @@ export default class LogIn extends React.Component {
                     console.log("valid combo from login page, logging in...\n")
                     var u = finduser
                     globVars.user = new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends'])
+                    console.log(globVars.user)
                     navigate('Feed')
                   }
                   else{
@@ -88,7 +89,7 @@ export default class LogIn extends React.Component {
                     //globVars.user = new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends'])
                     //console.log(globVars.user)
                     //navigate('Feed')
-                    Alert.alert("Incorrect login")
+                    //Alert.alert("Incorrect login")
                     
                   }
                 }}

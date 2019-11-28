@@ -32,7 +32,7 @@ export default class UserView extends React.Component {
 
   static navigationOptions = ({navigation}) => {
     return {
-        drawerLabel: () => "User View",
+        drawerLabel: () => null,
     }
   };
 
@@ -88,7 +88,7 @@ export default class UserView extends React.Component {
           </View>
           <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
             <Text>
-              Score: {"  "} {e.point}
+              Points: {"  "} {e.point}
             </Text>
           </View>
           <View style={{ flex: 4, flexDirection: "column", justifyContent: "left", alignItems: "center" }}>
