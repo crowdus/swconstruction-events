@@ -385,6 +385,10 @@ export default class User extends Followable {
     }
     
     follow_tag(tag){
+      if (!this.tags) {
+        this.tags = [tag];
+        return true;
+      }
       if (this.tags.length === 0){
         this.tags = [tag];
         return true;
