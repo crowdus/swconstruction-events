@@ -86,6 +86,7 @@ export default class UsersFollowing extends Component {
                             </View>
                         </TouchableOpacity>}
                 />
+                
             </SafeAreaView>
         );
     }
