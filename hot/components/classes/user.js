@@ -3,6 +3,8 @@
 import Followable from './followable';
 const fetch = require("node-fetch");
 import {BASE_URL, fetch_headers, globVars} from './core';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
+import { string } from '../../../../Library/Caches/typescript/3.6/node_modules/@types/prop-types';
 //import {change_user_database, EditUser} from '../pages/editUser';
 
 // Validation Functions
@@ -48,6 +50,30 @@ export function check_valid_password(password){
   return false;
 }
 
+export function standardize(alnumstring){
+  var str = new string("")
+  for(i = 0, len = alnumstring.length; i < len; i++){
+    a = alnumstring.charCodeAt(i);
+    //standardize to lowercase
+    lowchar = (((a > 64) && (a < 91)) ? (a - 32) : a);
+    str[i] = lowchar
+  }
+  return str;
+}
+
+export function basicallysame(userinput, database){
+  var inchar, dbchar, a, b;
+  if(userinput.length !== database.length) return false;
+  for(i = 0, len = userinput.length; i < len; i++){
+    a = userinput.charCodeAt(i);
+    b = database.charCodeAt(i);
+    //standardize to lowercase and compare
+    inchar = (((a > 64) && (a < 91)) ? (a - 32) : a);
+    dbchar = (((b > 64) && (b < 91)) ? (b - 32) : b);
+    if(inchar === dbchar){ continue; } else { return false; }
+  }
+}
+
 
 // Returns user object given a user ID
 export async function get_user_from_id(userid) {
@@ -76,7 +102,7 @@ export async function get_user_from_username(username) {
         method: 'GET',
         headers: fetch_headers})
       const json = response.json()
-      return json;
+      return standardize(json);
     }
   catch(err){
     console.log(err)
@@ -162,7 +188,7 @@ export async function setUserID(_user){
 
 
 export async function constructUser(username, firstname, lastname, email, datejoined, password, point, friends){
-  const auser = new User(null, username, firstname, lastname, email, datejoined, password, point, friends)
+  const auser = new User(null, standardize(username), firstname, lastname, email, datejoined, password, point, friends)
   await setUserID(auser);
   // console.log(auser);
   // await setUserID(auser);
@@ -180,6 +206,7 @@ export function isGoodUser(username, firstname, lastname, email, password){
 export function change_user_database(user){
   // console.log("UPDATE")
   // console.log(user)
+  user.username = standardize(user.username)
   fetch(`${BASE_URL}/users/`, {
     method: 'PUT',
     headers: fetch_headers,
@@ -262,7 +289,7 @@ export default class User extends Followable {
         }
         var result = await check();
         if (result){
-          this.username = _name
+          this.username = standardize(_name)
         }
         return result;
       }
@@ -300,8 +327,6 @@ export default class User extends Followable {
         return result;
       }
     }
-
-
 
     setDateJoined(_date) {
       if (_date == "")
@@ -415,6 +440,7 @@ export default class User extends Followable {
 
     set_location(lat, long) {
       this.location = [lat, long]
+      change_user_database(this)
     }
 
     get_location() {
