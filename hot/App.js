@@ -72,6 +72,7 @@ const MainNavigator = createDrawerNavigator({
   // invisible
   Event: { screen: EventView },
   UserView: { screen: ProfileView },
+  FriendView: {screen: UserView},
   TagView: { screen: TagView },
   TagButton: { screen: TagButton },
   Registration: { screen: Registration },
