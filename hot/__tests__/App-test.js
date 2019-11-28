@@ -518,11 +518,11 @@ test('event addr', function() {
 test('event points !!', function() {
     const event = new Event("", "", "", "", "", "", "", "");
     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["alicehey"], null, false, 1)
-    expect(event.get_points()).toBe(null)
+    expect(event.get_points()).toBe(null) //null event has null points and boost
     expect(event.set_boost()).toBe(null)
-    expect(event2.get_points()).toBe(10)
+    expect(event2.get_points()).toBe(10) //this is because unboosted events are worth 10 points (constant val)
     expect(event2.set_boost(alice)).toBeTruthy()
-    expect(event2.get_points()).toBe(15)
+    expect(event2.get_points()).toBe(15) //this is because boosted events are worth 15 points (Constant val)
 })
 
 test('event tags', function() {
@@ -580,7 +580,8 @@ test('setting boost !!', function() {
     expect(event2.set_boost(bobby)).toBeFalsy()
     expect(event2.is_boosted()).toBeFalsy()
     expect(event2.set_boost(alice)).toBeTruthy()
-    expect(event2.is_boosted()).toBeTruthy()
+    expect(event2.is_boosted()).toBeTruthy() 
+    expect(event2.get_points() == 15).toBeTruthy() //boosted events are worth 15
 })
 
 // // ---------- Tag Tests ---------------------------
