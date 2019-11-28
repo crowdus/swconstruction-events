@@ -203,15 +203,6 @@ describe('testing getters and setters', () => {
     //     expect(alice.getLastName()).toBe("bobby1234");
     // });
 
-    // // test("testing get/set Location", () => {
-    // //     expect(bobby.get_location().toBe([0,0]))
-    // //     expect(bobby.set_location(40, 30)).toBeTruthy()
-    // //     expect(bobby.get_location()).toBe([40, 30])
-    // //     expect(bobby.set_location(100, 200)).toBeFalsy()
-    // //     expect(bobby.get_location()).toBe([40, 30])
-
-    // // })
-
     // test("testing get/set Email", async () => {
     //     // check for the correct email address format, i.e. whether it contains @
     //     // check for valid email address
@@ -378,238 +369,225 @@ describe('Points', () => {
     });
 });
 
-// // ---------- Event Tests ---------------------------
-// function n_str(n) {
-//     var ret = ""
-//     for (i = 0; i < n; i++) {
-//         ret += "a"
-//     }
-//     return ret;
-// }
+// ---------- Event Tests ---------------------------
+function n_str(n) {
+    var ret = ""
+    for (i = 0; i < n; i++) {
+        ret += "a"
+    }
+    return ret;
+}
 
-// test('event constructor!', function() {
-//     var good_event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
-//     expect(good_event.get_name()).toBe("e")
-//     expect(good_event.get_desc()).toBe("desc")
+test('event constructor!', function() {
+    var good_event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"], null, false, 1)
+    expect(good_event.get_name()).toBe("e")
+    expect(good_event.get_desc()).toBe("desc")
 
-//     var s = new Date("01 Jun 2019 00:00:00 GMT")
-//     var e = new Date("02 Jun 2019 00:00:00 GMT")
+    var s = new Date("01 Jun 2019 00:00:00 GMT")
+    var e = new Date("02 Jun 2019 00:00:00 GMT")
 
-//     expect(good_event.get_start_date().getTime() == s.getTime()).toBeTruthy()
-//     expect(good_event.get_end_date().getTime() == e.getTime()).toBeTruthy()
-//     expect(good_event.get_admins()).toEqual(["admin"])
-//     expect(good_event.get_address()).toBe("Times Square")
-//     expect(good_event.get_tags()).toEqual(["tags"])
-//     expect(good_event.is_boosted() == false).toBeTruthy()
-//     expect(good_event.get_points()).toBe(10)
+    expect(good_event.get_start_date().getTime() == s.getTime()).toBeTruthy()
+    expect(good_event.get_end_date().getTime() == e.getTime()).toBeTruthy()
+    expect(good_event.get_admins()).toEqual(["admin"])
+    expect(good_event.get_address()).toBe("Times Square")
+    expect(good_event.get_tags()).toEqual(["tags"])
+    expect(good_event.is_boosted() == false).toBeTruthy()
+    expect(good_event.get_points()).toBe(10)
 
-//     const bad_event = new Event("", "desc", new Date(), new Date(), "12 st.", "tags", "admin")
-//         // bad event should be null event (all other params are "" or null)
-//     expect(bad_event.get_name()).toBe("")
-//     expect(bad_event.get_desc()).toBe("")
-//     expect(bad_event.get_start_date()).toBe(null)
-//     expect(bad_event.get_end_date()).toBe(null)
-//     expect(bad_event.get_admins()).toEqual([])
-//     expect(bad_event.get_address()).toBe("")
-//     expect(bad_event.get_tags()).toEqual([])
-//     expect(bad_event.is_boosted() == null).toBeTruthy()
-//     expect(bad_event.get_points()).toBe(null)
+    const bad_event = new Event("", "desc", new Date(), new Date(), "12 st.", ["tags"], ["admin"], null, false, 1)
+        // bad event should be null event (all other params are "" or null)
+    expect(bad_event.get_name()).toBe("")
+    expect(bad_event.get_desc()).toBe("")
+    expect(bad_event.get_start_date()).toBe(null)
+    expect(bad_event.get_end_date()).toBe(null)
+    expect(bad_event.get_admins()).toEqual([])
+    expect(bad_event.get_address()).toBe("")
+    expect(bad_event.get_tags()).toEqual([])
+    expect(bad_event.is_boosted() == null).toBeTruthy()
+    expect(bad_event.get_points()).toBe(null)
 
 
 
-// })
+})
 
-// test('event name!', function() {
-//     const event = new Event("", "", "", "", "", "", "", "");
-//     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
-//     expect(event.get_name()).toBe("")
-//     expect(event.set_name("event1")).toBeTruthy()
-//     expect(event.get_name()).toBe("event1")
-//     expect(event.set_name(n_str(129))).toBeFalsy()
-//     expect(event2.get_name()).toBe("e")
-//     expect(event2.set_name("e2")).toBeTruthy()
-//     expect(event2.get_name()).toBe("e2")
-// })
+test('event name!', function() {
+    const event = new Event("", "", "", "", "", "", "", "");
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"], null, false, 1)
+    expect(event.get_name()).toBe("")
+    expect(event.set_name("event1")).toBeTruthy()
+    expect(event.get_name()).toBe("event1")
+    expect(event.set_name(n_str(129))).toBeFalsy()
+    expect(event2.get_name()).toBe("e")
+    expect(event2.set_name("e2")).toBeTruthy()
+    expect(event2.get_name()).toBe("e2")
+})
 
-// test('event desc!', function() {
-//     const event = new Event("", "", "", "", "", "", "", "");
-//     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
-//     expect(event.get_desc()).toBe("")
-//     expect(event.set_desc("desc1")).toBeTruthy()
-//     expect(event.get_desc()).toBe("desc1")
-//     expect(event.set_desc(n_str(1001))).toBeFalsy()
-//     expect(event2.get_desc()).toBe("desc")
-//     expect(event2.set_desc("desc2")).toBeTruthy()
-//     expect(event2.get_desc()).toBe("desc2")
-// })
+test('event desc!', function() {
+    const event = new Event("", "", "", "", "", "", "", "");
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"], null, false, 1)
+    expect(event.get_desc()).toBe("")
+    expect(event.set_desc("desc1")).toBeTruthy()
+    expect(event.get_desc()).toBe("desc1")
+    expect(event.set_desc(n_str(1001))).toBeFalsy()
+    expect(event2.get_desc()).toBe("desc")
+    expect(event2.set_desc("desc2")).toBeTruthy()
+    expect(event2.get_desc()).toBe("desc2")
+})
 
-// test('event date!', function() {
-//     const event_null = new Event("", "", "", "", "", "", "", "");
-//     expect(event_null.get_start_date()).toBe(null);
-//     expect(event_null.get_end_date()).toBe(null);
+test('event date!', function() {
+    const event_null = new Event("", "", "", "", "", "", "", "");
+    expect(event_null.get_start_date()).toBe(null);
+    expect(event_null.get_end_date()).toBe(null);
 
-//     const event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
-//     //Set valid Start and End dates
-//     const new_start = new Date("01 Feb 2019 00:00:00 GMT");
-//     expect(event.set_start_date(new_start)).toBeTruthy()
-//     const new_end = new Date("01 Jun 2019 1:00:00 GMT");
-//     expect(event.set_end_date(new_end)).toBeTruthy()
+    const event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"], null, false, 1)
+    //Set valid Start and End dates
+    const new_start = new Date("01 Feb 2019 00:00:00 GMT");
+    expect(event.set_start_date(new_start)).toBeTruthy()
+    const new_end = new Date("01 Jun 2019 1:00:00 GMT");
+    expect(event.set_end_date(new_end)).toBeTruthy()
 
-//     // Invalid Start
-//     const invalid_start = new Date("02 Jun 2019 00:00:00 GMT");
-//     expect(event.set_start_date(invalid_start)).toBeFalsy()
-//     expect(event.get_start_date()).toBe(new_start);
+    // Invalid Start
+    const invalid_start = new Date("02 Jun 2019 00:00:00 GMT");
+    expect(event.set_start_date(invalid_start)).toBeFalsy()
+    expect(event.get_start_date()).toBe(new_start);
 
-//     // Invalid End
-//     const invalid_end = new Date("12 Jan 2019 00:00:00 GMT");
-//     expect(event.set_end_date(invalid_end)).toBeFalsy()
-//     expect(event.get_end_date()).toBe(new_end);
-// })
+    // Invalid End
+    const invalid_end = new Date("12 Jan 2019 00:00:00 GMT");
+    expect(event.set_end_date(invalid_end)).toBeFalsy()
+    expect(event.get_end_date()).toBe(new_end);
+})
 
-// test('event addr', function() {
-//     const event = new Event("", "", "", "", "", "", "", "");
-//     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
-//     expect(event.get_address()).toBe("");
-//     is_valid_addr("Cornelia St", (res) => {
-//         expect(res.toBeTruthy())
-//         event.set_address("Cornelia St").toBeTruthy()
-//         expect(event.get_address()).toBe("Cornelia St")
-//     })
-//     is_valid_addr("adjawdjaahd", (res) => {
-//         expect(res.toBeFalsy())
-//         expect(event2.get_address()).toBe("12 st.")
-//     })
-// })
+test('event addr', function() {
+    const event = new Event("", "", "", "", "", "", "", "");
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    expect(event.get_address()).toBe("");
+    is_valid_addr("Cornelia St", (res) => {
+        expect(res.toBeTruthy())
+        event.set_address("Cornelia St").toBeTruthy()
+        expect(event.get_address()).toBe("Cornelia St")
+    })
+    is_valid_addr("adjawdjaahd", (res) => {
+        expect(res.toBeFalsy())
+        expect(event2.get_address()).toBe("12 st.")
+    })
+})
 
-// test('event points !!', function() {
-//     const event = new Event("", "", "", "", "", "", "", "");
-//     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
-//     expect(event.get_points()).toBe(null)
-//     expect(event.set_boost()).toBe(null)
-//     expect(event2.get_points()).toBe(10)
-//     expect(event2.set_boost()).toBeTruthy()
-//     expect(event2.get_points()).toBe(15)
-// })
+test('event points !!', function() {
+    const event = new Event("", "", "", "", "", "", "", "");
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    expect(event.get_points()).toBe(null)
+    expect(event.set_boost()).toBe(null)
+    expect(event2.get_points()).toBe(10)
+    expect(event2.set_boost()).toBeTruthy()
+    expect(event2.get_points()).toBe(15)
+})
 
-// test('event tags', function() {
-//     const event = new Event("", "", "", "", "", "", "", "");
-//     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
-//     const event3 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tg1", "tg2"], ["admin"])
-//     expect(event.get_tags()).toEqual([]);
-//     expect(event.add_tag("t1")).toBeTruthy()
-//     expect(event.add_tag("t2")).toBeTruthy()
-//     expect(event.get_tags()).toEqual(["t1", "t2"])
-//     expect(event.add_tag("t2")).toBeTruthy()
-//     expect(event.get_tags()).toEqual(["t1", "t2"])
-//     expect(event2.get_tags()).toEqual(["tags"])
-//     expect(event2.add_tag("tag2")).toBeTruthy()
-//     expect(event2.get_tags()).toEqual(["tags", "tag2"])
-//     expect(event3.get_tags()).toEqual(["tg1", "tg2"])
-// })
+test('event tags', function() {
+    const event = new Event("", "", "", "", "", "", "", "");
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    const event3 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tg1", "tg2"], ["admin"], null, false, 1)
+    expect(event.get_tags()).toEqual([]);
+    expect(event.add_tag("t1")).toBeTruthy()
+    expect(event.add_tag("t2")).toBeTruthy()
+    expect(event.get_tags()).toEqual(["t1", "t2"])
+    expect(event.add_tag("t2")).toBeFalsy()
+    expect(event.get_tags()).toEqual(["t1", "t2"])
+    expect(event2.get_tags()).toEqual(["tags"])
+    expect(event2.add_tag("tag2")).toBeTruthy()
+    expect(event2.get_tags()).toEqual(["tags", "tag2"])
+    expect(event3.get_tags()).toEqual(["tg1", "tg2"])
+})
 
-// test('booboobooboosted !', function() {
-//     const event = new Event("", "", "", "", "", "", "", "");
-//     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
-//     expect(event.is_boosted()).toBeFalsy()
-//     expect(event2.is_boosted()).toBeFalsy()
-//     expect(event.set_boost()).toBeTruthy()
-//     expect(event2.set_boost()).toBeTruthy()
-//     expect(event.is_boosted()).toBeTruthy()
-//     expect(event2.is_boosted()).toBeTruthy()
-// })
+test('booboobooboosted !', function() {
+    const event = new Event("", "", "", "", "", "", "", "");
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    expect(event.is_boosted()).toBeFalsy()
+    expect(event2.is_boosted()).toBeFalsy()
+    expect(event.set_boost()).toBeTruthy()
+    expect(event2.set_boost()).toBeTruthy()
+    expect(event.is_boosted()).toBeTruthy()
+    expect(event2.is_boosted()).toBeTruthy()
+})
 
-// test('event admin!', function() {
-//     const event = new Event("", "", "", "", "", "", "", "");
-//     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
-//     expect(event.get_admins()).toEqual([])
-//     expect(event.add_admin("a2")).toBeTruthy()
-//     expect(event.get_admins()).toEqual(["a2"])
-//     expect(event.add_admin("a2")).toBeTruthy()
-//     expect(event.get_admins()).toEqual(["a2"])
-//     expect(event2.get_admins()).toEqual(["admin"])
-// })
+test('event admin!', function() {
+    const event = new Event("", "", "", "", "", "", "", "");
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    expect(event.get_admins()).toEqual([])
+    expect(event.add_admin("a2")).toBeTruthy()
+    expect(event.get_admins()).toEqual(["a2"])
+    expect(event.add_admin("a2")).toBeFalsy()
+    expect(event.get_admins()).toEqual(["a2"])
+    expect(event2.get_admins()).toEqual(["admin"])
+})
 
-// test('user following event !!', function() {
-//     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
-//     expect(event2.addFollower(alice, "going", (val)=>{
-//         expect(val != null).toBeTruthy()
-//         expect(event2.get_status_people("going")).toEqual([alice])
-//         expect(event2.get_status_people("interested")).toEqual([])
-//         expect(event2.get_check_ins()).toEqual([])
-//         expect(event2.removeFollower(alice)).toBeFalsy()
-//         expect(event2.get_status_people("going")).toEqual([])
-//     }))
-// });
+test('user following event !!', function() {
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    expect(event2.addFollower(alice, "going", (val)=>{
+        expect(val != null).toBeTruthy()
+        expect(event2.get_status_people("going")).toEqual([alice])
+        expect(event2.get_status_people("interested")).toEqual([])
+        expect(event2.get_check_ins()).toEqual([])
+        expect(event2.removeFollower(alice)).toBeFalsy()
+        expect(event2.get_status_people("going")).toEqual([])
+    }))
+});
 
-// test('setting boost !!', function() {
-//     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
-//     expect(event2.set_boost("not_admin")).toBeFalsy()
-//     expect(event2.is_boosted()).toBeFalsy()
-//     expect(event2.set_boost("admin")).toBeTruthy()
-//     expect(event2.is_boosted()).toBeTruthy()
-// })
+test('setting boost !!', function() {
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    expect(event2.set_boost("not_admin")).toBeFalsy()
+    expect(event2.is_boosted()).toBeFalsy()
+    expect(event2.set_boost("admin")).toBeTruthy()
+    expect(event2.is_boosted()).toBeTruthy()
+})
 
-// test('admin edit event !!', function() {
-//     const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
-//     expect(event2.edit_event("not_admin", null, "new desc", null, null, null, null)).toBeFalsy()
-//     expect(event2.get_desc().toBe("desc"))
-//     expect(event2.get_name()).toBe("e")
-//     expect(event2.edit_event("admin", "new title", "new desc", null, null, null, null)).toBeTruthy()
-//     expect(event2.get_name()).toBe("new title")
-//     expect(event2.get_desc()).toBe("new desc")
-//     expect(event2.get_address()).toBe("12 st.")
-//     expect(event2.edit_event("admin", null, null, null, null, null, ["admin2", "admin3"])).toBeTruthy()
-//     expect(event2.edit_event("admin2", "new admin title", null, null, null, null, null)).toBeTruthy()
-//     expect(event2.get_name()).toBe("new admin title")
-//     expect(event2.edit_event("admin", null, null, null, null, null, ["admin2"])).toBeTruthy()
-//     expect(event2.get_admins()).toEqual(["admin", "admin2", "admin3"])
-// })
+test('admin edit event !!', function() {
+    const event2 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    expect(event2.edit_event("not_admin", null, "new desc", null, null, null, null)).toBeFalsy()
+    expect(event2.get_desc().toBe("desc"))
+    expect(event2.get_name()).toBe("e")
+    expect(event2.edit_event("admin", "new title", "new desc", null, null, null, null)).toBeTruthy()
+    expect(event2.get_name()).toBe("new title")
+    expect(event2.get_desc()).toBe("new desc")
+    expect(event2.get_address()).toBe("12 st.")
+    expect(event2.edit_event("admin", null, null, null, null, null, ["admin2", "admin3"])).toBeTruthy()
+    expect(event2.edit_event("admin2", "new admin title", null, null, null, null, null)).toBeTruthy()
+    expect(event2.get_name()).toBe("new admin title")
+    expect(event2.edit_event("admin", null, null, null, null, null, ["admin2"])).toBeTruthy()
+    expect(event2.get_admins()).toEqual(["admin", "admin2", "admin3"])
+})
 
-// test('get hot level !!', function() {
-//     // For now, each 4 users checking in raises your event by one hot level
-//     // This is our map test: the hot levels will show how big the event's marker will be on the map
-//     const event1 = new Event("5dccea31f8b3c20017ac03c0", "e1", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
-//     expect(event1.get_hot_level()).toBe(1)
-//     expect(event1.set_boost()).toBeTruthy()
-//     expect(event1.get_hot_level()).toBe(1)
-//     bobby = new User(null, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-//     alice = new User(null, "alicehey", "alice", "moore", "alicemoore@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-//     calvin = new User(null, "calvin67", "calvin", "lee", "calvinlee@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-//     david = new User(null, "david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-//     expect(event1.addFollower(bobby, "CheckedIn")).toBeTruthy()
-//     expect(event1.get_hot_level()).toBe(1)
-//     expect(event1.addFollower(alice, "CheckedIn")).toBeTruthy()
-//     expect(event1.get_hot_level()).toBe(1)
-//     expect(event1.addFollower(calvin, "CheckedIn")).toBeTruthy()
-//     expect(event1.get_hot_level()).toBe(1)
-//     expect(event1.addFollower(david, "CheckedIn")).toBeTruthy()
-//     expect(event1.get_hot_level()).toBe(2)
-//     michael = new User(null, "spuyten", "michael", "woo", "mwoo@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-//     harry = new User(null, "singer", "harry", "lum", "lum@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-//     eric = new User(null, "mrpewpew", "eric", "bao", "biggitybao@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-//     victoria = new User(null, "ithinkweALLsing", "victoria", "justice", "torivega@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-//     expect(event1.addFollower(michael, "CheckedIn")).toBeTruthy()
-//     expect(event1.get_hot_level()).toBe(2)
-//     expect(event1.addFollower(harry, "CheckedIn")).toBeTruthy()
-//     expect(event1.get_hot_level()).toBe(2)
-//     expect(event1.addFollower(eric, "CheckedIn")).toBeTruthy()
-//     expect(event1.get_hot_level()).toBe(2)
-//     expect(event1.addFollower(victoria, "CheckedIn")).toBeTruthy()
-//     expect(event1.get_hot_level()).toBe(3)
-// })
-
-// test('loc check !!', function() {
-//     const event1 = new Event("5dccea31f8b3c20017ac03c0", "e1", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
-//     michael = new User(null, "spuyten", "michael", "woo", "mwoo@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-//     harry = new User(null, "singer", "harry", "lum", "lum@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
-//     michael.set_location(43.7, 74).toBeTruthy()
-//     event1.verify_loc(michael).toBeFalsy()
-//     michael.set_location(40.7580, 73.9855).toBeTruthy()
-//     event1.verify_loc(harry).toBeFalsy()
-//     harry.set_location(30, 70).toBeTruthy()
-//     event1.verify_loc(harry).toBeFalsy()
-// })
-
+test('get hot level !!', function() {
+    // For now, each 4 users checking in raises your event by one hot level
+    // This is our map test: the hot levels will show how big the event's marker will be on the map
+    const event1 = new Event("5dccea31f8b3c20017ac03c0", "e1", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], null, false, 1)
+    expect(event1.get_hot_level()).toBe(1)
+    expect(event1.set_boost()).toBeTruthy()
+    expect(event1.get_hot_level()).toBe(1)
+    bobby = new User(null, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+    alice = new User(null, "alicehey", "alice", "moore", "alicemoore@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+    calvin = new User(null, "calvin67", "calvin", "lee", "calvinlee@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+    david = new User(null, "david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+    expect(event1.addFollower(bobby, "CheckedIn")).toBeTruthy()
+    expect(event1.get_hot_level()).toBe(1)
+    expect(event1.addFollower(alice, "CheckedIn")).toBeTruthy()
+    expect(event1.get_hot_level()).toBe(1)
+    expect(event1.addFollower(calvin, "CheckedIn")).toBeTruthy()
+    expect(event1.get_hot_level()).toBe(1)
+    expect(event1.addFollower(david, "CheckedIn")).toBeTruthy()
+    expect(event1.get_hot_level()).toBe(2)
+    michael = new User(null, "spuyten", "michael", "woo", "mwoo@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+    harry = new User(null, "singer", "harry", "lum", "lum@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+    eric = new User(null, "mrpewpew", "eric", "bao", "biggitybao@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+    victoria = new User(null, "ithinkweALLsing", "victoria", "justice", "torivega@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+    expect(event1.addFollower(michael, "CheckedIn")).toBeTruthy()
+    expect(event1.get_hot_level()).toBe(2)
+    expect(event1.addFollower(harry, "CheckedIn")).toBeTruthy()
+    expect(event1.get_hot_level()).toBe(2)
+    expect(event1.addFollower(eric, "CheckedIn")).toBeTruthy()
+    expect(event1.get_hot_level()).toBe(2)
+    expect(event1.addFollower(victoria, "CheckedIn")).toBeTruthy()
+    expect(event1.get_hot_level()).toBe(3)
+})
 
 // // ---------- Tag Tests ---------------------------
 
