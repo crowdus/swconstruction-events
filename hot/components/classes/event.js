@@ -265,7 +265,7 @@ export default class Event extends Followable {
             cb(responseJson)
         })
         .catch((error) => {
-            console.error(error);
+            //console.error(error);
             cb(null)
         });
     }
@@ -281,30 +281,32 @@ export default class Event extends Followable {
             cb(responseJson)
         })
         .catch((error) => {
-            console.error(error);
+            //console.error(error);
             cb(null)
         });
     }
 
     /* Set User-Event status (set user's status for the given event) */
     add_follower(user, status, cb) {
-        fetch(`${BASE_URL}/userEvents`, {
-            method: 'POST',
-            headers: fetch_headers,
-            body: JSON.stringify({
-                status: status,
-                eventId: this._id,
-                userId: user._id,
+        if (user._id.length > 0 && this._id.length > 0){
+            fetch(`${BASE_URL}/userEvents`, {
+                method: 'POST',
+                headers: fetch_headers,
+                body: JSON.stringify({
+                    status: status,
+                    eventId: this._id,
+                    userId: user._id,
+                })
             })
-        })
-        .then((response) => response.text())
-        .then((responseText) => {
-            cb(responseText)
-        })
-        .catch((error) => {
-            console.error(error);
-            cb(null)
-        });
+            .then((response) => response.text())
+            .then((responseText) => {
+                cb(responseText)
+            })
+            .catch((error) => {
+                //console.error(error);
+                cb(null)
+            });
+        }
     }
 
     /* Remove a user event status relation */
@@ -318,18 +320,13 @@ export default class Event extends Followable {
             cb(responseJson)
         })
         .catch((error) => {
-            console.error(error);
+            //console.error(error);
             cb(null)
         });
     }
-
-/* ------------------- Other Functions  ----------------------------- */
 
     get_hot_level() {
         return this.hot_level
     }
 
-    verify_loc(user) {
-        return true
-    }
 }

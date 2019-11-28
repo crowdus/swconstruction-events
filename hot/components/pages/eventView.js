@@ -205,6 +205,7 @@ export default class EventView extends React.Component {
   }
 
   getAttendeeStatus(e, usr) {
+    
     e.get_status_people("interested", (l) => {
       this.setState({interested_people:l})
     })
@@ -213,8 +214,13 @@ export default class EventView extends React.Component {
         this.setState({going_people:l})
       }
     })
+    
     e.get_status_people("checkedIn", (l) => {
-      this.setState({checkedin_people:l})
+      console.log(l)
+      if (l) {
+        
+        this.setState({checkedin_people:l})
+      }
     })
     
     e.get_status_friends(usr, "interested", (l) => {
@@ -227,6 +233,7 @@ export default class EventView extends React.Component {
         this.setState({going_friends:l})
       }
     })
+    
     e.get_status_friends(usr, "checkedIn", (l) => {
       if (l) {
         this.setState({checkedin_friends:l})
