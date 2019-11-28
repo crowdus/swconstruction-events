@@ -97,7 +97,7 @@ const MainNavigator = createDrawerNavigator({
         drawerLabel: () => null,
       }),
   },
-  Settings: { screen: EditUser },
+  Settings: { screen: ProfileView },
   Search: { screen: Search },
   Feed: { screen: evtNavigator,
       navigationOptions: ({navigation}) => ({
@@ -125,6 +125,7 @@ const MainNavigator = createDrawerNavigator({
   TagButton: { screen: TagButton, navigationOptions: {drawerLabel: () => null}},
   EditEvent: {screen: EditEvent, navigationOptions: {drawerLabel: () => null}},
   regNav: {screen: regNavigator, navigationOptions: {drawerLabel: () => null}},
+  EditUser: {screen: EditUser, navigationOptions: {drawerLabel: () => null}},
 });
 
 

@@ -8,7 +8,7 @@ import Constants from 'expo-constants';
 import User from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
 import {globVars} from '../classes/core';
-import {change_user_database} from './editUser.js'
+import EditUser, {change_user_database} from './editUser.js'
 import { isGoodUser, get_user_from_id } from '../classes/user';
 
 export default class ProfileView extends React.Component {
@@ -83,7 +83,7 @@ export default class ProfileView extends React.Component {
             <Button
                 title="Edit"
                 color="#f194ff"
-                onPress={ () => {navigate('Settings')}}
+                onPress={ () => {navigate('EditUser')}}
             />
           </View>
           <View style={{ flex: 4, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>

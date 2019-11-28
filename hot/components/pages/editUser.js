@@ -107,7 +107,7 @@ export default class EditUser extends React.Component {
                     var updateduser = get_user_from_id(usr._id)
                     console.log(updateduser)
                     globVars.user = updateduser
-                    this.props.navigation.navigate('Feed')
+                    this.props.navigation.navigate('Settings')
                 }
                 else {
                     Alert.alert("False Input: check your input")
@@ -149,7 +149,7 @@ export default class EditUser extends React.Component {
           <TouchableHighlight style={styles.button} onPress={() => {this.onPress(user)}} underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={styles.button} onPress={() => this.props.navigation.navigate('Feed')} underlayColor='#99d9f4'>
+          <TouchableHighlight style={styles.button} onPress={() => this.props.navigation.navigate('Settings')} underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Quit</Text>
           </TouchableHighlight>
   
