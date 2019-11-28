@@ -384,19 +384,19 @@ export default class User extends Followable {
       return true
     }
     
-    async follow_tag(tag){
-      if (this.friends.length === 0){
+    follow_tag(tag){
+      if (this.tags.length === 0){
         this.tags = [tag];
         return true;
       }
       else if (this.tags.includes(tag))
         return false
-      await this.tags.push(tag);
+      this.tags.push(tag);
       change_user_database(this)
       return true;
     }
 
-    async unfollow_tag(tag){
+    unfollow_tag(tag){
       if (! this.tags.includes(tag))
         return false
       this.tags = this.tags.filter(e => e !== tag)
