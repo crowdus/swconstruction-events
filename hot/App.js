@@ -32,6 +32,7 @@ import ProfileView from './components/pages/profileview.js'
 
 import {createAppContainer} from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack';
 import MapFeed from './components/pages/mapFeed'
 import React, { Component } from 'react';
 import EditEvent from './components/pages/editEvent'
@@ -50,13 +51,47 @@ Geocoder.init(APIKEY, {language : "en"});
 // Admin events
 // upcoming events
 // past events
+import { HeaderBackButton } from 'react-navigation-stack';
+const evtNavigator = createStackNavigator({
+    Feed: { screen: Feed },
+    Event2: { 
+        screen: EventView,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <HeaderBackButton onPress={()=>navigation.goBack(null)} />,
+            drawerLabel: () => null
+        }),
+    },
+    TagView: { 
+        screen: TagView,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <HeaderBackButton onPress={()=>navigation.goBack(null)} />,
+            drawerLabel: () => null
+        }),
+    },
+}); 
+
+const regNavigator = createStackNavigator({
+  Registration: { 
+      screen: Registration,
+      navigationOptions: ({navigation}) => ({
+        drawerLockMode: 'locked-closed',
+        drawerLabel: () => null,
+        headerLeft: <HeaderBackButton onPress={()=>navigation.navigate('LogIn')} />,
+      }),
+  },
+});
 
 const MainNavigator = createDrawerNavigator({
-  LogIn: { screen: LogIn },
-
+  LogIn: { 
+      screen: LogIn,
+      navigationOptions: ({navigation}) => ({
+        drawerLockMode: 'locked-closed',
+        drawerLabel: () => null,
+      }),
+  },
   Settings: { screen: EditUser },
   Search: { screen: Search },
-  Feed: { screen: Feed },
+  Feed: { screen: evtNavigator },
   CreateEvent: { screen: CreateEvent },
   TagsFollowing: { screen: TagsFollowing },
   UsersFollowing: { screen: UsersFollowing },
@@ -64,20 +99,17 @@ const MainNavigator = createDrawerNavigator({
   UpcomingEvents: { screen: UpcomingEvents },
   PastEvents: { screen: PastEvents },
   MapFeed: { screen: MapFeed },
-  // UserFeed: { screen: UserFeed },
   
   UsersFollowing: {screen: UsersFollowing},
-  // UserEdit: {screen: EditUser},
 
   // invisible
-  Event: { screen: EventView },
   UserView: { screen: ProfileView },
   FriendView: {screen: UserView},
-  TagView: { screen: TagView },
-  TagButton: { screen: TagButton },
-  Registration: { screen: Registration },
-  EditEvent: {screen: EditEvent},
+  TagButton: { screen: TagButton, navigationOptions: {drawerLabel: () => null}},
+  EditEvent: {screen: EditEvent, navigationOptions: {drawerLabel: () => null}},
+  regNav: {screen: regNavigator, navigationOptions: {drawerLabel: () => null}}
 });
+
 
 export const AppNav = createAppContainer(MainNavigator);
 export default AppNav;

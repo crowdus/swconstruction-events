@@ -53,12 +53,6 @@ export default class Registration extends React.Component {
     super(props)
   }
 
-  static navigationOptions = ({navigation}) => {
-    return {
-        drawerLabel: () => null
-    }
-  };
-
   /* onForm Submit function */
   onPress = async () => {
     console.log('Inside Submit Button in Registration!')

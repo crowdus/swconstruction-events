@@ -30,7 +30,7 @@ export default class EventCard extends React.Component{
     var evt_card = this.create_event_styles(color)
 
     return (
-      <TouchableOpacity style={evt_card} onPress={() => {this.props.navigation.navigate('Event', {evt:item})}}>
+      <TouchableOpacity style={evt_card} onPress={() => {console.log(this.props.navigation.state); this.props.navigation.navigate('Event2', {evt:item})}}>
         <View style={evt_card}>
             <Text style={styles.evt_title}>{item.get_name()}</Text>
             <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>

@@ -73,7 +73,7 @@ export default class TagView extends Component {
     // the render function!
     // Shows the feed
     render() {
-        const {navigate} = this.props.navigation;
+        const navigation = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
 
         return(
@@ -91,7 +91,7 @@ export default class TagView extends Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) =>
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
+                        <TouchableOpacity style={styles.evt_card} onPress={() => navigation.push('Event', {evt:item, usr:usr})}>
                             <View style={styles.evt_card}>
                                 <Text style={styles.evt_title}>{item.get_name()}</Text>
                                 <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
@@ -103,7 +103,7 @@ export default class TagView extends Component {
                                         listKey="tags"
                                         data={item.get_tags()}
                                         renderItem={({item}) =>
-                                        <TouchableOpacity style={styles.tag_view} onPress={() => { this.setState({t: item, data:[]}); console.log(item) }}>
+                                        <TouchableOpacity style={styles.tag_view} onPress={() => navigation.push('TagView', {tag:item, usr:usr})}>
                                             <Text>{item}</Text>
                                         </TouchableOpacity> }
                                         keyExtractor={item => item}

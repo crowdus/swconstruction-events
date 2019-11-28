@@ -32,13 +32,6 @@ export default class LogIn extends React.Component {
     }
   }
 
-  static navigationOptions = ({navigation}) => {
-    return {
-      drawerLockMode: 'locked-closed',
-      drawerLabel: () => null
-    }
-  }
-
   render() {
     const {navigate} = this.props.navigation;
     // console.log('Hello from LogIn page!')
