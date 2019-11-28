@@ -32,7 +32,7 @@ export default class UserView extends React.Component {
 
   static navigationOptions = ({navigation}) => {
     return {
-        drawerLabel: () => "User View",
+        drawerLabel: () => null,
     }
   };
 

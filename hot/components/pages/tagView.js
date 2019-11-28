@@ -7,6 +7,7 @@ import Tag from '../classes/tag.js';
 import TagButton from '../renderables/tagButton.js';
 import User from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
+import EventCard from '../renderables/eventcard'
 
 
 // the class that renders the keys.
@@ -29,6 +30,7 @@ export default class TagView extends Component {
     // This is called just after the component
     // is first rendered. It changes the data showed there.
     componentDidMount() {
+        console.log("load tag events")
         fetch('http://hot-backend.herokuapp.com/events/tags/'.concat(this.state.t), {
         method: 'GET',
         })
@@ -37,10 +39,11 @@ export default class TagView extends Component {
             var l = [];
             for (i in responseJson) {
                 i = responseJson[i]
-                l.push(new Event(i['_id'], i['name'], i['desc'], 
-                                    i['start_date'], i['end_date'], 
-                                    i['addr'], i['tags'], i['admins']));
+                l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], 
+                                i['end_date'], i['addr'], i['tags'], i['admins'], 
+                                i['loc'], i['isBoosted'], i['hot_level']))
             }
+            console.log("changed state")
             this.setState({data: l, t:this.state.t})
         }).catch((error) => {
             console.error(error);
@@ -48,27 +51,6 @@ export default class TagView extends Component {
         });
     }
 
-    componentDidUpdate() {
-        fetch('http://hot-backend.herokuapp.com/events/tags/'.concat(this.state.t), {
-        method: 'GET',
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            var l = [];
-            for (i in responseJson) {
-                i = responseJson[i]
-                l.push(new Event(i['_id'], i['name'], i['desc'], 
-                                    i['start_date'], i['end_date'], 
-                                    i['addr'], i['tags'], i['admins']));
-            }
-            // there is a bug here -- it starts an update loop. 
-            if (this.state.data != l) this.setState({data: l, t:this.state.t})
-        }).catch((error) => {
-            console.error(error);
-            return false;
-        });
-    }
-    
 
     // the render function!
     // Shows the feed
@@ -91,26 +73,8 @@ export default class TagView extends Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) =>
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('Event', {evt:item, usr:usr})}}>
-                            <View style={styles.evt_card}>
-                                <Text style={styles.evt_title}>{item.get_name()}</Text>
-                                <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
-                                <Text style={styles.evt_addr}>{item.get_address()}</Text>
-                                <Text style={styles.evt_desc}>{item.get_desc()}</Text>
-                                <SafeAreaView style={styles.tags_container}>
-                                    <FlatList
-                                        horizontal = {true}
-                                        listKey="tags"
-                                        data={item.get_tags()}
-                                        renderItem={({item}) =>
-                                        <TouchableOpacity style={styles.tag_view} onPress={() => { this.setState({t: item, data:[]}); console.log(item) }}>
-                                            <Text>{item}</Text>
-                                        </TouchableOpacity> }
-                                        keyExtractor={item => item}
-                                    />
-                                </SafeAreaView>
-                            </View>
-                        </TouchableOpacity>}
+                        <EventCard event={item} navigation={this.props.navigation} usr={usr}/>
+                    }
                 />
             </SafeAreaView>
         );
