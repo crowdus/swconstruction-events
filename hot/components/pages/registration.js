@@ -3,8 +3,7 @@ import { View, StyleSheet, Text, TouchableHighlight, ScrollView, Button, Alert, 
 import t from 'tcomb-form-native';
 import User, {isGoodUser, get_user_from_username, constructUser } from '../classes/user.js'
 import { createAppContainer} from 'react-navigation';
-import { createStackNavigator} from 'react-navigation-stack';
-import Icon from 'react-native-vector-icons/Octicons'
+
 
 /* Create Form Structure for the form builder library*/
 const Form = t.form.Form;
@@ -21,17 +20,17 @@ const newUser = t.struct({
 var options = {
   fields: {
     username: {
-      placeholder: 'Username',
+      placeholder: 'Only alphanumeric, at least one letter. ',
       label: 'Username',
       //maxLength: 100
     },
     firstname: {
-      placeholder: 'First Name',
+      placeholder: 'Only alphanumeric characters',
       label: 'Firstname',
       //maxLength: 100
     },
     lastname: {
-      placeholder: 'Last Name',
+      placeholder: 'Only alphanumeric characters',
       label: 'Lastname',
       //maxLength: 100
     },
@@ -41,7 +40,7 @@ var options = {
       //maxLength: 100
     },
     password: {
-      placeholder: 'Password',
+      placeholder: 'min 10 characters, must contain upper&lower&number',
       label: 'Password',
       //maxLength: 20
     }
@@ -52,12 +51,6 @@ export default class Registration extends React.Component {
   constructor(props){
     super(props)
   }
-
-  static navigationOptions = ({navigation}) => {
-    return {
-        drawerLabel: () => null
-    }
-  };
 
   /* onForm Submit function */
   onPress = async () => {
@@ -79,7 +72,7 @@ export default class Registration extends React.Component {
     // console.log(valid)
     if (value) {
       if (valid) {
-        var newUser = constructUser(value.username, value.firstname, value.lastname, value.email, new Date().getDate(), value.password, 0, [], [0,0])
+        var newUser = constructUser(value.username, value.firstname, value.lastname, value.email, new Date(), value.password, 0, [], [0,0])
         console.log("success!")
         Alert.alert(
           '',
@@ -113,23 +106,24 @@ export default class Registration extends React.Component {
   render() {
     console.log('Rendering registration page!')
     return (
-      <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="position" enabled   keyboardVerticalOffset={100}>
-        <ScrollView>
           <View style={styles.container}>
-            <Text>
-              Requirements: {'\n'}{'\n'}
-                Username and password may only consist of alphanumeric characters.{'\n'}{'\n'}
-                Passwords must be at least 10 characters long and contain at least one of each: {'\n'}
-                  Uppercase letter{'\n'}
-                  Lowercase letter{'\n'}
-                  Number{'\n'}{'\n'}
-            </Text>
             <ScrollView>
+            <Text>
+              <Text style={{fontSize: 20}}> Registration Requirements: </Text>
+              {'\n'}{'\n'}
+                - Username and password may only consist of alphanumeric characters.{'\n'}{'\n'}
+                -Passwords must be at least 10 characters long and contain at least one of each: {'\n'}
+                  {'\t'} -Uppercase letter{'\n'}
+                  {'\t'} -Lowercase letter{'\n'}
+                  {'\t'} -Number{'\n'}{'\n'}
+            </Text>
+            <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}}>
             <Form
               ref="form"
               type={newUser}
               options={options}
             />
+            </KeyboardAvoidingView>
             <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
               <Text style={styles.buttonText}>Create</Text>
             </TouchableHighlight>
@@ -137,10 +131,16 @@ export default class Registration extends React.Component {
             <Text onPress={this.onPress}>
               {this.props.formStatus}
             </Text>
+            <Button
+                title="Back to LogIn"
+                color="#f194ff"
+                onPress={ () => {
+                    console.log("hello")
+                    this.props.navigation.navigate('LogIn')
+                }}
+              />
             </ScrollView>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
     );
   }
 }

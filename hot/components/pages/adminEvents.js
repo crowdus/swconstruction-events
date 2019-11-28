@@ -26,7 +26,7 @@ export default class AdminEvents extends Component {
 
     static navigationOptions = ({navigation}) => {
         return {
-            drawerLabel: () => "Admin Events",
+            drawerLabel: () => "Your Events",
         }
     };
 

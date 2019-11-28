@@ -20,7 +20,7 @@ export default class ProfileView extends React.Component {
   
     static navigationOptions = ({navigation}) => {
       return {
-          drawerLabel: () => "Profile View",
+          drawerLabel: () => "Your Profile",
       }
     };
   
@@ -73,7 +73,7 @@ export default class ProfileView extends React.Component {
             </View>
             <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
               <Text>
-                Score: {"  "} {user.point}
+                Points: {"  "} {user.point}
               </Text>
             </View>
             <View style={{ flex: 4, flexDirection: "column", justifyContent: "left", alignItems: "center" }}>

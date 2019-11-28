@@ -8,31 +8,20 @@ import Constants from 'expo-constants';
 import User from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
 import {globVars} from '../classes/core';
-import {change_user_database} from './editUser.js'
+import {change_user_database} from '../classes/user.js'
 import { isGoodUser, get_user_from_id } from '../classes/user';
 
-//userTA is the person we are viewing
-export var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
-export var viewerfriend = new User("5dcd241d8a5d632450dea811", "johnsfriend", "Jiayi", "Lin", "jiayilin@gmail.com", new Date(), "Password1234", 0, ['am0002'])
 
 export default class UserView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: userTA,
-      viewer: viewerfriend,
-      /*UNisInEditMode: false,
-      FNisInEditMode: false,
-      LNisInEditMode: false,
-      emailIsInEditMode: false,
-      passwordIsInEditMode: false,*/
-      // EditMode : false
     }
   }
 
   static navigationOptions = ({navigation}) => {
     return {
-        drawerLabel: () => "User View",
+        drawerLabel: () => null,
     }
   };
 
@@ -45,21 +34,17 @@ export default class UserView extends React.Component {
     var e = this.props.navigation.getParam('friend')
     var previous = this.props.navigation.getParam('previous')
     var user = globVars.user
+    var backTitle = 'Back'
+    if (previous == 'Feed'){
+      backTitle = 'Home'
+    }
+    console.log(previous)
     // console.log(e)
-    console.log(user)
+    console.log(backTitle)
     const {navigate} = this.props.navigation;
     return (
       <View style={{ flex: 1, justifyContent: "left", alignItems: "center" }}>
         <View style={{ flex: 3, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
-        </View>
-        <View style={{padding:10, flexDirection: 'row'}}>
-          <Icon
-              name='three-bars'
-              size={30}
-              color='#222'
-              onPress={() => this.props.navigation.toggleDrawer()}
-          />
-          <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   User</Text>
         </View>
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
         <Text style={styles.titleText} onPress={this.onPressTitle}>
@@ -88,7 +73,7 @@ export default class UserView extends React.Component {
           </View>
           <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
             <Text>
-              Score: {"  "} {e.point}
+              Points: {"  "} {e.point}
             </Text>
           </View>
           <View style={{ flex: 4, flexDirection: "column", justifyContent: "left", alignItems: "center" }}>
@@ -150,13 +135,20 @@ export default class UserView extends React.Component {
         </View>
         <View style={{ flex: 4, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
           <Button
-          title="Back"
+          title={backTitle}
           color="#f194ff"
           onPress={ () => {
-            if (previous == 'search')
+            console.log(previous)
+            if (previous == 'search'){
               navigate('Search')
-            else if (previous == 'following')
-              navigate('UsersFollowing')}}
+            }
+            else if (previous == 'following'){
+              navigate('UsersFollowing')
+            }
+            else {
+              navigate('Feed')
+            }}
+            }
           />
           </View>
           <View style={{ flex: 5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>

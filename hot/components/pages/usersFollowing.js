@@ -26,7 +26,7 @@ export default class UsersFollowing extends Component {
     // navigation options displayed at the top of the screen
     static navigationOptions = ({navigation}) => {
         return {
-            drawerLabel: () => "Users Following",
+            drawerLabel: () => "Users You're Following",
         }
     };
 
@@ -80,12 +80,13 @@ export default class UsersFollowing extends Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) => 
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('UserView', {friend:item, previous: 'following'})}}>
+                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('FriendView', {friend:item, previous: 'following'})}}>
                             <View style={styles.evt_card}>
                                 <Text style={styles.evt_title}>{item.getUserName()}</Text>
                             </View>
                         </TouchableOpacity>}
                 />
+                
             </SafeAreaView>
         );
     }

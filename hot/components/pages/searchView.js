@@ -11,6 +11,7 @@ import EventCard from '../renderables/eventcard';
 import {NavigationActions} from 'react-navigation';
 import {globVars} from '../classes/core';
 import User from '../classes/user.js';
+import UserCard from '../renderables/usercard.js';
 
 
 export default class Search extends React.Component {
@@ -45,12 +46,11 @@ export default class Search extends React.Component {
 
   render() {
     const {search} = this.state;
-    var usr = this.props.navigation.getParam('usr');
+    var usr = globVars.user
     const {navigate} = this.props.navigation;
-
     return (
       <View style={styles.container}>
-          <View style={{padding:10, flexDirection: 'row'}}>
+          <View style={{paddingTop:50, paddingLeft: 10, flexDirection: 'row'}}>
               <Icon
                 name='three-bars'
                 size={30}
@@ -65,7 +65,7 @@ export default class Search extends React.Component {
             value={search}
           />
           <SafeAreaView style={styles.container}>
-              <Text>Events</Text>
+              <Text style={{fontSize: 18}}>Matched Events</Text>
               <FlatList
                         data={this.state.eventData}
                         renderItem={({item}) =>
@@ -73,16 +73,13 @@ export default class Search extends React.Component {
               />
           </SafeAreaView>
           <SafeAreaView style={styles.container}>
-              <Text>Users</Text>
+              <Text style={{fontSize: 18}}> Matched Users</Text>
               <FlatList
                   data={this.state.userData}
-                  renderItem={({item}) =>
-                      <TouchableOpacity style={styles.evt_card} onPress={() => navigate('UserView', {friend: item, previous: 'search'})}>
-                          <View style={styles.evt_card}>
-                              <Text style={styles.evt_title}>{item['username']}</Text>
-                              <Text style={styles.evt_title}>{item['_id']}</Text>
-                          </View>
-                      </TouchableOpacity>}
+                  renderItem={({item}) => {
+                    return (
+                    <UserCard usr={item} n={this.props.navigation} before='search'/>)
+                  }}
               />
           </SafeAreaView>
       </View>

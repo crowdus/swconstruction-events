@@ -14,6 +14,7 @@ import MapView from "react-native-maps";
 var dateFormat = require("dateformat")
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import ViewListUsers from './viewListUsers'
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {
@@ -43,6 +44,8 @@ export default class EventView extends React.Component {
     this.state = {
       'interested_people': [],
       'interested_friends': [],
+      'checkedin_friends': [],
+      'checkedin_people': [],
       'going_people': [],
       'going_friends': [],
       'eventUserID': '',
@@ -99,19 +102,23 @@ export default class EventView extends React.Component {
   onPress_status = (e, status, usr) => {
     e.add_follower(usr, status, (eventuserid) => {
       this.getAttendeeStatus(e, usr)
-      var pts = e.get_points()
-      Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
+      if (status == "checkedIn") {
+        var pts = e.get_points()
+        Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
+      }
     })
   }
 
-  onPress_viewUsers = (status) => {
-    var userList = []
-    if (status == 'Going') {
-      userList = this.state.interested_people
-    }
-    if (status == 'Interested'){
-      userList = this.state.going_people
-    }
+  onPress_viewUsers = (e, status) => {
+    console.log(`view ${status}`)
+    e.get_status_people(status, (l) => {
+      var userList = []
+      for (i in l){
+        var u = l[i]
+        userList.push(new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends']))
+      }
+      this.props.navigation.navigate('ViewListUsers', {userList:userList})
+    })
   }
 
   boost_display = (e, usr) => {
@@ -206,6 +213,9 @@ export default class EventView extends React.Component {
         this.setState({going_people:l})
       }
     })
+    e.get_status_people("checkedIn", (l) => {
+      this.setState({checkedin_people:l})
+    })
     
     e.get_status_friends(usr, "interested", (l) => {
       if (l) {
@@ -215,6 +225,11 @@ export default class EventView extends React.Component {
     e.get_status_friends(usr, "going", (l) => {
       if (l) {
         this.setState({going_friends:l})
+      }
+    })
+    e.get_status_friends(usr, "checkedIn", (l) => {
+      if (l) {
+        this.setState({checkedin_friends:l})
       }
     })
     usr.get_status_for_event(e, (userEventObj) => {
@@ -248,6 +263,8 @@ export default class EventView extends React.Component {
 
     var numFriendsInt = this.state.interested_friends.length
     var numFriendsGoing = this.state.going_friends.length
+    var numFriendsCheckedIn = this.state.checkedin_friends.length
+
     var interested_str = (
       <Text> 
         {numFriendsInt} friends
@@ -265,6 +282,13 @@ export default class EventView extends React.Component {
         marked 'Going' 
     </Text>)
 
+    var checkedIn_str = (
+      <Text> 
+        {numFriendsCheckedIn} friends
+        and {this.state.checkedin_people.length - numFriendsCheckedIn} other(s)
+        marked 'Checked In' 
+    </Text>)
+
     /*
     Code to add map
     <View styles={styles.container}>
@@ -280,13 +304,6 @@ export default class EventView extends React.Component {
     */
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", borderWidth:40, borderColor:"white"}}>
-              <Icon
-                name='three-bars'
-                size={30}
-                color='#222'
-                onPress={() => this.props.navigation.toggleDrawer()}
-                style={{marginRight: -20, alignSelf: "flex-start"}}
-              />
         <NavigationEvents onDidFocus={()=>this.componentDidMount()}/>
         <ScrollView showsVerticalScrollIndicator={false}>
             <Text>
@@ -324,17 +341,24 @@ export default class EventView extends React.Component {
               Attendees: 
               </Text>
 
-              <TouchableHighlight onPress={() => this.onPress_viewUsers('interested')}>
+              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'interested')}>
                 <Text>
                   Interested: {"\n"}
                   {interested_str}
                 </Text>
               </TouchableHighlight>
 
-              <TouchableHighlight onPress={() => this.onPress_viewUsers('going')}>
+              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'going')}>
                 <Text>
                   Going: {"\n"}
                   {going_str}
+                </Text>
+              </TouchableHighlight>
+
+              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'checkedIn')}>
+                <Text>
+                  Going: {"\n"}
+                  {checkedIn_str}
                 </Text>
               </TouchableHighlight>
 
