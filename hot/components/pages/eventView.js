@@ -209,7 +209,9 @@ export default class EventView extends React.Component {
   getAttendeeStatus(e, usr) {
     
     e.get_status_people("interested", (l) => {
-      this.setState({interested_people:l})
+      if(l) {
+        this.setState({interested_people:l})
+      }
     })
     e.get_status_people("going", (l) => {
       if (l) {
