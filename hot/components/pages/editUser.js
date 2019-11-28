@@ -104,10 +104,11 @@ export default class EditUser extends React.Component {
                     console.log("start updating database")
                     var result = change_user_database(validUser) 
                     Alert.alert("Successfully updated!")
-                    var updateduser = get_user_from_id(usr._id)
+                    var updateduser = await get_user_from_id(usr._id)
                     console.log(updateduser)
                     globVars.user = updateduser
-                    this.props.navigation.navigate('Settings')
+                    console.log(globVars.user)
+                    this.props.navigation.navigate('EditUser')
                 }
                 else {
                     Alert.alert("False Input: check your input")
