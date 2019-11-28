@@ -41,7 +41,12 @@ export default class LogIn extends React.Component {
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <View style={{justifyContent: "center", alignItems: "center"}}>
           <Text>
-            Welcome to Hot! {"\n\n"}
+            <Text style={{fontSize: 30}}>
+              Welcome to Hot! {"\n\n"}
+            </Text>
+          
+          </Text>
+          <Text style={{justifyContent: "center"}}>
             Enter Username:
           </Text>
           <TextInput
@@ -51,7 +56,7 @@ export default class LogIn extends React.Component {
           />
           <Text>
              {"\n"}
-            Beta Access Code:
+            Enter Password:
           </Text>
         </View>
         <View style={{justifyContent: "center", alignItems: "left"}}>

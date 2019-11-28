@@ -81,7 +81,6 @@ export class Feed extends Component {
 
         return(
             this.state && <SafeAreaView style={styles.container}>
-                <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) =>
