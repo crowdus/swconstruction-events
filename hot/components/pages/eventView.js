@@ -429,7 +429,7 @@ export default class EventView extends React.Component {
               onPress={() => {
                 start = e.get_start_date()
                 end = e.get_end_date()
-                curr = new Date()
+                curr = new Date().getTime()
                 if (!(start < curr && curr < end)){
                   Alert.alert("Event Not In Session")
                 }

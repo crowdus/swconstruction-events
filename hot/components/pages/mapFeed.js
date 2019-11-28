@@ -77,8 +77,6 @@ export default class MapFeed extends Component {
   get_nearby_events_call(){
     this.get_nearby_events((res) => {
       ctr = 0
-      res.shift() //comment out later (remove bad input in data)
-      res.shift() //comment out later (remove bad input in data)
       markersConv = res.map((event)=> {
         converted = this.convertToMarker(event, ctr)
         ctr++
@@ -92,8 +90,8 @@ export default class MapFeed extends Component {
   get_nearby_events(cb){
     var loc = globVars.user.get_location()
     
-    console.log(`${BASE_URL}/events?latitude=${loc[0]}&longitude=${loc[1]}?limit=2`)
-    fetch(`${BASE_URL}/events?latitude=${loc[0]}&longitude=${loc[1]}?limit=2`, {
+    console.log(`${BASE_URL}/events?latitude=${loc[0]}&longitude=${loc[1]}&limit=100`)
+    fetch(`${BASE_URL}/events?latitude=${loc[0]}&longitude=${loc[1]}&limit=100`, {
       method: 'GET',
       headers: fetch_headers,
     })
@@ -299,7 +297,8 @@ export default class MapFeed extends Component {
           {this.state.markers.map((marker, index) => {
             var i = marker.event
             var item = new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins'], i['loc'], i['isBoosted'], i['hot_level'])
-            var current = (new Date().getTime() > item.get_start_date())
+            var currTime = new Date().getTime()
+            var current = (currTime > item.get_start_date() && currTime < item.get_end_date())
             var cardStr = ""
             var renderButton = ""
            
