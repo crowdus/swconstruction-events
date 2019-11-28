@@ -24,7 +24,7 @@ import {globVars} from '../classes/core.js'
 //     />;
 
 // the class that renders the keys.
-export default class Feed extends Component {
+export class Feed extends Component {
 
     constructor(props) {
         super(props)
@@ -32,6 +32,7 @@ export default class Feed extends Component {
         this.state = {
             loc : null
         }
+        this.url = 'http://hot-backend.herokuapp.com/events/'
     }
 
     static navigationOptions = ({navigation}) => {
@@ -55,7 +56,7 @@ export default class Feed extends Component {
     componentDidMount() {
         console.log(globVars.user.username);
 
-        fetch('http://hot-backend.herokuapp.com/events/', {
+        fetch(this.url, {
             method: 'GET',
         }).then((response) => response.json())
         .then((responseJson) => {
@@ -88,6 +89,44 @@ export default class Feed extends Component {
     }
 }
 
+export class AdminEvents extends Feed {
+
+    constructor(props) {
+        super(props)
+        this.props = props
+        this.state = {
+            loc : null
+        }
+        this.url = 'http://hot-backend.herokuapp.com/users/'
+    }
+
+}
+
+export class UpcomingEvents extends Feed {
+
+    constructor(props) {
+        super(props)
+        this.props = props
+        this.state = {
+            loc : null
+        }
+        this.url = 'http://hot-backend.herokuapp.com/users/'
+    }
+
+}
+
+export class PastEvents extends Feed {
+
+    constructor(props) {
+        super(props)
+        this.props = props
+        this.state = {
+            loc : null
+        }
+        this.url = 'http://hot-backend.herokuapp.com/users/'
+    }
+
+}
 // styles for the feed.
 const styles = StyleSheet.create({
     container: {
