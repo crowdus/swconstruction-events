@@ -39,9 +39,28 @@ export default class TagsFollowing extends Component {
     // the render function!
     // Shows the feed
     render() {
-        console.log("hello feed")
         const {navigate} = this.props.navigation;
         var usr = this.props.navigation.getParam('usr')
+
+        fetch(this.url(), {
+            method: 'GET',
+        }).then((response) => response.json())
+        .then((responseJson) => {
+            var l = [];
+            for (i in responseJson) {
+                i = responseJson[i]
+                l.push(new Event(i['_id'], 
+                                 i['name'], i['desc'],
+                                 i['start_date'], i['end_date'], 
+                                 i['addr'], i['tags'], 
+                                 i['admins'], i['loc'], 
+                                 i['isBoosted'], i['hot_level']));
+            }
+            this.setState({data:l})
+        }).catch((error) => {
+            console.error(error);
+        });
+
 
         return(
             this.state && <SafeAreaView style={styles.container}>
