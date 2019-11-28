@@ -20,7 +20,7 @@ var vibrant = {
 export var theme = vibrant
 export var globVars = {
   user: null,
-  points_to_boost : 0,
+  points_to_boost : 30,
   hot_colors: theme["markers"],
   tag_colors: theme["tags"],
   marker_colors: [[0, 157, 255], [156, 0, 204], [255, 0, 98]]

@@ -55,8 +55,8 @@ export default class EventView extends React.Component {
   }
 
 
-  /* Helper function to render tags and admins */
-  renderArray(arr, e){
+  /* Helper function to render tags */
+  renderTagArray(arr, e){
     var retArr = []
     if (arr.length == 0) {
       retArr.push(<Text> None </Text>)
@@ -67,6 +67,23 @@ export default class EventView extends React.Component {
       }
     }
     return retArr
+  }
+
+  /* Helper function to render admin */
+  renderAdminArray(arr, e){
+    var retStr = ""
+    if (arr.length == 0) {
+      return (<Text> No Admins </Text>)
+    }
+    else {
+      for (let i in arr) {
+        retStr += `@${arr[i]}`
+        if (i < arr.length - 1){
+          retStr += ", "
+        }
+      }
+    }
+  return (<Text> {retStr} </Text>)
   }
 
   _getLocationAsync = async () => {
@@ -106,7 +123,7 @@ export default class EventView extends React.Component {
       if (status == "checkedIn") {
         var pts = e.get_points()
         usr.addPoint(e)
-        Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
+        Alert.alert(`Marked as ${status}. You've earned +${pts}! You now have ${usr.get_points()} points`)
       }
     })
   }
@@ -268,8 +285,8 @@ export default class EventView extends React.Component {
   render() {
     var e = this.props.navigation.getParam('evt')
     var usr = globVars.user
-    var renderTags = this.renderArray(e.get_tags(), e)
-    var renderAdmins = this.renderArray(e.get_admins(), e)
+    var renderTags = this.renderTagArray(e.get_tags(), e)
+    var renderAdmins = this.renderAdminArray(e.get_admins(), e)
     // var renderStatus = renderStatusButtons()
 
     var numFriendsInt = this.state.interested_friends.length
@@ -406,11 +423,6 @@ export default class EventView extends React.Component {
             </TouchableHighlight>
             </View>
             <Text> {"\n"} </Text>
-            <Button
-              title="Explore More"
-              color="#f194ff"
-              onPress={() => this.props.navigation.navigate('Feed', {usr:usr})}
-            />
             <Button
               title="Check In"
               color="#f194ff"

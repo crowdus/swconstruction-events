@@ -13,6 +13,8 @@ import Icon from 'react-native-vector-icons/Octicons'
 import EventCard from '../renderables/eventcard'
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import {YellowBox} from 'react-native';
+YellowBox.ignoreWarnings(['Warning: ReactNative.createElement']);
 
 import {globVars} from '../classes/core.js'
 
@@ -34,7 +36,7 @@ export class Feed extends Component {
         }
         this._getLocationAsync();
         this.url = () => {
-            return 'http://hot-backend.herokuapp.com/exploreEvents?userId='.concat(globVars.user._id).concat('&latitude=').concat(this.state.loc['coords']['latitude']).concat('&longitude=').concat(this.state.loc['coords']['longitude'])
+            return 'http://hot-backend.herokuapp.com/events/'
         };
     }
 
@@ -54,7 +56,7 @@ export class Feed extends Component {
         var usr = globVars.user
         
         if (this.state.loc) {
-            fetch('http://hot-backend.herokuapp.com/events/', {
+            fetch(this.url(), {
                 method: 'GET',
             }).then((response) => response.json())
             .then((responseJson) => {
@@ -78,8 +80,12 @@ export class Feed extends Component {
             this.state && <SafeAreaView style={styles.container}>
                 <FlatList
                     data={this.state.data}
+                    
                     renderItem={({item}) =>
-                        <EventCard event={item} navigation={this.props.navigation} usr={usr}/>}
+                   
+                        <EventCard event={item} navigation={this.props.navigation} usr={usr}/>
+
+                    }
                 />
             </SafeAreaView>
         );
