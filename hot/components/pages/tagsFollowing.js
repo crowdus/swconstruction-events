@@ -38,7 +38,6 @@ export default class TagsFollowing extends Component {
     // Shows the feed
     render() {
         const {navigate} = this.props.navigation;
-        var usr = globVars.user
 
         return(
             this.state && <SafeAreaView style={styles.container}>
@@ -53,11 +52,11 @@ export default class TagsFollowing extends Component {
                 </View>
                 <NavigationEvents onDidFocus={() => this.componentDidMount()} />
                 <FlatList
-                    data={usr.tags}
+                    data={globVars.user.tags}
                     renderItem={({item}) => 
                     <View style={styles.tagContainer}>
-                        <TouchableOpacity style={styles.tagName} onPress={function () {navigate('TagView', {tag:item, usr:usr})}}><Text>{item}</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.followbutton} onPress={async ()=> {usr.unfollow_tag(item); this.setState({'user': usr})} }>
+                        <TouchableOpacity style={styles.tagName} onPress={function () {navigate('TagView', {tag:item, usr:globVars.user})}}><Text>{item}</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.followbutton} onPress={async ()=> {globVars.user.unfollow_tag(item); this.setState({'user': globVars.user})} }>
                             <Text>Unfollow</Text>
                         </TouchableOpacity>
                     </View>}
