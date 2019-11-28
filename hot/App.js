@@ -83,7 +83,7 @@ const adminNavigator = createStackNavigator({
     Expl2: { screen: AdminEvents,
         navigationOptions: ({navigation}) => ({
             headerLeft: <View style={{paddingLeft: 10, flexDirection: 'row'}}><Icon name='three-bars' size={26} color='#222' onPress={() => navigation.toggleDrawer()} style={{alignSelf: 'center', marginTop: -5}} /><Text style={{fontSize: 26, alignSelf: 'center', marginTop: -5}}>   Explore</Text></View>,
-            drawerLabel: () => "Admin Events",
+            drawerLabel: () => "Your Events",
         }),
     },
     Event: { 

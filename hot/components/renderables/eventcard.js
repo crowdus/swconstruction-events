@@ -24,7 +24,7 @@ export default class EventCard extends React.Component{
     var hot_idx = item.get_hot_level() - 1
     var color = globVars.hot_colors[hot_idx]
     var now = new Date().getTime()
-    if (now < item.get_start_date()){
+    if (now < item.get_start_date() || now > item.get_end_date()){
       hot_idx = -1
       color = "#f0f2f2"
     }

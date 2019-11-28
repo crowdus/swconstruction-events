@@ -90,8 +90,8 @@ export default class MapFeed extends Component {
   get_nearby_events(cb){
     var loc = globVars.user.get_location()
     
-    console.log(`${BASE_URL}/events?latitude=${loc[0]}&longitude=${loc[1]}&limit=100`)
-    fetch(`${BASE_URL}/events?latitude=${loc[0]}&longitude=${loc[1]}&limit=100`, {
+    console.log(`${BASE_URL}/events?latitude=${loc[0]}&longitude=${loc[1]}&limit=500`)
+    fetch(`${BASE_URL}/events?latitude=${loc[0]}&longitude=${loc[1]}&limit=500`, {
       method: 'GET',
       headers: fetch_headers,
     })
@@ -216,10 +216,11 @@ export default class MapFeed extends Component {
           />
           <Text style={{paddingLeft: 10, paddingRight:10}}>
             <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -10}}>  
-              Explore
+              Explore Near You
             </Text>
             {"\n"}
-            Swipe the cards below to view events near you. Click it view more
+            Swipe the cards below to view events near you. Click the cards to learn more.
+            If you do not see any cards, there are no events currently near you!
           </Text>
           
         </View>
@@ -241,7 +242,8 @@ export default class MapFeed extends Component {
             };
             marker_styles = this.marker_color(styles.marker,styles.ring,marker.lvl)
             var i = marker.event
-            var current = (new Date().getTime() > new Date(i['start_date']))
+            var now = new Date().getTime()
+            var current = (now > new Date(i['start_date']) && now < new Date(i['end_date']))
             var hotLabel = ""
             if (current){
               hotlabel = this.hotEmojiString(marker.level)
