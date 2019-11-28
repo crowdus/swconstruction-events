@@ -33,7 +33,7 @@ export default class TagsFollowing extends Component {
     // This is called just after the component
     // is first rendered. It changes the data showed there.
     componentDidMount() {
-        this.setState({data: ['study', 'Study', 'chocolate']});
+        this.setState({data: ['sports']});
     }
 
     // the render function!

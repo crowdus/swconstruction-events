@@ -24,7 +24,7 @@ import {globVars} from '../classes/core.js'
 //     />;
 
 // the class that renders the keys.
-export default class Feed extends Component {
+export class Feed extends Component {
 
     constructor(props) {
         super(props)
@@ -32,11 +32,14 @@ export default class Feed extends Component {
         this.state = {
             loc : null
         }
+        this._getLocationAsync();
+        this.url = () => {
+            return 'http://hot-backend.herokuapp.com/exploreEvents?userId='.concat(globVars.user._id).concat('&latitude=').concat(this.state.loc['coords']['latitude']).concat('&longitude=').concat(this.state.loc['coords']['longitude'])
+        };
     }
 
     static navigationOptions = ({navigation}) => {
         return {
-            drawerLabel: () => "Explore",
         }
     };
 
@@ -50,31 +53,32 @@ export default class Feed extends Component {
         globVars.user.set_location(location['coords']['latitude'], location['coords']['longitude'])
       };
 
-    // This is called just after the component
-    // is first rendered. It changes the data showed there.
-    componentDidMount() {
-        console.log(globVars.user.username);
-
-        fetch('http://hot-backend.herokuapp.com/events/', {
-            method: 'GET',
-        }).then((response) => response.json())
-        .then((responseJson) => {
-            var l = [];
-            for (i in responseJson) {
-                i = responseJson[i]
-                l.push(new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins'], i['loc'], i['isBoosted'], i['hot_level']));
-            }
-            this.setState({data:l})
-        }).catch((error) => {
-            console.error(error);
-        });
-        this._getLocationAsync();
-    }
-
     // the render function!
     // Shows the feed
     render() {
         var usr = globVars.user
+        
+        if (this.state.loc) {
+            fetch(this.url(), {
+                method: 'GET',
+            }).then((response) => response.json())
+            .then((responseJson) => {
+                var l = [];
+                for (i in responseJson) {
+                    i = responseJson[i]
+                    l.push(new Event(i['_id'], 
+                                     i['name'], i['desc'],
+                                     i['start_date'], i['end_date'], 
+                                     i['addr'], i['tags'], 
+                                     i['admins'], i['loc'], 
+                                     i['isBoosted'], i['hot_level']));
+                }
+                this.setState({data:l})
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+
         return(
             this.state && <SafeAreaView style={styles.container}>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
@@ -86,6 +90,32 @@ export default class Feed extends Component {
             </SafeAreaView>
         );
     }
+}
+
+export class AdminEvents extends Feed {
+
+    constructor(props) {
+        super(props)
+        this.props = props
+        this.state = {
+            loc : null
+        }
+        this.url = () => 'http://hot-backend.herokuapp.com/adminEvents/'.concat(globVars.user._id)
+    }
+
+}
+
+export class UpcomingEvents extends Feed {
+
+    constructor(props) {
+        super(props)
+        this.props = props
+        this.state = {
+            loc : null
+        }
+        this.url = () => 'http://hot-backend.herokuapp.com/userEvents/users/'.concat(globVars.user._id).concat('/going')
+    }
+
 }
 
 // styles for the feed.
