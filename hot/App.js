@@ -97,19 +97,17 @@ const MainNavigator = createDrawerNavigator({
         drawerLabel: () => null,
       }),
   },
-  Settings: { screen: ProfileView },
+  Settings: { screen: EditUser },
   Search: { screen: Search },
+  CreateEvent: { screen: CreateEvent },
   Feed: { screen: evtNavigator,
       navigationOptions: ({navigation}) => ({
             drawerLabel: () => "Explore",
       }),
   },
-  CreateEvent: { screen: CreateEvent },
-  TagsFollowing: { screen: TagsFollowing },
-  UsersFollowing: { screen: UsersFollowing },
   AdminEvents: { screen: AdminEvents,  
       navigationOptions: ({navigation}) => ({
-            drawerLabel: () => "Admin Events",
+        drawerLabel: () => "Admin Events",
       }),
   },
   UpcomingEvents: { screen: UpcomingEvents,
@@ -117,6 +115,8 @@ const MainNavigator = createDrawerNavigator({
             drawerLabel: () => "Upcoming Events",
       }),
   },
+  TagsFollowing: { screen: TagsFollowing },
+  UsersFollowing: { screen: UsersFollowing },
   MapFeed: { screen: MapFeed },
   
   UsersFollowing: {screen: UsersFollowing},
@@ -125,7 +125,7 @@ const MainNavigator = createDrawerNavigator({
   TagButton: { screen: TagButton, navigationOptions: {drawerLabel: () => null}},
   EditEvent: {screen: EditEvent, navigationOptions: {drawerLabel: () => null}},
   regNav: {screen: regNavigator, navigationOptions: {drawerLabel: () => null}},
-  EditUser: {screen: EditUser, navigationOptions: {drawerLabel: () => null}},
+  //evtNav: {screen: evtNavigator, navigationOptions: {drawerLabel: () => null}},
 });
 
 

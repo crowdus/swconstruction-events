@@ -100,7 +100,7 @@ export class AdminEvents extends Feed {
         this.state = {
             loc : null
         }
-        this.url = () => 'http://hot-backend.herokuapp.com/adminEvents/'.concat(globVars.user._id)
+        this.url = () => 'http://hot-backend.herokuapp.com/adminEvents?admin='.concat(globVars.user.getUserName())
     }
 
 }
@@ -114,6 +114,7 @@ export class UpcomingEvents extends Feed {
             loc : null
         }
         this.url = () => 'http://hot-backend.herokuapp.com/userEvents/users/'.concat(globVars.user._id).concat('/going')
+        console.log(this.url())
     }
 
 }
