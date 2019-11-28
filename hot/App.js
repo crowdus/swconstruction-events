@@ -37,6 +37,8 @@ import MapFeed from './components/pages/mapFeed'
 import React, { Component } from 'react';
 import EditEvent from './components/pages/editEvent'
 import ViewListUsers from './components/pages/viewListUsers'
+import Icon from 'react-native-vector-icons/Octicons'
+import { Text, View, SafeAreaView, Header, Button, TouchableOpacity} from 'react-native';
 // import { createStore, combineReducers } from 'redux';
 
 // let store = createStore(combineReducers({ count: counter }));
@@ -54,7 +56,11 @@ Geocoder.init(APIKEY, {language : "en"});
 // past events
 import { HeaderBackButton } from 'react-navigation-stack';
 const evtNavigator = createStackNavigator({
-    Feed: { screen: Feed },
+    Feed: { screen: Feed,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <View style={{paddingLeft: 10, flexDirection: 'row'}}><Icon name='three-bars' size={26} color='#222' onPress={() => navigation.toggleDrawer()} style={{alignSelf: 'center', marginTop: -5}} /><Text style={{fontSize: 26, alignSelf: 'center', marginTop: -5}}>   Explore</Text></View>
+        }),
+    },
     Event2: { 
         screen: EventView,
         navigationOptions: ({navigation}) => ({
