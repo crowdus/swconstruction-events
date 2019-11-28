@@ -318,71 +318,65 @@ describe('testing getters and setters', () => {
 
 // // NEW UNIT TESTS ADDED IN FOR ITERATION 2
 
-// describe('Points', () => {
-//     beforeAll(() => {
-//         reset();
-//     });
+describe('Points', () => {
+    beforeAll(() => {
+        reset();
+    });
 
-//     test('testing point system',  () => {
-//          // first initiate the event to have 2 points
-//         expect(bobby.getPoint()).toBe(0)
-//         var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
-//         expect(bobby.addPoint(event)).toBe(true)
-//         expect(bobby.getPoint()).toBe(2)
-//         // a person cannot check in the same event twice
-//         expect(bobby.addPoint(event)).toBe(false)
-//         expect(bobby.getPoint()).toBe(2)
-//         // initiate some other event to have point 4
-//         expect(bobby.addPoint(event2)).toBe(true)
-//         expect(bobby.getPoint()).toBe(4)
+    //var jiayi = get_user_from_id("5dddae422c94dc00172c059d")
+    test('testing point system',  () => {
+         // first initiate the event to have 2 points
+         //var event3 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["bobby"])
+        //var event = get_event_from_id("5dde4a4456b39b0017d04e23")
+        
+        var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
+        var bobbysevent = new Event("5dccea31f8b3c20017ac0000", "Bobby's Birthday Bash", "free birthday hugs will be given", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Ryerson 251", [], ["bobby1234"], loc=null, boost=false, hot_level=1)
 
-//         // check the condition where user cannot gain points from event that he created
-//         // initiate event 3 to have 3 points
-//         var event3 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["bobby"])
-//         expect(bobby.addPoint(event3)).toBe(false)
-//         expect(bobby.getPoint()).toBe(4)
-//         expect(alice.getPoint()).toBe(0)
-//         expect(alice.addPoint(event3)).toBe(true)
-//         expect(alice.getPoint()).toBe(3)
-//     });
+        expect(bobby.getPoint()).toBe(0)
+        expect(bobby.addPoint(event)).toBe(true)
+        expect(bobby.getPoint()).toBe(10)
+        // a person cannot check in the same event twice
+        //expect(bobby.addPoint(event)).toBe(false)
+        //expect(bobby.getPoint()).toBe(10)
+        /*// initiate some other event to have point 4 <-- no longer necessary, because events do not have diff point attributes
+        expect(bobby.addPoint(event2)).toBe(true)
+        expect(bobby.getPoint()).toBe(4)*/
 
-//     test('testing boost events', () => {
-//         // first initiate the event to have 2 points and bobby has 10 points
-//         expect(bobby.setPoint(10)).toBe(true)
-//         expect(bobby.getPoint()).toBe(10)
-//         // expect(event.getPoint()).toBe(2)
-//         var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
-//         // before boosting
-//         expect(calvin.getPoint()).toBe(0)
-//         expect(calvin.addPoint(event)).toBe(true)
-//         expect(calvin.getPoint()).toBe(2)
+        // check the condition where user cannot gain points from event that he created
+        expect(bobby.addPoint(bobbysevent)).toBe(false)
+        expect(bobby.getPoint()).toBe(10)
+        expect(alice.getPoint()).toBe(0)
+        expect(alice.addPoint(bobbysevent)).toBe(true)
+        expect(alice.getPoint()).toBe(10)
+    });
 
-//         expect(bobby.boost_event()).toBe(true)
-//         expect(bobby.getPoint()).toBe(9)
-//         // expect(event.getPoint()).toBe(3)
+    test('testing boost events', () => {
+        // first initiate the event to have 2 points and bobby has 10 points
+        expect(bobby.setPoint(10)).toBe(true)
+        expect(bobby.getPoint()).toBe(10)
+        // expect(event.getPoint()).toBe(2)
+        var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["bobby1234"])
+        // before boosting
+        expect(calvin.getPoint()).toBe(0)
+        expect(calvin.addPoint(event)).toBe(true)
+        expect(calvin.getPoint()).toBe(10)
 
-//         // if a user can boost an event for more than once
-//         // implement the following test
-//         // expect(bobby.boost_event()).toBe(true)
-//         // expect(bobby.getPoint()).toBe(8)
-//         // expect(event.getPoint()).toBe(4)
+        expect(bobby.boost_event()).toBe(true)
+        expect(bobby.getPoint()).toBe(9)
+        // expect(event.getPoint()).toBe(3)
 
-//         // what happen after an event is boosted?
-//         expect(alice.getPoint()).toBe(0)
-//         expect(alice.addPoint(event)).toBe(true)
-//         expect(alice.addPoint(event)).toBe(3)
-//     })
+        // if a user can boost an event for more than once
+        // implement the following test
+        // expect(bobby.boost_event()).toBe(true)
+        // expect(bobby.getPoint()).toBe(8)
+        // expect(event.getPoint()).toBe(4)
 
-//     test('testing checkin', () => {
-//         var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["admin"])
-//         expect(bobby.getPoint()).toBe(0);
-//         expect(bobby.checkIn(event)).toBe(true);
-//         expect(bobby.getPoint()).toBe(5);
-//         expect(bobby.checkIn(event)).toBe(false);
-//         expect(bobby.getPoint()).toBe(5);
-//     })
-
-//   });
+        // what happen after an event is boosted?
+        expect(alice.getPoint()).toBe(0)
+        expect(alice.addPoint(event)).toBe(true)
+        expect(alice.addPoint(event)).toBe(3)
+    });
+});
 
 // // ---------- Event Tests ---------------------------
 // function n_str(n) {

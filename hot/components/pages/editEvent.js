@@ -6,7 +6,7 @@ import Geocoder from 'react-native-geocoding';
 import {
   Alert,
 } from 'react-native';
-
+import Icon from 'react-native-vector-icons/Octicons'
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {
   'Accept': 'application/json',
@@ -15,6 +15,7 @@ export const fetch_headers = {
 
 /* Create Form Structure for the form builder library*/
 const Form = t.form.Form;
+
 
 const event = t.struct({
   name: t.String,
@@ -122,6 +123,10 @@ export default class EditEvent extends React.Component {
     this.onPress = this.onPress.bind(this);
   }
 
+  static navigationOptions = {
+    drawerLabel: () => null
+  }
+
     /* onForm Submit function */
   onPress = (usr, id, boost) => {
     var value = this.refs.form.getValue();
@@ -198,6 +203,19 @@ export default class EditEvent extends React.Component {
 
     return (
       <View style={styles.container}>
+        <View style={{paddingTop:30, padding:10, marginTop: 10, flexDirection: 'row'}}>
+          <Icon
+              name='three-bars'
+              size={30}
+              color='#222'
+              onPress={() => this.props.navigation.toggleDrawer()}
+          />
+          <Text style={{paddingLeft: 10, paddingRight:10}}>
+            <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -10}}>  
+              Edit Event
+            </Text>
+          </Text>
+        </View>
         <ScrollView>
         <Form
           ref="form"

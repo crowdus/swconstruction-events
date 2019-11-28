@@ -4,6 +4,7 @@ import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event.js';
 import User from '../classes/user.js';
+import { globVars } from '../classes/core.js';
 
 export default class TagButton extends React.Component{
   constructor(props) {
@@ -22,8 +23,16 @@ export default class TagButton extends React.Component{
     const n = this.props.n
     const t = this.props.t
     const usr = this.props.usr
+    const lvl_idx = this.props.lvl_idx
+    var tag_view_style = styles.tag_view
+
+    var color = globVars.tag_colors[lvl_idx]
+    if (lvl_idx == -1){
+      color = "#d1d1d1" //gray tag
+    }
+    tag_view_style['backgroundColor'] = color
     return (
-        <TouchableOpacity style={styles.tag_view} onPress={function () {n.navigate('TagView', {tag:t, usr:usr})}}>
+        <TouchableOpacity style={tag_view_style} onPress={function () {n.navigate('TagView', {tag:t, usr:usr})}}>
             <Text>{this.props.t}</Text>
         </TouchableOpacity>
     )
@@ -37,7 +46,6 @@ const styles = StyleSheet.create({
       marginRight: 5,
       marginBottom: 5,
       borderRadius: 2,
-      backgroundColor: "#fad387"
   }, 
   tag_text: {
       fontSize: 12,

@@ -2,7 +2,8 @@
 
 import Followable from './followable';
 const fetch = require("node-fetch");
-import {BASE_URL, fetch_headers} from './core'
+import {BASE_URL, fetch_headers, globVars} from './core';
+//import {change_user_database, EditUser} from '../pages/editUser';
 
 // Validation Functions
 export function check_valid_name(str){
@@ -176,6 +177,24 @@ export function isGoodUser(username, firstname, lastname, email, password){
          check_valid_password(password);
 }
 
+export function change_user_database(user){
+  // console.log("UPDATE")
+  // console.log(user)
+  fetch(`${BASE_URL}/users/`, {
+    method: 'PUT',
+    headers: fetch_headers,
+    body: JSON.stringify(user)
+  })
+  .then((response) => response.text())
+  .then((responseVal) => {
+    return responseVal
+  })
+  .catch((error) => {
+    console.log(error)
+    return null
+  });   
+}
+
 
 // User Class
 export default class User extends Followable {
@@ -300,7 +319,7 @@ export default class User extends Followable {
     }
 
     setPoint(point){
-      if (point <0){
+      if (point < 0){
         return false;
       }
       this.point = point;
@@ -341,14 +360,12 @@ export default class User extends Followable {
     }
 
     get_status_for_event(event, cb) {
-      console.log(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`)
       fetch(`${BASE_URL}/userEvents?userId=${this.getUserID()}&eventId=${event.get_eventID()}`, {
         method: 'GET',
         headers: fetch_headers,
       })
       .then((response) => response.json())
       .then((responseText) => {
-          console.log("got status for event")
           cb(responseText)
       })
       .catch((error) => {
@@ -392,15 +409,17 @@ export default class User extends Followable {
     // FUNCTIONS THAT ARE IMPLEMENTED IN ITERATION 2
     // add point: when a user checks in for certain events, he will get certain
     // number of points
+    get_friends() {
+      return this.friends
+    }
 
     set_location(lat, long) {
-      this.lat = lat
-      this.long = long
+      this.location = [lat, long]
     }
 
     get_location() {
       //returns the lat long of the user in an array
-      return [0, 0]
+      return this.location
     }
 
     addPoint(_event){
@@ -411,15 +430,30 @@ export default class User extends Followable {
       // var points = get_points(_event);
       // this.point += points;
       // return true;
-      return true;
+
+      if(!_event.is_admin(this)){
+        this.point += _event.get_points()
+        change_user_database(this)
+        return true
+      }
+      return false
     }
 
     // boost event: when a user chooses to use his point to boost event
     boost_event(_event){
       // 1. how many points can a user use to boost the event?
       // or is it, upon clicking every time, one point is used?
-
-      return true;
+      if(_event.is_admin(this)){
+        if(this.points <= globVars.points_to_boost){
+          this.points -= globVars.points_to_boost
+          return true
+        } else {
+          console.log("not enough points")
+          return false
+        }
+      } 
+      console.log("user is not admin")
+      return false;
     }
 
 

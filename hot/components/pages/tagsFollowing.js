@@ -24,7 +24,7 @@ export default class TagsFollowing extends Component {
 
     static navigationOptions = ({navigation}) => {
         return {
-            drawerLabel: () => "Tags Following",
+            drawerLabel: () => "Tags You're Following",
         }
     };
 

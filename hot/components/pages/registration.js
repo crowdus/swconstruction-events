@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableHighlight, ScrollView, Button, Alert} from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, ScrollView, Button, Alert, KeyboardAvoidingView } from 'react-native';
 import t from 'tcomb-form-native';
 import User, {isGoodUser, get_user_from_username, constructUser } from '../classes/user.js'
 import { createAppContainer} from 'react-navigation';
@@ -21,27 +21,27 @@ const newUser = t.struct({
 var options = {
   fields: {
     username: {
-      placeholder: 'Must contain at least one alphabetical and one numeric character',
+      placeholder: 'Username',
       label: 'Username',
       //maxLength: 100
     },
     firstname: {
-      placeholder: 'David',
+      placeholder: 'First Name',
       label: 'Firstname',
       //maxLength: 100
     },
     lastname: {
-      placeholder: 'Johnson',
+      placeholder: 'Last Name',
       label: 'Lastname',
       //maxLength: 100
     },
     email: {
-      placeholder:'davidjohnson@gmail.com',
+      placeholder:'Email Address',
       label: 'Email address',
       //maxLength: 100
     },
     password: {
-      placeholder: 'Must contain at least one alphabetical and one numeric character',
+      placeholder: 'Password',
       label: 'Password',
       //maxLength: 20
     }
@@ -78,12 +78,9 @@ export default class Registration extends React.Component {
     // console.log('Registration: ' + value.username)
     // console.log(valid)
     if (value) {
-      // console.log(value)
-      // console.log(valid)
       if (valid) {
-        // console.log('Inside check valid! it was valid')
-        var newUser = constructUser(value.username, value.firstname, value.lastname, value.email, new Date().getDate(), value.password, 0, [], [0,0])
-        // console.log("success!")
+        var newUser = constructUser(value.username, value.firstname, value.lastname, value.email, new Date(), value.password, 0, [], [0,0])
+        console.log("success!")
         Alert.alert(
           '',
           'Success! Please log in.',
@@ -93,9 +90,15 @@ export default class Registration extends React.Component {
             }
           ]
         );
-      }
-      else {
+      } else {
         // reset form
+        Alert.alert('', 'Invalid entry', 
+        [
+          { text: 'Retry',
+            onPress: () => this.props.navigation.navigate('Registration')
+          }
+        ]
+        )
         console.log("Error! Try Again")
       }
     }
@@ -110,23 +113,34 @@ export default class Registration extends React.Component {
   render() {
     console.log('Rendering registration page!')
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="position" enabled   keyboardVerticalOffset={100}>
         <ScrollView>
-        <Form
-          ref="form"
-          type={newUser}
-          options={options}
-        />
-        <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Create</Text>
-        </TouchableHighlight>
+          <View style={styles.container}>
+            <Text>
+              Requirements: {'\n'}{'\n'}
+                Username and password may only consist of alphanumeric characters.{'\n'}{'\n'}
+                Passwords must be at least 10 characters long and contain at least one of each: {'\n'}
+                  Uppercase letter{'\n'}
+                  Lowercase letter{'\n'}
+                  Number{'\n'}{'\n'}
+            </Text>
+            <ScrollView>
+            <Form
+              ref="form"
+              type={newUser}
+              options={options}
+            />
+            <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
+              <Text style={styles.buttonText}>Create</Text>
+            </TouchableHighlight>
 
-        <Text onPress={this.onPress}>
-          {this.props.formStatus}
-        </Text>
-
+            <Text onPress={this.onPress}>
+              {this.props.formStatus}
+            </Text>
+            </ScrollView>
+          </View>
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

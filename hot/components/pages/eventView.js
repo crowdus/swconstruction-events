@@ -9,10 +9,12 @@ import TagButton from '../renderables/tagButton'
 import Icon from 'react-native-vector-icons/Octicons'
 import Event from '../classes/event.js';
 import { globVars } from '../classes/core.js';
+import {NavigationEvents} from "react-navigation";
+import MapView from "react-native-maps";
+var dateFormat = require("dateformat")
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-
-const points_to_boost = 30
+import ViewListUsers from './viewListUsers'
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {
@@ -20,19 +22,6 @@ export const fetch_headers = {
   'Content-Type': 'application/json',
 }
 
-/* Helper function to render tags and admins */
-function renderArray(arr){
-  var retArr = []
-  if (arr.length == 0) {
-    retArr.push(<Text> None </Text>)
-  }
-  else {
-    for (let i in arr) {
-      retArr.push(<TagButton t={arr[i]}></TagButton>)
-    }
-  }
-  return retArr
-}
 
 function edit_database_event(event,cb){
   fetch(`${BASE_URL}/events`, {
@@ -45,7 +34,6 @@ function edit_database_event(event,cb){
     cb(responseVal)
   })
   .catch((error) => {
-    console.error(error)
     cb(0)
   });   
 }
@@ -63,8 +51,22 @@ export default class EventView extends React.Component {
       'eventUserID': '',
       'userStatus': '',
       'loc': null,
-      'event': null
     }
+  }
+
+
+  /* Helper function to render tags and admins */
+  renderArray(arr, e){
+    var retArr = []
+    if (arr.length == 0) {
+      retArr.push(<Text> None </Text>)
+    }
+    else {
+      for (let i in arr) {
+        retArr.push(<TagButton t={arr[i]} n={this.props.navigation} usr={globVars.user} lvl_idx={e.get_hot_level() - 1}></TagButton>)
+      }
+    }
+    return retArr
   }
 
   _getLocationAsync = async () => {
@@ -99,7 +101,6 @@ export default class EventView extends React.Component {
 
   onPress_status = (e, status, usr) => {
     e.add_follower(usr, status, (eventuserid) => {
-      console.log(eventuserid)
       this.getAttendeeStatus(e, usr)
       if (status == "checkedIn") {
         var pts = e.get_points()
@@ -108,17 +109,16 @@ export default class EventView extends React.Component {
     })
   }
 
-  onPress_viewUsers = (status) => {
-    var userList = []
-    if (status == 'Going') {
-      userList = this.state.interested_people
-    }
-    if (status == 'Interested'){
-      userList = this.state.going_people
-    }
-    if (status == 'CheckedIn') {
-      userList = this.state.checkedin_people
-    }
+  onPress_viewUsers = (e, status) => {
+    console.log(`view ${status}`)
+    e.get_status_people(status, (l) => {
+      var userList = []
+      for (i in l){
+        var u = l[i]
+        userList.push(new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends']))
+      }
+      this.props.navigation.navigate('ViewListUsers', {userList:userList})
+    })
   }
 
   boost_display = (e, usr) => {
@@ -158,16 +158,14 @@ export default class EventView extends React.Component {
     }
   }
 
-  async getUpdatedEvent(id){
+  getUpdatedEvent(id){
     fetch(`${BASE_URL}/events/${id}`, {
       method: 'GET',
       headers: fetch_headers,
     })
     .then((response) => response.json())
     .then((i) => {
-      console.log("getting updated")
       var x = new Event(i['_id'], i['name'], i['desc'], i['start_date'], i['end_date'], i['addr'], i['tags'], i['admins'], i['loc'], i['isBoosted'], i['hot_level'])
-      console.log(x)
       this.setState({event: x})
     })
     .catch((error) => {
@@ -198,22 +196,15 @@ export default class EventView extends React.Component {
   }
 
   locCheck(e) {
-    console.log("helloooo")
-    console.log(e)
     lat1 = e.get_lat()
     long1 = e.get_long()
     lat2 = this.state.loc['coords']['latitude']
     long2 = this.state.loc['coords']['longitude']
     dist = this.getDistanceFromLatLonInKm(lat1, long1, lat2, long2)
-    console.log("DISTANCE:")
-    console.log(lat1)
-    console.log(lat2)
-    console.log(long1)
-    console.log(long2)
     return (dist < 0.1)
   }
 
-  async getAttendeeStatus(e, usr) {
+  getAttendeeStatus(e, usr) {
     e.get_status_people("interested", (l) => {
       this.setState({interested_people:l})
     })
@@ -242,36 +233,32 @@ export default class EventView extends React.Component {
       }
     })
     usr.get_status_for_event(e, (userEventObj) => {
-      console.log("STATUSFRMUSEREVENTOBJ")
-      console.log(userEventObj)
       if (userEventObj){
         this.setState({userStatus:userEventObj['status']})
         this.setState({eventUserID:userEventObj['_id']})
       }
+      else{
+        this.setState({userStatus:''})
+        this.setState({eventUserID:''})
+      }
     }) 
   }
 
-  componentWillMount(){
+  componentDidMount() {
     var e = this.props.navigation.getParam('evt')
     var usr = globVars.user
     
     // Make API call
+    this.getAttendeeStatus(e, usr)
     this.getUpdatedEvent(e.get_eventID())
-    this.getAttendeeStatus(this.state.event, usr)
     this._getLocationAsync();
-  }
-
-  componentDidMount() {
-
   }
 
   render() {
     var e = this.props.navigation.getParam('evt')
-    console.log("RENDERRR")
-    console.log(e)
     var usr = globVars.user
-    var renderTags = renderArray(e.get_tags())
-    var renderAdmins = renderArray(e.get_admins())
+    var renderTags = this.renderArray(e.get_tags(), e)
+    var renderAdmins = this.renderArray(e.get_admins(), e)
     // var renderStatus = renderStatusButtons()
 
     var numFriendsInt = this.state.interested_friends.length
@@ -302,6 +289,19 @@ export default class EventView extends React.Component {
         marked 'Checked In' 
     </Text>)
 
+    /*
+    Code to add map
+    <View styles={styles.container}>
+              <MapView
+                  initialRegion={{
+                    latitude: e.loc['lat'],
+                    longitude: e.loc['lng'],
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                  }}
+                />
+            </View>
+    */
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", borderWidth:40, borderColor:"white"}}>
               <Icon
@@ -311,6 +311,7 @@ export default class EventView extends React.Component {
                 onPress={() => this.props.navigation.toggleDrawer()}
                 style={{marginRight: -20, alignSelf: "flex-start"}}
               />
+        <NavigationEvents onDidFocus={()=>this.componentDidMount()}/>
         <ScrollView showsVerticalScrollIndicator={false}>
             <Text>
               <Text style={{fontSize: 50, fontStyle: "italic", fontWeight: "bold", textAlign: "center",}}>
@@ -323,12 +324,14 @@ export default class EventView extends React.Component {
 
               {"\n\n"}When: 
               <Text style={{fontSize: 20,}}>{"\n"}
-              {e.get_start_date().toDateString()} ({e.get_start_date().toTimeString()})
+              {dateFormat(e.get_start_date(), "m/d/yy h:MM TT")}
               - 
-              {e.get_end_date().toDateString()} ({e.get_end_date().toTimeString()})
+              {dateFormat(e.get_end_date(), "m/d/yy h:MM TT")}
               </Text>
-
+            </Text>
             
+
+            <Text>
               {"\n\n"} Tags: 
               </Text>
               {renderTags}
@@ -345,14 +348,14 @@ export default class EventView extends React.Component {
               Attendees: 
               </Text>
 
-              <TouchableHighlight onPress={() => this.onPress_viewUsers('interested')}>
+              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'interested')}>
                 <Text>
                   Interested: {"\n"}
                   {interested_str}
                 </Text>
               </TouchableHighlight>
 
-              <TouchableHighlight onPress={() => this.onPress_viewUsers('going')}>
+              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'going')}>
                 <Text>
                   Going: {"\n"}
                   {going_str}
@@ -437,6 +440,11 @@ export default class EventView extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  map_container:{
+    flex:1,
+    width: 500,
+    height:300,
+  },
   tags_container: {
     flex: 1,
     padding:10

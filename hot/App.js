@@ -28,12 +28,14 @@ import Registration from './components/pages/registration.js'
 import UserView from './components/pages/userView.js'
 import Search from './components/pages/searchView.js'
 import EditUser from './components/pages/editUser.js'
+import ProfileView from './components/pages/profileview.js'
 
 import {createAppContainer} from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import MapFeed from './components/pages/mapFeed'
 import React, { Component } from 'react';
 import EditEvent from './components/pages/editEvent'
+import ViewListUsers from './components/pages/viewListUsers'
 // import { createStore, combineReducers } from 'redux';
 
 // let store = createStore(combineReducers({ count: counter }));
@@ -70,11 +72,13 @@ const MainNavigator = createDrawerNavigator({
 
   // invisible
   Event: { screen: EventView },
-  UserView: { screen: UserView },
+  UserView: { screen: ProfileView },
+  FriendView: {screen: UserView},
   TagView: { screen: TagView },
   TagButton: { screen: TagButton },
   Registration: { screen: Registration },
   EditEvent: {screen: EditEvent},
+  ViewListUsers: {screen: ViewListUsers}
 });
 
 export const AppNav = createAppContainer(MainNavigator);

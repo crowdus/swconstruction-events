@@ -8,13 +8,30 @@ export default class EventCard extends React.Component{
     super(props)
   }
 
+  create_event_styles(color){
+    return {
+      padding: 10,
+      paddingLeft: 15,
+      marginBottom: 10,
+      backgroundColor: `${color}`
+    }
+  }
+
   render() {
     var item = this.props.event
     const {navigate} = this.props.navigation;
     var usr = globVars.user
+    var hot_idx = item.get_hot_level() - 1
+    var color = globVars.hot_colors[hot_idx]
+    if (new Date().getTime() < item.get_start_date()){
+      hot_idx = -1
+      color = "#f0f2f2"
+    }
+    var evt_card = this.create_event_styles(color)
+
     return (
-      <TouchableOpacity style={styles.evt_card} onPress={() => {navigate('Event', {evt:item})}}>
-        <View style={styles.evt_card}>
+      <TouchableOpacity style={evt_card} onPress={() => {this.props.navigation.navigate('Event', {evt:item})}}>
+        <View style={evt_card}>
             <Text style={styles.evt_title}>{item.get_name()}</Text>
             <Text style={styles.evt_date}>{item.get_start_date().toDateString()} - {item.get_end_date().toDateString()}</Text>
             <Text style={styles.evt_addr}>{item.get_address()}</Text>
@@ -24,7 +41,7 @@ export default class EventCard extends React.Component{
                     horizontal = {true}
                     listKey="tags"
                     data={item.get_tags()}
-                    renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr}/> }
+                    renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr} lvl_idx={hot_idx}/> }
                     keyExtractor={item => item}
                 />
             </SafeAreaView>
@@ -36,12 +53,6 @@ export default class EventCard extends React.Component{
 }
 
 const styles = StyleSheet.create({
-  evt_card: {
-      padding: 10,
-      paddingLeft: 15,
-      marginBottom: 10,
-      backgroundColor: "#ffe6b5"
-  },
   evt_title: {
       fontSize:32,
       marginBottom: 5,

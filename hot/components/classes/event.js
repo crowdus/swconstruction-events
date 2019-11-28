@@ -74,7 +74,7 @@ have more than 1 constructor
 */
 export default class Event extends Followable {
 
-    constructor(_id, name, desc, start, end, addr, tags, admins, loc, boost=false, hot_level=1) {
+    constructor(_id, name, desc, start, end, addr, tags, admins, loc=null, boost=false, hot_level=1) {
         super()
         var isGoodEvent = is_valid_name(name) && 
                           is_valid_desc(desc) &&
@@ -326,7 +326,7 @@ export default class Event extends Followable {
 /* ------------------- Other Functions  ----------------------------- */
 
     get_hot_level() {
-        return 1
+        return this.hot_level
     }
 
     verify_loc(user) {
