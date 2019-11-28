@@ -146,15 +146,13 @@ const MainNavigator = createDrawerNavigator({
   TagsFollowing: { screen: TagsFollowing },
   UsersFollowing: { screen: UsersFollowing },
   MapFeed: { screen: MapFeed },
-  
   UsersFollowing: {screen: UsersFollowing},
 
   // invisible
   TagButton: { screen: TagButton, navigationOptions: {drawerLabel: () => null}},
   EditEvent: {screen: EditEvent, navigationOptions: {drawerLabel: () => null}},
-  regNav: {screen: regNavigator, navigationOptions: {drawerLabel: () => null}},
+  regNav: {screen: regNavigator, navigationOptions: {drawerLabel: () => null, drawerLockMode: 'locked-closed',}},
   EditUser : { screen: EditUser, navigationOptions: {drawerLabel: () => null}},
-//   evtNav: {screen: evtNavigator, navigationOptions: {drawerLabel: () => null}},
 });
 
 
