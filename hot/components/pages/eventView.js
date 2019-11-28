@@ -88,6 +88,7 @@ export default class EventView extends React.Component {
         edit_database_event(e, (resp) => {
           if (resp != 0) {
             e.set_eventID(resp)
+            usr.boost_event(e)
             this.props.navigation.navigate('Event', {evt: e, usr: usr})
           }       
         })
@@ -104,6 +105,7 @@ export default class EventView extends React.Component {
       this.getAttendeeStatus(e, usr)
       if (status == "checkedIn") {
         var pts = e.get_points()
+        usr.addPoint(e)
         Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
       }
     })
