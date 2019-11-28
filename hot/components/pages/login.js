@@ -79,7 +79,8 @@ export default class LogIn extends React.Component {
                     // TODO: pass in user to feed
                     console.log("valid combo from login page, logging in...\n")
                     var u = finduser
-                    globVars.user = new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends'])
+                    console.log(u)
+                    globVars.user = new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends'], u['tags'])
                     console.log(globVars.user)
                     navigate('Feed')
                   }

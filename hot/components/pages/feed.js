@@ -38,11 +38,6 @@ export class Feed extends Component {
         };
     }
 
-    static navigationOptions = ({navigation}) => {
-        return {
-        }
-    };
-
     _getLocationAsync = async () => {
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
         if (status !== 'granted') {

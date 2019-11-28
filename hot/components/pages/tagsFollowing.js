@@ -8,9 +8,9 @@ import { DrawerActions } from '@react-navigation/routers';
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/Octicons'
 
+import {change_user_database} from '../classes/user.js';
+import { globVars } from '../classes/core.js'
 
-
-var userTA = new User("5dcd241d8a5d632450dea810", "johndoe1234", "John", "Doe", "johndoe@email.com", new Date(), "Password1234", 0, ['am0002'])
 
 
 // the class that renders the keys.
@@ -28,8 +28,6 @@ export default class TagsFollowing extends Component {
         }
     };
 
-
-
     // This is called just after the component
     // is first rendered. It changes the data showed there.
     componentDidMount() {
@@ -40,27 +38,7 @@ export default class TagsFollowing extends Component {
     // Shows the feed
     render() {
         const {navigate} = this.props.navigation;
-        var usr = this.props.navigation.getParam('usr')
-
-        fetch(this.url(), {
-            method: 'GET',
-        }).then((response) => response.json())
-        .then((responseJson) => {
-            var l = [];
-            for (i in responseJson) {
-                i = responseJson[i]
-                l.push(new Event(i['_id'], 
-                                 i['name'], i['desc'],
-                                 i['start_date'], i['end_date'], 
-                                 i['addr'], i['tags'], 
-                                 i['admins'], i['loc'], 
-                                 i['isBoosted'], i['hot_level']));
-            }
-            this.setState({data:l})
-        }).catch((error) => {
-            console.error(error);
-        });
-
+        var usr = globVars.user
 
         return(
             this.state && <SafeAreaView style={styles.container}>
@@ -75,11 +53,11 @@ export default class TagsFollowing extends Component {
                 </View>
                 <NavigationEvents onDidFocus={() => this.componentDidMount()} />
                 <FlatList
-                    data={this.state.data}
+                    data={usr.tags}
                     renderItem={({item}) => 
                     <View style={styles.tagContainer}>
                         <TouchableOpacity style={styles.tagName} onPress={function () {navigate('TagView', {tag:item, usr:usr})}}><Text>{item}</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.followbutton} onPress={()=> console.log('unfollow '.concat(item))}>
+                        <TouchableOpacity style={styles.followbutton} onPress={async ()=> {usr.unfollow_tag(item); this.setState({'user': usr})} }>
                             <Text>Unfollow</Text>
                         </TouchableOpacity>
                     </View>}
