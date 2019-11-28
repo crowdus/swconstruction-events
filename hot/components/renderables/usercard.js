@@ -27,8 +27,10 @@ export default class UserCard extends React.Component{
         followingmessage = "Following\n"
     }
     var n = this.props.n
+    console.log(item)
+    console.log(this.props.before)
     return (
-        <TouchableOpacity style={styles.evt_card} onPress={() => n.navigate('UserView', {friend: item, previous: 'search'})}>
+        <TouchableOpacity style={styles.evt_card} onPress={() => n.navigate('FriendView', {friend: item, previous: this.props.before})}>
           <View style={styles.evt_card}>
               <Text style={styles.evt_title}>@{item['username']}</Text>
               <Text style={styles.evt_desc}>

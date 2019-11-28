@@ -11,6 +11,7 @@ import EventCard from '../renderables/eventcard';
 import {NavigationActions} from 'react-navigation';
 import {globVars} from '../classes/core';
 import User from '../classes/user.js';
+import UserCard from '../renderables/usercard.js';
 
 
 export default class Search extends React.Component {
@@ -76,27 +77,8 @@ export default class Search extends React.Component {
               <FlatList
                   data={this.state.userData}
                   renderItem={({item}) => {
-                    var followingmessage = ""
-                    var friends = globVars.user.get_friends()
-                    if (friends.includes(item['_id'])){
-                        followingmessage = "Following\n"
-                    }
                     return (
-                    <TouchableOpacity style={styles.evt_card} onPress={() => navigate('UserView', {friend: item, previous: 'search'})}>
-                    <View style={styles.evt_card}>
-                        <Text style={styles.evt_title}>@{item['username']}</Text>
-                        <Text style={styles.evt_desc}>
-                            <Text style={{fontSize: 14, fontStyle: 'italic'}}>
-                                {followingmessage != "" ? followingmessage : ""}
-                            </Text>
-                            {item['firstname']} {item['lastname']}
-                            {"\n"}
-                            {item['email']}
-                            {"\n"}
-                            
-                      </Text>
-                    </View>
-                    </TouchableOpacity>)
+                    <UserCard usr={item} n={this.props.navigation} before='search'/>)
                   }}
               />
           </SafeAreaView>

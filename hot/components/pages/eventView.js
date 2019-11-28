@@ -362,7 +362,7 @@ export default class EventView extends React.Component {
                 </Text>
               </TouchableHighlight>
 
-              <TouchableHighlight onPress={() => this.onPress_viewUsers('checkedIn')}>
+              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'checkedIn')}>
                 <Text>
                   Going: {"\n"}
                   {checkedIn_str}

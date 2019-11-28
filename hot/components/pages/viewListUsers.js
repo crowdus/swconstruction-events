@@ -43,12 +43,15 @@ export default class ViewListUsers extends Component {
                 />
                 <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}> View Users </Text>
                 </View>
-                <FlatList
+                {userList.length == 0 ? <Text style={{fontSize: 20, fontStyle: 'italics'}}> No Users to Show </Text> : 
+                    <FlatList
                     data={userList}
                     renderItem={({item}) => {
-                      return (<UserCard usr={item} n={this.props.navigation}/>)
+                      return (<UserCard usr={item} n={this.props.navigation} before="Feed"/>)
                     }}
-                />
+                    />
+                }
+                
             </SafeAreaView>
         );
     }
