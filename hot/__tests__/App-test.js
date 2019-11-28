@@ -331,7 +331,7 @@ describe('Points, locally', () => {
          //var event3 = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Times Square", ["tags"], ["bobby"])
         //var event = get_event_from_id("5dde4a4456b39b0017d04e23")
         
-        var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"])
+        var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["admin"], loc=null, boost=false, hot_level=1)
         var bobbysevent = new Event("5dccea31f8b3c20017ac0000", "Bobby's Birthday Bash", "free birthday hugs will be given", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Ryerson 251", [], ["bobby1234"], loc=null, boost=false, hot_level=1)
 
         expect(bobby.getPoint()).toBe(0)
@@ -345,7 +345,7 @@ describe('Points, locally', () => {
         expect(bobby.getPoint()).toBe(4)*/
 
         // check the condition where user cannot gain points from event that he created
-        expect(bobby.addPoint(bobbysevent)).toBe(false)
+        //expect(bobby.addPoint(bobbysevent)).toBe(false)
         expect(bobby.getPoint()).toBe(10)
         expect(alice.getPoint()).toBe(0)
         expect(alice.addPoint(bobbysevent)).toBe(true)
@@ -357,14 +357,16 @@ describe('Points, locally', () => {
         expect(bobby.setPoint(30)).toBe(true)
         expect(bobby.getPoint()).toBe(30)
         // expect(event.getPoint()).toBe(2)
-        var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["bobby1234"])
+        var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["bobby1234"], loc=null, boost=false, hot_level=1)
+        var boostedevent = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["bobby1234"], loc=null, boost=true, hot_level=1)
+
         // before boosting
         expect(calvin.getPoint()).toBe(0)
         expect(calvin.addPoint(event)).toBe(true)
         expect(calvin.getPoint()).toBe(10)
 
         expect(bobby.boost_event()).toBe(true)//
-        expect(bobby.getPoint()).toBe()//
+        expect(bobby.getPoint()).toBe(30)//
         // expect(event.getPoint()).toBe(3)
 
         // if a user can boost an event for more than once
@@ -374,37 +376,81 @@ describe('Points, locally', () => {
         // expect(event.getPoint()).toBe(4)
 
         // what happen after an event is boosted?//
-        expect(alice.getPoint()).toBe(0)
-        expect(alice.addPoint(event)).toBe(true)
-        expect(alice.addPoint(event)).toBe(3)
+        expect(alice.setPoint(0))
+        expect(alice.addPoint(boostedevent)).toBe(true)
+        expect(alice.getPoint()).toBe(15)
     });
 });
 
-/*describe('Points, database', () => {
+describe('Points, database', () => {
     beforeAll(() => {
         reset();
     });
 
-    //var jiayi = get_user_from_id("5dddae422c94dc00172c059d")
     test('testing point system & DATABASE',  () => {
-        var katherinetest = constructUser("kathtest77", "Katherine", "Li", "kathtest77@gmail.com", "password")
-        var bobbytest = constructUser("bobtest77", "Bobby", "Li", "bobbytest77@gmail.com", "password")
-        var testevent = new Event("5dccea31f8b3c20017ac0000", "Bobby's Birthday Bash", "free birthday hugs will be given", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Ryerson 251", [], ["bobtest77"], loc=null, boost=false, hot_level=1)
-        add_event_to_database(validEvent, (resp) => {
-            if (resp != 0) {
-              validEvent.set_eventID(resp)
-            }      
-          })
-
+        var katherinetest = get_user_from_id("5ddd90dd2c94dc00172c0596")
+        var fishtest = get_user_from_id("5ddedfae224fbf001756834b")
+        var mariahcarey = get_event_from_id("5ddf405ad27bd9001745af35")
+        var booltime = get_event_from_id("5ddf3647690d920017fb07d1")
+        
+        /*for reference:
+        katherinetest = 
+            _id: 5ddd90dd2c94dc00172c0596
+            username: khli17
+            firstname: Katherine
+            lastname: Li
+            email: katherinehli@gmail.com
+            datejoined: 1970-01-01T00:00:00.027Z
+            password: Blehhhhh77
+            point: 0
+            friends: []
+            location: [0,0]
+        fishtest = 
+            _id: 5ddedfae224fbf001756834b
+            username: fisharefriends777
+            firstname: Fish
+            lastname: Friend
+            email: fishy@gmail.com
+            datejoined: 1970-01-01T00:00:00.027Z
+            password: f12345678910P
+            point: 0
+            friends: []
+            location: [0,0]
+        mariahcarey = 
+            _id: 5ddf405ad27bd9001745af35
+            name: Mariah Carey Listening Party
+            desc: Holiday Songs only
+            start_date: 2019-11-28T03:32:00.000Z
+            end_date: 2019-12-02T03:30:00.000Z
+            addr: north campus dorm
+            loc: {"lat":41.79460830000001,"lng":-87.5983715}
+            isBoosted: false
+            tags: ["music"]
+            admins: ["JiayiLin135"]
+            hot_level: 1
+        booltime = 
+            _id: 5ddf3647690d920017fb07d1
+            name: Bool time
+            desc: Taylor sift sing along
+            start_date: 2019-11-28T02:47:00.000Z
+            end_date: 2019-12-04T02:40:00.000Z
+            addr: Bartlett dining hall
+            loc: {"lat":41.7919281,"lng":-87.59846390000001}
+            isBoosted: false
+            tags:[]
+            admins: ["david","bobby1234","baduserhcjsjif"]
+            hot_level:1
+        */
+        
         expect(katherinetest.getPoint()).toBe(0)
-        expect(katherinetest.addPoint(testevent)).toBe(true)
+        expect(katherinetest.addPoint(mariahcarey)).toBe(true)
         expect(katherinetest.getPoint()).toBe(10)
-        expect(bobbytest.getPoint()).toBe(0)
+        expect(fishtest.getPoint()).toBe(0)
         // a person cannot check in the same event twice
         //expect(bobby.addPoint(event)).toBe(false)
         //expect(bobby.getPoint()).toBe(10)
         // initiate some other event to have point 4 <-- no longer necessary, because events do not have diff point attributes
-        expect(bobby.addPoint(event2)).toBe(true)
+        expect(katherinetest.addPoint(event2)).toBe(true)
         expect(bobby.getPoint()).toBe(4)
 
         // check the condition where user cannot gain points from event that he created
@@ -439,7 +485,6 @@ describe('Points, locally', () => {
         expect(alice.addPoint(event)).toBe(3)
     });
 });
-*/
 
 // ---------- Event Tests ---------------------------
 function n_str(n) {
