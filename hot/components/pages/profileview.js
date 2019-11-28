@@ -85,6 +85,11 @@ export default class ProfileView extends React.Component {
                 color="#f194ff"
                 onPress={ () => {navigate('EditUser')}}
             />
+            <Button
+                title="Logout"
+                color="#f194ff"
+                onPress={ () => {navigate('LogIn')}}
+            />
           </View>
           <View style={{ flex: 4, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
             </View>
