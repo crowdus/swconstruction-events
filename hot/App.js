@@ -2,21 +2,13 @@ import Geocoder from 'react-native-geocoding';
 
 const APIKEY = 'AIzaSyB9z1Rab2_34wUVl177HhwEAGa4nh2SnSk'
 
-import Feed from './components/pages/feed.js';
+import { Feed, AdminEvents, UpcomingEvents } from './components/pages/feed.js';
 import TagButton from './components/renderables/tagButton.js';
 import TagView from './components/pages/tagView.js';
 
 /* FOLLOWING PAGE */
 import TagsFollowing from './components/pages/tagsFollowing.js';
 import UsersFollowing from './components/pages/usersFollowing.js';
-
-/* TODO: TOO MANY FILES! 
-
-These can all be like a feed showing file 
-*/
-import AdminEvents from './components/pages/adminEvents.js';
-import UpcomingEvents from './components/pages/upcomingEvents.js';
-import PastEvents from './components/pages/pastEvents.js';
 
 import EventView from './components/pages/eventView.js';
 import CreateEvent from './components/pages/createEvent.js';
@@ -37,6 +29,8 @@ import MapFeed from './components/pages/mapFeed'
 import React, { Component } from 'react';
 import EditEvent from './components/pages/editEvent'
 import ViewListUsers from './components/pages/viewListUsers'
+import Icon from 'react-native-vector-icons/Octicons'
+import { Text, View, SafeAreaView, Header, Button, TouchableOpacity} from 'react-native';
 // import { createStore, combineReducers } from 'redux';
 
 // let store = createStore(combineReducers({ count: counter }));
@@ -54,7 +48,12 @@ Geocoder.init(APIKEY, {language : "en"});
 // past events
 import { HeaderBackButton } from 'react-navigation-stack';
 const evtNavigator = createStackNavigator({
-    Feed: { screen: Feed },
+    Feed: { screen: Feed,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <View style={{paddingLeft: 10, flexDirection: 'row'}}><Icon name='three-bars' size={26} color='#222' onPress={() => navigation.toggleDrawer()} style={{alignSelf: 'center', marginTop: -5}} /><Text style={{fontSize: 26, alignSelf: 'center', marginTop: -5}}>   Explore</Text></View>,
+            drawerLabel: () => "Explore",
+        }),
+    },
     Event2: { 
         screen: EventView,
         navigationOptions: ({navigation}) => ({
@@ -69,6 +68,14 @@ const evtNavigator = createStackNavigator({
             drawerLabel: () => null
         }),
     },
+    ViewListUsers: {screen: ViewListUsers,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <HeaderBackButton onPress={()=>navigation.goBack(null)} />,
+            drawerLabel: () => null
+        }),
+    },
+    UserView: { screen: ProfileView },
+    FriendView: { screen: UserView },
 }); 
 
 const regNavigator = createStackNavigator({
@@ -92,24 +99,33 @@ const MainNavigator = createDrawerNavigator({
   },
   Settings: { screen: EditUser },
   Search: { screen: Search },
-  Feed: { screen: evtNavigator },
   CreateEvent: { screen: CreateEvent },
+  Feed: { screen: evtNavigator,
+      navigationOptions: ({navigation}) => ({
+            drawerLabel: () => "Explore",
+      }),
+  },
+  AdminEvents: { screen: AdminEvents,  
+      navigationOptions: ({navigation}) => ({
+        drawerLabel: () => "Admin Events",
+      }),
+  },
+  UpcomingEvents: { screen: UpcomingEvents,
+      navigationOptions: ({navigation}) => ({
+            drawerLabel: () => "Upcoming Events",
+      }),
+  },
   TagsFollowing: { screen: TagsFollowing },
   UsersFollowing: { screen: UsersFollowing },
-  AdminEvents: { screen: AdminEvents },
-  UpcomingEvents: { screen: UpcomingEvents },
-  PastEvents: { screen: PastEvents },
   MapFeed: { screen: MapFeed },
   
   UsersFollowing: {screen: UsersFollowing},
 
   // invisible
-  UserView: { screen: ProfileView },
-  FriendView: {screen: UserView},
   TagButton: { screen: TagButton, navigationOptions: {drawerLabel: () => null}},
   EditEvent: {screen: EditEvent, navigationOptions: {drawerLabel: () => null}},
   regNav: {screen: regNavigator, navigationOptions: {drawerLabel: () => null}},
-  ViewListUsers: {screen: ViewListUsers},
+  //evtNav: {screen: evtNavigator, navigationOptions: {drawerLabel: () => null}},
 });
 
 

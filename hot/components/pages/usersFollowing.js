@@ -33,13 +33,14 @@ export default class UsersFollowing extends Component {
     // This is called just after the component
     // is first rendered. It changes the data showed there.
     componentDidMount() {
-        // console.log(globVars.user.friends);
+        console.log(globVars.user.friends);
         var friends = [];
-        for (i in globVars.user.friends){
-            friendid = globVars.user.friends[i];
-            friends.push(JSON.stringify(friendid).valueOf());
-        }
-        friends = Array.from(friends);
+        // for (i in globVars.user.friends){
+        //     friendid = globVars.user.friends[i];
+        //     friends.push(JSON.stringify(friendid).valueOf());
+        // }
+        friends = Array.from(globVars.user.friends);
+        console.log(friends)
         fetch('http://hot-backend.herokuapp.com/users/', {
             method: 'GET',
         }).then((response) => response.json())
@@ -48,9 +49,14 @@ export default class UsersFollowing extends Component {
             for (i in responseJson) {
                 alluser = responseJson[i]
                 check = JSON.stringify(alluser['_id']);
+                console.log(check);
                 // console.log(check.valueOf() ===  JSON.stringify(friends[0]).valueOf());
-                if(friends.includes(check.valueOf()))
+                // console.log(friends.includes(alluser['_id']))
+                if(friends.includes(alluser['_id'])){
+                    console.log("this is true!")
                     l.push(new User(alluser['_id'], alluser['username'], alluser['firstname'], alluser['lastname'], alluser['email'], alluser['datejoined'], alluser['password'], alluser['point'], alluser['friends']));
+                }
+                    
             }
             this.setState({data:l})
         }).catch((error) => {
@@ -63,7 +69,7 @@ export default class UsersFollowing extends Component {
     // Shows the feed
     render() {
         const {navigate} = this.props.navigation;
-        var usr = this.props.navigation.getParam('usr')
+        var usr = globVars.user
 
         return(
             this.state && <SafeAreaView>

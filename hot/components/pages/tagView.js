@@ -60,15 +60,6 @@ export default class TagView extends Component {
 
         return(
             this.state.t && this.state.data && <SafeAreaView>
-                <View style={{padding:10, flexDirection: 'row'}}>
-                <Icon
-                    name='three-bars'
-                    size={30}
-                    color='#222'
-                    onPress={() => this.props.navigation.toggleDrawer()}
-                />
-                <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   {this.state.t}</Text>
-                </View>
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}

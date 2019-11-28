@@ -304,13 +304,6 @@ export default class EventView extends React.Component {
     */
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", borderWidth:40, borderColor:"white"}}>
-              <Icon
-                name='three-bars'
-                size={30}
-                color='#222'
-                onPress={() => this.props.navigation.toggleDrawer()}
-                style={{marginRight: -20, alignSelf: "flex-start"}}
-              />
         <NavigationEvents onDidFocus={()=>this.componentDidMount()}/>
         <ScrollView showsVerticalScrollIndicator={false}>
             <Text>

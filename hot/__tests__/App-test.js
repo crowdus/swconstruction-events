@@ -4,10 +4,11 @@
 
 import 'react-native';
 import React from 'react';
-import Event, { is_valid_addr } from '../components/classes/event.js'
-import User, {get_user_from_id, constructUser, setUserID, check_valid_name,check_valid_email, check_valid_password} from '../components/classes/user.js'
+import Event, { is_valid_addr, get_event_from_id } from '../components/classes/event.js'
+import User, {get_user_from_id, constructUser, setUserID, check_valid_name,check_valid_email, check_valid_password, basicallysame} from '../components/classes/user.js'
 import Tag from '../components/classes/tag.js'
 import Followable from '../components/classes/followable.js'
+import { getMaxListeners } from 'cluster';
 
 
 // Note: test renderer must be required after react-native.
@@ -74,6 +75,16 @@ function convert(realuser){
 //         // console.log(realuser);
 //     })
 // })
+
+describe('testing string comparisons', () => {
+    expect(standardize("HI I AM SHOUTING")).toBe("hi i am shouting");
+    expect(standardize("hI i am SHOUtING")).toBe("hi i am shouting");
+    expect(standardize("hi i am shouting")).toBe("hi i am shouting");
+    expect(basicallysame("", "")).toBe(true);
+    expect(basicallysame("UPPER And lower", "upper aND LOWER")).toBe(true);
+    expect(basicallysame("", "upper aND LOWER")).toBe(false);
+    expect(basicallysame("upper and lower", "upper aND LOWER")).toBe(true);
+});
 
 
 describe('testing getters and setters', () => {
@@ -309,7 +320,7 @@ describe('testing getters and setters', () => {
 
 // // NEW UNIT TESTS ADDED IN FOR ITERATION 2
 
-describe('Points', () => {
+describe('Points, locally', () => {
     beforeAll(() => {
         reset();
     });
@@ -342,9 +353,69 @@ describe('Points', () => {
     });
 
     test('testing boost events', () => {
+        // first initiate the event to have 20 points and bobby has 10 points
+        expect(bobby.setPoint(30)).toBe(true)
+        expect(bobby.getPoint()).toBe(30)
+        // expect(event.getPoint()).toBe(2)
+        var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["bobby1234"])
+        // before boosting
+        expect(calvin.getPoint()).toBe(0)
+        expect(calvin.addPoint(event)).toBe(true)
+        expect(calvin.getPoint()).toBe(10)
+
+        expect(bobby.boost_event()).toBe(true)//
+        expect(bobby.getPoint()).toBe()//
+        // expect(event.getPoint()).toBe(3)
+
+        // if a user can boost an event for more than once
+        // implement the following test
+        // expect(bobby.boost_event()).toBe(true)
+        // expect(bobby.getPoint()).toBe(8)
+        // expect(event.getPoint()).toBe(4)
+
+        // what happen after an event is boosted?//
+        expect(alice.getPoint()).toBe(0)
+        expect(alice.addPoint(event)).toBe(true)
+        expect(alice.addPoint(event)).toBe(3)
+    });
+});
+
+/*describe('Points, database', () => {
+    beforeAll(() => {
+        reset();
+    });
+
+    //var jiayi = get_user_from_id("5dddae422c94dc00172c059d")
+    test('testing point system & DATABASE',  () => {
+        var katherinetest = constructUser("kathtest77", "Katherine", "Li", "kathtest77@gmail.com", "password")
+        var bobbytest = constructUser("bobtest77", "Bobby", "Li", "bobbytest77@gmail.com", "password")
+        var testevent = new Event("5dccea31f8b3c20017ac0000", "Bobby's Birthday Bash", "free birthday hugs will be given", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "Ryerson 251", [], ["bobtest77"], loc=null, boost=false, hot_level=1)
+        add_event_to_database(validEvent, (resp) => {
+            if (resp != 0) {
+              validEvent.set_eventID(resp)
+            }      
+          })
+
+        expect(katherinetest.getPoint()).toBe(0)
+        expect(katherinetest.addPoint(testevent)).toBe(true)
+        expect(katherinetest.getPoint()).toBe(10)
+        expect(bobbytest.getPoint()).toBe(0)
+        // a person cannot check in the same event twice
+        //expect(bobby.addPoint(event)).toBe(false)
+        //expect(bobby.getPoint()).toBe(10)
+        // initiate some other event to have point 4 <-- no longer necessary, because events do not have diff point attributes
+        expect(bobby.addPoint(event2)).toBe(true)
+        expect(bobby.getPoint()).toBe(4)
+
+        // check the condition where user cannot gain points from event that he created
+        expect(bobbytest.addPoint(testevent)).toBe(false)
+        expect(bobbytest.getPoint()).toBe(0)
+    });
+
+    test('testing boost events', () => {
         // first initiate the event to have 2 points and bobby has 10 points
-        expect(bobby.setPoint(10)).toBe(true)
-        expect(bobby.getPoint()).toBe(10)
+        expect(bobbytest.setPoint(30)).toBe(true)
+        expect(bobbytest.getPoint()).toBe(30)
         // expect(event.getPoint()).toBe(2)
         var event = new Event("5dccea31f8b3c20017ac03c0", "e", "desc", new Date("01 Jun 2019 00:00:00 GMT"), new Date("02 Jun 2019 00:00:00 GMT"), "12 st.", ["tags"], ["bobby1234"])
         // before boosting
@@ -368,6 +439,7 @@ describe('Points', () => {
         expect(alice.addPoint(event)).toBe(3)
     });
 });
+*/
 
 // ---------- Event Tests ---------------------------
 function n_str(n) {
