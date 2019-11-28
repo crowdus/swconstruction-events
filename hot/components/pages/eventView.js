@@ -56,6 +56,8 @@ export default class EventView extends React.Component {
     this.state = {
       'interested_people': [],
       'interested_friends': [],
+      'checkedin_friends': [],
+      'checkedin_people': [],
       'going_people': [],
       'going_friends': [],
       'eventUserID': '',
@@ -113,6 +115,9 @@ export default class EventView extends React.Component {
     }
     if (status == 'Interested'){
       userList = this.state.going_people
+    }
+    if (status == 'CheckedIn') {
+      userList = this.state.checkedin_people
     }
   }
 
@@ -217,6 +222,9 @@ export default class EventView extends React.Component {
         this.setState({going_people:l})
       }
     })
+    e.get_status_people("checkedIn", (l) => {
+      this.setState({checkedin_people:l})
+    })
     
     e.get_status_friends(usr, "interested", (l) => {
       if (l) {
@@ -226,6 +234,11 @@ export default class EventView extends React.Component {
     e.get_status_friends(usr, "going", (l) => {
       if (l) {
         this.setState({going_friends:l})
+      }
+    })
+    e.get_status_friends(usr, "checkedIn", (l) => {
+      if (l) {
+        this.setState({checkedin_friends:l})
       }
     })
     usr.get_status_for_event(e, (userEventObj) => {
@@ -263,6 +276,8 @@ export default class EventView extends React.Component {
 
     var numFriendsInt = this.state.interested_friends.length
     var numFriendsGoing = this.state.going_friends.length
+    var numFriendsCheckedIn = this.state.checkedin_friends.length
+
     var interested_str = (
       <Text> 
         {numFriendsInt} friends
@@ -278,6 +293,13 @@ export default class EventView extends React.Component {
         {numFriendsGoing} friends
         and {this.state.going_people.length - numFriendsGoing} other(s)
         marked 'Going' 
+    </Text>)
+
+    var checkedIn_str = (
+      <Text> 
+        {numFriendsCheckedIn} friends
+        and {this.state.checkedin_people.length - numFriendsCheckedIn} other(s)
+        marked 'Checked In' 
     </Text>)
 
     return (
@@ -334,6 +356,13 @@ export default class EventView extends React.Component {
                 <Text>
                   Going: {"\n"}
                   {going_str}
+                </Text>
+              </TouchableHighlight>
+
+              <TouchableHighlight onPress={() => this.onPress_viewUsers('checkedIn')}>
+                <Text>
+                  Going: {"\n"}
+                  {checkedIn_str}
                 </Text>
               </TouchableHighlight>
 
