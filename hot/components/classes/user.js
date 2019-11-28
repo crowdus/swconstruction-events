@@ -203,7 +203,7 @@ export function isGoodUser(username, firstname, lastname, email, password){
 
 export function change_user_database(user){
   // console.log("UPDATE")
-  console.log(JSON.stringify(user))
+  //console.log(JSON.stringify(user))
   user.username = user.username
   fetch(`${BASE_URL}/users/`, {
     method: 'PUT',
@@ -280,7 +280,7 @@ export default class User extends Followable {
       if (bool){
         async function check(){
           coolfriend = await get_user_from_username(_name);
-          if (!("friends" in coolfriend)){
+          if (!(coolfriend)){
             return true
           }
           else if (coolfriend._id == this._id)
@@ -358,7 +358,7 @@ export default class User extends Followable {
       if(_userid == this._id) return false;
       coolfriend = await get_user_from_id(_userid);
       //need query to access repeat followed
-      if (!("friends" in coolfriend)){
+      if (coolfriend !== null){
         return false
       }
       if (this.friends.length === 0){
@@ -377,7 +377,7 @@ export default class User extends Followable {
       if (! this.friends.includes(_userid))
         return false
       fakefriend = await get_user_from_id(_userid)
-      if (! ("friends" in fakefriend)){
+      if (!(fakefriend)){
         return false
       }
       this.friends = this.friends.filter(e => e !== _userid)
