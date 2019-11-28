@@ -99,8 +99,10 @@ export default class EventView extends React.Component {
     e.add_follower(usr, status, (eventuserid) => {
       console.log(eventuserid)
       this.getAttendeeStatus(e, usr)
-      var pts = e.get_points()
-      Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
+      if (status == "checkedIn") {
+        var pts = e.get_points()
+        Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
+      }
     })
   }
 
