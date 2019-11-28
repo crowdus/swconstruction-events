@@ -1,5 +1,7 @@
 # swconstruction-events
 
+This readme is formatted and updated for milestone 3a (iter1). Updated readme is here: https://docs.google.com/document/d/1uISS22fkCqQ3D8fvrr1l310jqnfr7H583nEebYR-3q8/edit?pli=1
+
 ## (1-2) Compiling, Running
 In order to compile the project,
 1. clone our git repository at https://github.com/ecrowdus/swconstruction-events.git,
