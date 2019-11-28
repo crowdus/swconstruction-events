@@ -54,7 +54,7 @@ const evtNavigator = createStackNavigator({
             drawerLabel: () => "Explore",
         }),
     },
-    Event2: { 
+    Event: { 
         screen: EventView,
         navigationOptions: ({navigation}) => ({
             headerLeft: <HeaderBackButton onPress={()=>navigation.goBack(null)} />,
