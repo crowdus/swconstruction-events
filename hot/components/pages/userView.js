@@ -8,7 +8,7 @@ import Constants from 'expo-constants';
 import User from '../classes/user.js';
 import Icon from 'react-native-vector-icons/Octicons'
 import {globVars} from '../classes/core';
-import {change_user_database} from './editUser.js'
+import {change_user_database} from '../classes/user.js'
 import { isGoodUser, get_user_from_id } from '../classes/user';
 
 //userTA is the person we are viewing
