@@ -81,38 +81,46 @@ export default class UserView extends React.Component {
             title="Follow"
             color="#f194ff"
             onPress={ async () => {
-              console.log(user.friends)
-              var converted_user = new User (user._id, user.username, user.firstname, user.lastname, user.email, user.datejoined, user.password, user.point, user.friends)
-              var checkfollow = converted_user['friends'].includes(e._id)
-              console.log(checkfollow);
+              //console.log("inside follow button of userView")
+              var converted_user = new User(user._id, user.username, user.firstname, user.lastname, user.email, user.datejoined, user.password, user.point, user.friends, user.tags)
+              //console.log(converted_user)
+              var checkfollow = converted_user.get_friends().includes(e._id)
+              //console.log(checkfollow);
               if (checkfollow) {
                 Alert.alert("You already follow this user!")
               }
               else {
                 // var converted_user = new User(user._id, user.username, user.firstname, user.lastname, user.email, user.datejoined, user.password, user.point, user.friends)
-                // console.log(converted_user)
+                //console.log("i want to follow user with id: " + e._id)
                 const value = await converted_user.follow_user(e._id);
-                // console.log("This is value" + value)
+                 //console.log("This is value:")
+                 //console.log(value)
                 if (value){
                   // console.log(converted_user)
+                  //console.log("value is not null, attempting to follow")
                   var result = await change_user_database(converted_user)
                   globVars.user = await get_user_from_id(user._id)
                   user = globVars.user
-                  console.log(user.friends)
+                  //console.log("UserView: new list of friensds: ")
+                  //console.log(user.friends)
                   Alert.alert("Successfully followed!")
                 }
-                else Alert.alert("Following fails. Try Again!")
-              }
+                else {
+                  //console.log("userView: following fails branch, conditional on value being false.")
+                  //console.log(value)
+                  Alert.alert("Following fails. Try Again!")
+                }
             }}
+          }
           />
           <Button
             title="Unfollow"
             color="#f194ff"
             onPress={ async () => {
-              console.log(user.friends)
+              //console.log(user.friends)
               var converted_user = new User (user._id, user.username, user.firstname, user.lastname, user.email, user.datejoined, user.password, user.point, user.friends)
               var checkfollow = converted_user['friends'].includes(e._id)
-              console.log(checkfollow)
+              //console.log(checkfollow)
               if (!checkfollow){
                 Alert.alert("You are not following this user!")
               }
@@ -122,7 +130,7 @@ export default class UserView extends React.Component {
                   var result = await change_user_database(converted_user)
                   globVars.user = await get_user_from_id(user._id)
                   user = globVars.user
-                  console.log(user.friends)
+                  //console.log(user.friends)
                   Alert.alert("Successfully unfollow!")
                 }
                 else Alert.alert("Unfollow fails. Try again!")
@@ -138,7 +146,7 @@ export default class UserView extends React.Component {
           title={backTitle}
           color="#f194ff"
           onPress={ () => {
-            console.log(previous)
+            //console.log(previous)
             if (previous == 'search'){
               navigate('Search')
             }

@@ -356,17 +356,24 @@ export default class User extends Followable {
     // following users based on userid rather than username
     async follow_user(_userid){
       if(_userid == this._id) return false;
+      //console.log("inside follow user! i am going to print the cool friend i want to follow:")
       coolfriend = await get_user_from_id(_userid);
+      //console.log(coolfriend)
       //need query to access repeat followed
-      if (coolfriend !== null){
+      if (coolfriend === null){
+        //console.log("coolfriend did not exist :(")
         return false
       }
       if (this.friends.length === 0){
+        //console.log(this.firstname + " has no friends :(")
         this.friends = [_userid];
         return true;
       }
-      if (this.friends.includes(_userid))
+      if (this.friends.includes(_userid)){
+        //console.log(this.firstname + " is already following" + coolfriend.firstname)
         return false
+      }
+      //console.log("about to add coolfriend to list of friends!")
       this.friends.push(_userid);
       return true;
     }
