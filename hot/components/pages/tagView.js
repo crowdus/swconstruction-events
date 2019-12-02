@@ -68,9 +68,10 @@ export default class TagView extends Component {
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
-                    renderItem={({item}) =>
+                    renderItem={({item, index}) =>
                         <EventCard event={item} navigation={this.props.navigation} usr={usr}/>
                     }
+                    keyExtractor={(item, index) => index.toString()}
                 />
             </SafeAreaView>
         );

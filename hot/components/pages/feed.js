@@ -80,12 +80,10 @@ export class Feed extends Component {
             this.state && <SafeAreaView style={styles.container}>
                 <FlatList
                     data={this.state.data}
-                    
-                    renderItem={({item}) =>
-                   
+                    renderItem={({item, index}) =>
                         <EventCard event={item} navigation={this.props.navigation} usr={usr}/>
-
                     }
+                    keyExtractor={(item, index) => index.toString()}
                 />
             </SafeAreaView>
         );
@@ -93,7 +91,6 @@ export class Feed extends Component {
 }
 
 export class AdminEvents extends Feed {
-
     constructor(props) {
         super(props)
         this.props = props

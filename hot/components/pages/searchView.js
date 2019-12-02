@@ -68,18 +68,20 @@ export default class Search extends React.Component {
               <Text style={{fontSize: 18}}>Matched Events</Text>
               <FlatList
                         data={this.state.eventData}
-                        renderItem={({item}) =>
+                        renderItem={({item, index}) =>
                             <EventCard event={item} navigation={this.props.navigation} usr={usr}/>}
+                        keyExtractor={(item, index) => index.toString()}
               />
           </SafeAreaView>
           <SafeAreaView style={styles.container}>
               <Text style={{fontSize: 18}}> Matched Users</Text>
               <FlatList
                   data={this.state.userData}
-                  renderItem={({item}) => {
+                  renderItem={({item, index}) => {
                     return (
                     <UserCard usr={item} n={this.props.navigation} before='search'/>)
                   }}
+                  keyExtractor={(item, index) => index.toString()}
               />
           </SafeAreaView>
       </View>

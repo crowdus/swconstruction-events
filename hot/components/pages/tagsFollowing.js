@@ -53,13 +53,14 @@ export default class TagsFollowing extends Component {
                 <NavigationEvents onDidFocus={() => this.componentDidMount()} />
                 <FlatList
                     data={globVars.user.tags}
-                    renderItem={({item}) => 
+                    renderItem={({item, index}) => 
                     <View style={styles.tagContainer}>
                         <TouchableOpacity style={styles.tagName} onPress={function () {navigate('TagView', {tag:item, usr:globVars.user})}}><Text>{item}</Text></TouchableOpacity>
                         <TouchableOpacity style={styles.followbutton} onPress={async ()=> {globVars.user.unfollow_tag(item); this.setState({'user': globVars.user})} }>
                             <Text>Unfollow</Text>
                         </TouchableOpacity>
                     </View>}
+                    keyExtractor={(item, index) => index.toString()}
                 />
             </SafeAreaView>
         );

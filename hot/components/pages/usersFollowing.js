@@ -85,12 +85,13 @@ export default class UsersFollowing extends Component {
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
                     data={this.state.data}
-                    renderItem={({item}) => 
+                    renderItem={({item, index}) => 
                         <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('FriendView', {friend:item, previous: 'following'})}}>
                             <View style={styles.evt_card}>
                                 <Text style={styles.evt_title}>{item.getUserName()}</Text>
                             </View>
                         </TouchableOpacity>}
+                    keyExtractor={(item, index) => index.toString()}
                 />
                 
             </SafeAreaView>

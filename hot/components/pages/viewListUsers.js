@@ -37,9 +37,10 @@ export default class ViewListUsers extends Component {
                 {userList.length == 0 ? <Text style={{fontSize: 20, fontStyle: 'italics'}}> No Users to Show </Text> : 
                     <FlatList
                     data={userList}
-                    renderItem={({item}) => {
+                    renderItem={({item, index}) => {
                       return (<UserCard usr={item} n={this.props.navigation} before="Feed"/>)
                     }}
+                    keyExtractor={(item, index) => index.toString()}
                     />
                 }
                 

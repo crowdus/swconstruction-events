@@ -357,11 +357,17 @@ export default class User extends Followable {
     async follow_user(_userid){
       if(_userid == this._id) return false;
       //console.log("inside follow user! i am going to print the cool friend i want to follow:")
+      if(_userid === ""){
+        return false
+      }
+      console.log("i'm before i retrieve user from id, inside follow_user")
       coolfriend = await get_user_from_id(_userid);
+      console.log("follow_user: retrieving id was successful")
       //console.log(coolfriend)
       //need query to access repeat followed
       if (coolfriend === null){
-        //console.log("coolfriend did not exist :(")
+        console.log("coolfriend did not exist :(")
+        console.log(coolfriend)
         return false
       }
       if (this.friends.length === 0){
