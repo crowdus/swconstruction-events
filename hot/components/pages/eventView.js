@@ -107,14 +107,19 @@ export default class EventView extends React.Component {
   }
 
   onPress_status = (e, status, usr) => {
-    e.add_follower(usr, status, (eventuserid) => {
-      this.getAttendeeStatus(e, usr)
-      if (status == "checkedIn") {
-        var pts = e.get_points()
-        usr.addPoint(e)
-        Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
-      }
-    })
+    if (this.state.userStatus === "checkedIn") {
+      Alert.alert("Error: You cannot change your status after checking in!")
+    }
+    else {
+      e.add_follower(usr, status, (eventuserid) => {
+        this.getAttendeeStatus(e, usr)
+        if (status == "checkedIn") {
+          var pts = e.get_points()
+          usr.addPoint(e)
+          Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
+        }
+      })
+    }
   }
 
   onPress_viewUsers = (e, status) => {
@@ -371,7 +376,7 @@ export default class EventView extends React.Component {
 
               <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'checkedIn')}>
                 <Text>
-                  Going: {"\n"}
+                  Checked In: {"\n"}
                   {checkedIn_str}
                 </Text>
               </TouchableHighlight>
@@ -417,12 +422,9 @@ export default class EventView extends React.Component {
               color="#f194ff"
               onPress={() => this.props.navigation.navigate('Feed', {usr:usr})}
             />
-            <Button
+            <View style={{flexDirection: 'row', justifyContent: "center", alignItems: "center"}}>
+            <TouchableHighlight
               title="Check In"
-              style={{backgroundColor:
-                this.state.userStatus === "checkedIn"
-                  ? "#f194ff"
-                  : "white"}}
               onPress={() => {
                 start = e.get_start_date()
                 end = e.get_end_date()
@@ -443,7 +445,13 @@ export default class EventView extends React.Component {
                   this.onPress_status(e, "checkedIn", usr)
                 }
               }}
-            />
+            >
+            <Text style={{backgroundColor:
+                this.state.userStatus === "checkedIn"
+                  ? "#f194ff"
+                  : "white"}}> Check In </Text>
+            </TouchableHighlight>
+            </View>
             <Text>{"\n"}</Text>
             {edit_disp}
             {boost_disp}
