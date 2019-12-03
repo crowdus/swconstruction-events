@@ -131,9 +131,6 @@ export default class Event extends Followable {
     }
 
     get_lat() {
-        console.log("HOEFHWIOFHWEIFHEWFH")
-        console.log(this.loc)
-        console.log("what?")
         return this.loc['lat']
     }
     
@@ -220,7 +217,9 @@ export default class Event extends Followable {
     }
     
     // Boost
-    is_boosted() { return this.isBoosted }
+    is_boosted() {
+        return this.isBoosted != false
+    }
 
     set_boost(user) {
         if (!this.is_null_event()) {

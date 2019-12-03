@@ -230,9 +230,7 @@ export default class EventView extends React.Component {
     })
     
     e.get_status_people("checkedIn", (l) => {
-      console.log(l)
       if (l) {
-        
         this.setState({checkedin_people:l})
       }
     })
@@ -322,7 +320,12 @@ export default class EventView extends React.Component {
                         longitude: e.get_long(),
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
-                }}/>
+                }}>
+                <MapView.Marker
+                    coordinate={{latitude: e.get_lat(),
+                    longitude: e.get_long()}}
+                />
+                </MapView>
                 <Text style={{fontSize: 50, fontStyle: "italic", fontWeight: "bold", textAlign: "center", paddingTop: 20}}>
                 {e.get_name()}</Text>
               </View>

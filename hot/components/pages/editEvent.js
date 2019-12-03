@@ -128,7 +128,7 @@ export default class EditEvent extends React.Component {
   }
 
     /* onForm Submit function */
-  onPress = (usr, id, boost) => {
+  onPress = (usr, id, boost, evt) => {
     var value = this.refs.form.getValue();
     if (value) { 
       console.log(value.name)
@@ -140,8 +140,8 @@ export default class EditEvent extends React.Component {
                             value.addr,
                             parse_tags(value.tags),
                             parse_admins(value.admins, usr.getUserName()),
-                            boost)
-      
+                            null, evt.is_boosted(), evt.get_hot_level())
+      console.log(validEvent)
       if (!validEvent.is_null_event()) {
         console.log("onpr fn")
         // Address Validity - Get latitude longitude points
@@ -189,6 +189,7 @@ export default class EditEvent extends React.Component {
     var saved_tags = list_str(saved_e.get_tags())
     var saved_admins = list_str(saved_e.get_admins())
     var boost = saved_e.is_boosted()
+    var saved_level = saved_e.get_hot_level()
 
     console.log(({}).toString.call(saved_addr).match(/\s([a-zA-Z]+)/)[1].toLowerCase())
     console.log(({}).toString.call(saved_start).match(/\s([a-zA-Z]+)/)[1].toLowerCase())
@@ -223,8 +224,8 @@ export default class EditEvent extends React.Component {
           options={options}
           value = {value}
         />
-        <TouchableHighlight style={styles.button} onPress={() => {this.onPress(usr, id, boost)}} underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Create</Text>
+        <TouchableHighlight style={styles.button} onPress={() => {this.onPress(usr, id, boost, saved_e)}} underlayColor='#99d9f4'>
+          <Text style={styles.buttonText}>Make Changes</Text>
         </TouchableHighlight>
 
         <Text onPress={this.onPress}>

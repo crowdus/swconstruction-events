@@ -31,6 +31,7 @@ export default class MapFeed extends Component {
   constructor(props){
     super(props)
     this.myRef = React.createRef();
+    this._getLocationAsync();
     var loc = globVars.user.get_location()
     this.state = {
       region: {
@@ -43,9 +44,14 @@ export default class MapFeed extends Component {
         latitude: loc[0],
         longitude: loc[1],
       },
-      markers: []
+      markers: [],
+      forceRefresh: 0
     };
-    
+  }
+
+
+  static navigationOptions = {
+    drawerLabel: () => null
   }
 
   static navigationOptions = ({navigation}) => {
@@ -53,6 +59,7 @@ export default class MapFeed extends Component {
         drawerLabel: () => "Map View",
     }
   };
+
   /*
 
   onPressMarker(num){
@@ -90,8 +97,8 @@ export default class MapFeed extends Component {
   get_nearby_events(cb){
     var loc = globVars.user.get_location()
     
-    console.log(`${BASE_URL}/exploreEvents?latitude=${loc[0]}&longitude=${loc[1]}&limit=500`)
-    fetch(`${BASE_URL}/exploreEvents?latitude=${loc[0]}&longitude=${loc[1]}&limit=500`, {
+    console.log(`${BASE_URL}/exploreEvents?userId=${globVars.user.getUserID()}&latitude=${loc[0]}&longitude=${loc[1]}&limit=5000`)
+    fetch(`${BASE_URL}/exploreEvents?userId=${globVars.user.getUserID()}&latitude=${loc[0]}&longitude=${loc[1]}&limit=5000`, {
       method: 'GET',
       headers: fetch_headers,
     })
@@ -116,17 +123,16 @@ export default class MapFeed extends Component {
       alert.alert("Permission to access location was denied")
     }
     let location = await Location.getCurrentPositionAsync({});
-    this.setState({ loc: location });
+    this.setState({ loc: location, forceRefresh: Math.floor(Math.random() * 100)});
   };
 
   componentDidUpdate() {
     //this.get_nearby_events_call()
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // Load Events to pass as markers
     var usr = globVars.user
-    this._getLocationAsync()
     this.get_nearby_events_call()
     console.log("got initial nearby events")
     // We should detect when scrolling has stopped then animate
@@ -225,6 +231,7 @@ export default class MapFeed extends Component {
           
         </View>
         <MapView
+          key={this.state.forceRefresh}
           ref={map => this.map = map}
           initialRegion={this.state.region}
           style={styles.mapcontainer}

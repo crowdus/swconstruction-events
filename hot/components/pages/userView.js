@@ -34,13 +34,7 @@ export default class UserView extends React.Component {
     var e = this.props.navigation.getParam('friend')
     var previous = this.props.navigation.getParam('previous')
     var user = globVars.user
-    var backTitle = 'Back'
-    if (previous == 'Feed'){
-      backTitle = 'Home'
-    }
-    console.log(previous)
-    // console.log(e)
-    console.log(backTitle)
+
     const {navigate} = this.props.navigation;
     return (
       <View style={{ flex: 1, justifyContent: "left", alignItems: "center" }}>
@@ -99,8 +93,8 @@ export default class UserView extends React.Component {
                   // console.log(converted_user)
                   //console.log("value is not null, attempting to follow")
                   var result = await change_user_database(converted_user)
-                  globVars.user = await get_user_from_id(user._id)
-                  user = globVars.user
+                  var newUser = await get_user_from_id(user._id)
+                  globVars.user.set_friends(newUser.friends)
                   //console.log("UserView: new list of friensds: ")
                   //console.log(user.friends)
                   Alert.alert("Successfully followed!")
@@ -128,8 +122,9 @@ export default class UserView extends React.Component {
                 const value = await converted_user.unfollow_user(e._id)
                 if (value){
                   var result = await change_user_database(converted_user)
-                  globVars.user = await get_user_from_id(user._id)
-                  user = globVars.user
+                  var newUser = await get_user_from_id(user._id)
+                  //newUser = globVars.user
+                  globVars.user.set_friends(newUser.friends)
                   //console.log(user.friends)
                   Alert.alert("Successfully unfollow!")
                 }
@@ -141,26 +136,7 @@ export default class UserView extends React.Component {
             {"\n\n"}
           </Text>
         </View>
-        <View style={{ flex: 4, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
-          <Button
-          title={backTitle}
-          color="#f194ff"
-          onPress={ () => {
-            //console.log(previous)
-            if (previous == 'search'){
-              navigate('Search')
-            }
-            else if (previous == 'following'){
-              navigate('UsersFollowing')
-            }
-            else {
-              navigate('Feed')
-            }}
-            }
-          />
-          </View>
-          <View style={{ flex: 5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
-          </View>
+        
       </View>
     );
   }

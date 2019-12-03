@@ -477,6 +477,10 @@ export default class User extends Followable {
       return this.friends
     }
 
+    set_friends(friend_arr){
+      this.friends = friend_arr
+    }
+
     set_location(lat, long) {
       this.location = [lat, long]
       change_user_database(this)

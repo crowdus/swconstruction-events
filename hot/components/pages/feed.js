@@ -54,7 +54,6 @@ export class Feed extends Component {
     // Shows the feed
     render() {
         var usr = globVars.user
-        
         if (this.state.loc) {
             fetch(this.url(), {
                 method: 'GET',

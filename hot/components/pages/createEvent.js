@@ -104,7 +104,7 @@ function parse_admins(admin_str, username){
   if (admin_str != null && admin_str != "") {
       adArray = admin_str.split(/[ ,]+/)
       for (var ad of adArray) {
-        if (tag.length > 0) {
+        if (ad.length > 0) {
           x.add(ad.toLowerCase())
         }
       }

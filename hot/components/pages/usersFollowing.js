@@ -11,6 +11,7 @@ import Settings from './settings.js'
 import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Octicons';
 import {globVars} from '../classes/core';
+import UserCard from '../renderables/usercard'
 
 
 
@@ -86,11 +87,8 @@ export default class UsersFollowing extends Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({item, index}) => 
-                        <TouchableOpacity style={styles.evt_card} onPress={function () {navigate('FriendView', {friend:item, previous: 'following'})}}>
-                            <View style={styles.evt_card}>
-                                <Text style={styles.evt_title}>{item.getUserName()}</Text>
-                            </View>
-                        </TouchableOpacity>}
+                        <UserCard usr={item} n={this.props.navigation} before="Feed"/>
+                    }
                     keyExtractor={(item, index) => index.toString()}
                 />
                 

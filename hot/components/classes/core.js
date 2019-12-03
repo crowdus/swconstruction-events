@@ -13,8 +13,8 @@ var temp = {
 }
 
 var vibrant = {
-  "markers": ["#d4e6ff","#da61ff","#ff9eb5"],
-  "tags": ["#66b8ff","#e8cafc","#fccadf"]
+  "markers": ["#d4e6ff","#dbc2ff","#ffc4c4"],
+  "tags": ["#66b8ff","#b480ff","#fc7777"]
 }
 
 export var theme = vibrant

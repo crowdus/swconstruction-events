@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Octicons'
 import {globVars} from '../classes/core';
 import EditUser, {change_user_database} from './editUser.js'
 import { isGoodUser, get_user_from_id } from '../classes/user';
+import {NavigationEvents} from "react-navigation";
 
 export default class ProfileView extends React.Component {
     constructor(props) {
@@ -27,62 +28,62 @@ export default class ProfileView extends React.Component {
         this.props.navigation.navigate('LogIn')
       }
   
-    /*static navigationOptions = ({navigation}) => {
+    static navigationOptions = ({navigation}) => {
       return {
           drawerLabel: () => "Your Profile",
       }
-    };*/
+    };
+
+    update(){
+      this.forceUpdate()
+    }
   
-    // componentDidMount() {
-    //   var e = this.props.navigation.getParam('friend')
-    //   var user = this.props.navigation.getParam('usr')
-    // }
   
     render() {
-      var user = globVars.user
-      console.log(user)
       //const {navigate} = this.props.navigation;
       return (
+        <View style={{flex: 1, paddingTop:40}}>
+          <NavigationEvents onDidFocus={()=>this.update()}/>
+          <View style={{padding:10, flexDirection: 'row'}}>
+          <Icon
+              name='three-bars'
+              size={30}
+              color='#222'
+              onPress={() => this.props.navigation.toggleDrawer()}
+          />
+          <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   User</Text>
+        </View>
         <View style={{ flex: 1, justifyContent: "left", alignItems: "center" }}>
           <View style={{ flex: 3, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
           </View>
-          <View style={{padding:10, flexDirection: 'row'}}>
-            <Icon
-                name='three-bars'
-                size={30}
-                color='#222'
-                onPress={() => this.props.navigation.toggleDrawer()}
-            />
-            <Text style={{fontSize: 32, alignSelf: 'center', marginTop: -5}}>   User</Text>
-          </View>
           <View style={{ flex: 1, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
           <Text style={styles.titleText} onPress={this.onPressTitle}>
-              {user.username} {"\n"}
+              {globVars.user.username} {"\n"}
             </Text>
           </View>
             <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
               <Text>
-                Username:{"  "}{user.username}
+                Username:{"  "}{globVars.user.username}
               </Text>
             </View>
             <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
               <Text>
-                First Name:{"  "}{user.firstname}
+                First Name:{"  "}{globVars.user.firstname}
               </Text>
             </View>
             <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
               <Text>
-                Last Name:{"  "}{user.lastname}
+                Last Name:{"  "}{globVars.user.lastname}
               </Text>
             </View>
             <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
               <Text>
-                Email Address:{"  "}{user.email}
+                Email Address:{"  "}{globVars.user.email}
               </Text>
             </View>
             <View style={{ flex: 0.5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
               <Text>
-                Points: {"  "} {user.point}
+                Points: {"  "} {globVars.user.point}
               </Text>
             </View>
             <View style={{ flex: 4, flexDirection: "column", justifyContent: "left", alignItems: "center" }}>
@@ -105,6 +106,8 @@ export default class ProfileView extends React.Component {
             <View style={{ flex: 5, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
             </View>
         </View>
+        </View>
+
       );
     }
   }
