@@ -102,6 +102,19 @@ export class AdminEvents extends Feed {
 
 }
 
+export class UpcomingEvents extends Feed {
+    constructor(props) {
+        super(props)
+        this.props = props
+        this.state = {
+            loc : null
+        }
+        //this.url = () => "http://hot-backend.herokuapp.com/eventsByStatuses?userId=5de5ba9a4aa7c50017f37677&statuses=[%22going%22,%22interested%22]"
+        this.url = () => "http://hot-backend.herokuapp.com/eventsByStatuses?userId=".concat(globVars.user.getUserID()).concat("&statuses=[%22going%22,%22interested%22]");
+        console.log(this.url())
+    }
+}
+
 // styles for the feed.
 const styles = StyleSheet.create({
     container: {
