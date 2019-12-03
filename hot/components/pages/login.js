@@ -95,7 +95,7 @@ export default class LogIn extends React.Component {
                     //globVars.user = new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends'])
                     //console.log(globVars.user)
                     //navigate('Feed')
-                    Alert.alert("Incorrect login")
+                    Alert.alert("Username or password is incorrect")
                     
                   }
                 }}
