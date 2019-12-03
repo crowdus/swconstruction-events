@@ -40,6 +40,14 @@ export default class LogIn extends React.Component {
       <ScrollView>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <View style={{justifyContent: "center", alignItems: "center"}}>
+          <Image 
+            source = {require('../../assets/hotlogo.png')} 
+            style={{
+              width: 200,
+              height: 80,
+              marginRight: -6,
+              marginBottom: 12,
+              marginTop: 12}}/>
           <Text>
             <Text style={{fontSize: 30}}>
               Welcome to Hot! {"\n\n"}
@@ -75,6 +83,7 @@ export default class LogIn extends React.Component {
                 onPress={ async () => {
                   // console.log('Username and passcode inputted: ' + this.state.username + '\n' + this.state.code)
                   var finduser = await get_user_from_username(this.state.username)
+                  console.log(finduser)
                   // console.log(this.state.code)
                   // console.log(finduser.password)
                   // console.log(finduser)
