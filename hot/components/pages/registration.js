@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TouchableHighlight, ScrollView, Button, Alert, 
 import t from 'tcomb-form-native';
 import User, {isGoodUser, get_user_from_username, constructUser } from '../classes/user.js'
 import { createAppContainer} from 'react-navigation';
+import {check_valid_name, check_valid_email, check_valid_password} from '../classes/user.js'
 
 
 /* Create Form Structure for the form builder library*/
@@ -90,14 +91,65 @@ export default class Registration extends React.Component {
         );
         this.clearForm();
       } else {
+          var username_val = check_valid_name(value.username)
+          var firstname_val = check_valid_name(value.firstname)
+          var lastname_val = check_valid_name(value.lastname)
+          var email_val = check_valid_email(value.email)
+          var password_val = check_valid_password(value.password)
+
+        if (!username_val){
+          Alert.alert('', 'Invalid username', 
+          [
+            { text: 'Retry',
+              onPress: () => this.props.navigation.navigate('Registration')
+            }
+          ]
+          )
+        }
+        else if(!firstname_val){
+          Alert.alert('', 'Invalid first name', 
+          [
+            { text: 'Retry',
+              onPress: () => this.props.navigation.navigate('Registration')
+            }
+          ]
+          )
+        }
+        else if(!lastname_val){
+          Alert.alert('', 'Invalid last name', 
+          [
+            { text: 'Retry',
+              onPress: () => this.props.navigation.navigate('Registration')
+            }
+          ]
+          )
+        }
+        else if(!email_val){
+          Alert.alert('', 'Invalid email', 
+          [
+            { text: 'Retry',
+              onPress: () => this.props.navigation.navigate('Registration')
+            }
+          ]
+          )
+        }
+        else{
+          Alert.alert('', 'Invalid password', 
+          [
+            { text: 'Retry',
+              onPress: () => this.props.navigation.navigate('Registration')
+            }
+          ]
+          )
+        }
         // reset form
-        Alert.alert('', 'Invalid entry', 
-        [
-          { text: 'Retry',
-            onPress: () => this.props.navigation.navigate('Registration')
-          }
-        ]
-        )
+        // Alert.alert('', 'Invalid entry', 
+        // [
+        //   { text: 'Retry',
+        //     onPress: () => this.props.navigation.navigate('Registration')
+        //   }
+        // ]
+        // )
         console.log("Error! Try Again")
       }
     }

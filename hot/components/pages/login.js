@@ -88,6 +88,9 @@ export default class LogIn extends React.Component {
                     globVars.user = new User(u['_id'], u['username'], u['firstname'], u['lastname'], u['email'], u['datejoined'], u['password'], u['point'], u['friends'], u['tags'])
                     console.log(globVars.user)
                     navigate('Feed')
+                    this.setState((state) => {
+                      return {username: "", code: ""};
+                    })
                   }
                   else{
                     //comment back in if you dont want to type in everytime
@@ -96,6 +99,7 @@ export default class LogIn extends React.Component {
                     //console.log(globVars.user)
                     //navigate('Feed')
                     Alert.alert("Incorrect login")
+
                     
                   }
                 }}

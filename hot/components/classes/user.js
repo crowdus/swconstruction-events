@@ -94,6 +94,7 @@ export async function get_user_from_id(userid) {
 }
 
 export async function get_user_from_username(username) {
+  username = username.toLowerCase()
   try {
     /* Make call to our API */
       const response = await fetch(`${BASE_URL}/queryUserByUsername?username=${username}`, {
@@ -162,7 +163,7 @@ export async function setUserID(_user){
       method: 'POST',
       headers: fetch_headers,
       body: JSON.stringify({
-        username: _user.username,
+        username: _user.username.toLowerCase(),
         firstname: _user.firstname,
         lastname: _user.lastname,
         email: _user.email,
@@ -274,6 +275,7 @@ export default class User extends Followable {
     setID(_id) {this._id = _id;}
 
     async setUserName(_name) {
+      _name = _name.toLowerCase()
       var bool = check_valid_name(_name)
       if (!bool)
         return false;
