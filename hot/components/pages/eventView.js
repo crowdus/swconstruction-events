@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import User from '../classes/user.js';
 import TagButton from '../renderables/tagButton'
+import UserButton from '../renderables/userButton'
 import Icon from 'react-native-vector-icons/Octicons'
 import Event from '../classes/event.js';
 import { globVars } from '../classes/core.js';
@@ -55,35 +56,23 @@ export default class EventView extends React.Component {
   }
 
 
-  /* Helper function to render tags */
-  renderTagArray(arr, e){
+  /* Helper function to render tags and admins */
+  renderArray(arr, e, type){
     var retArr = []
     if (arr.length == 0) {
       retArr.push(<Text> None </Text>)
     }
     else {
       for (let i in arr) {
-        retArr.push(<TagButton t={arr[i]} n={this.props.navigation} usr={globVars.user} lvl_idx={e.get_hot_level() - 1}></TagButton>)
-      }
-    }
-    return retArr
-  }
-
-  /* Helper function to render admin */
-  renderAdminArray(arr, e){
-    var retStr = ""
-    if (arr.length == 0) {
-      return (<Text> No Admins </Text>)
-    }
-    else {
-      for (let i in arr) {
-        retStr += `@${arr[i]}`
-        if (i < arr.length - 1){
-          retStr += ", "
+        if (type == "t") {
+          retArr.push(<TagButton t={arr[i]} n={this.props.navigation} usr={globVars.user} lvl_idx={e.get_hot_level() - 1}></TagButton>)
+        }
+        else {
+          retArr.push(<Text>{arr[i]}</Text>)
         }
       }
     }
-  return (<Text> {retStr} </Text>)
+    return retArr
   }
 
   _getLocationAsync = async () => {
@@ -123,7 +112,7 @@ export default class EventView extends React.Component {
       if (status == "checkedIn") {
         var pts = e.get_points()
         usr.addPoint(e)
-        Alert.alert(`Marked as ${status}. You've earned +${pts}! You now have ${usr.get_points()} points`)
+        Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
       }
     })
   }
@@ -285,8 +274,8 @@ export default class EventView extends React.Component {
   render() {
     var e = this.props.navigation.getParam('evt')
     var usr = globVars.user
-    var renderTags = this.renderTagArray(e.get_tags(), e)
-    var renderAdmins = this.renderAdminArray(e.get_admins(), e)
+    var renderTags = this.renderArray(e.get_tags(), e)
+    var renderAdmins = this.renderArray(e.get_admins(), e)
     // var renderStatus = renderStatusButtons()
 
     var numFriendsInt = this.state.interested_friends.length
@@ -356,9 +345,6 @@ export default class EventView extends React.Component {
               {"\n\n"} Tags: 
               </Text>
               {renderTags}
-
-              <Text>{"\n\n"}</Text>
-              {boost_disp}
             
               <Text>
               {"\n\n"}Hosted By: 
@@ -395,16 +381,18 @@ export default class EventView extends React.Component {
             </Text>
             <View style={{flexDirection: 'row', justifyContent: "center", alignItems: "center"}}>
             <TouchableHighlight onPress={() => this.onPress_status(e, "going", usr)}>
-              <Text style ={{backgroundColor:
+              <Text style ={{padding: 10,
+                            backgroundColor:
                             this.state.userStatus === "going"
-                              ? "#FCDC4D"
+                              ? "#0aa70a"
                               : "white"
                             }}>
                               <Text>Going</Text>
               </Text>
             </TouchableHighlight>
             <TouchableHighlight onPress={() => this.onPress_status(e, "interested", usr)}>
-              <Text style ={{backgroundColor:
+              <Text style ={{padding: 10,
+                            backgroundColor:
                             this.state.userStatus === "interested"
                               ? "#FCDC4D"
                               : "white"
@@ -413,9 +401,10 @@ export default class EventView extends React.Component {
               </Text>
             </TouchableHighlight>
             <TouchableHighlight onPress={() => this.onPress_status(e, "declined", usr)}>
-              <Text style ={{backgroundColor:
+              <Text style ={{padding: 10,
+                            backgroundColor:
                             this.state.userStatus === "declined"
-                              ? "#FCDC4D"
+                              ? "#d3191c"
                               : "white"
                             }}>
                               <Text>Declined</Text>
@@ -424,12 +413,20 @@ export default class EventView extends React.Component {
             </View>
             <Text> {"\n"} </Text>
             <Button
-              title="Check In"
+              title="Explore More"
               color="#f194ff"
+              onPress={() => this.props.navigation.navigate('Feed', {usr:usr})}
+            />
+            <Button
+              title="Check In"
+              style={{backgroundColor:
+                this.state.userStatus === "checkedIn"
+                  ? "#f194ff"
+                  : "white"}}
               onPress={() => {
                 start = e.get_start_date()
                 end = e.get_end_date()
-                curr = new Date().getTime()
+                curr = new Date()
                 if (!(start < curr && curr < end)){
                   Alert.alert("Event Not In Session")
                 }
@@ -447,8 +444,9 @@ export default class EventView extends React.Component {
                 }
               }}
             />
-            <Text>{"\n\n\n"}</Text>
+            <Text>{"\n"}</Text>
             {edit_disp}
+            {boost_disp}
         </ScrollView>
       </View>
     );
