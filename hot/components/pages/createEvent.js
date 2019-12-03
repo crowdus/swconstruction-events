@@ -150,6 +150,7 @@ export default class CreateEvent extends React.Component {
                 validEvent.set_eventID(resp)
                 console.log(`switched to events screen for ${resp}`)
                 this.props.navigation.navigate('Event', {evt: validEvent})
+                value = null
               }
               else {
                 Alert.alert('Server Error: Try Again Later!')

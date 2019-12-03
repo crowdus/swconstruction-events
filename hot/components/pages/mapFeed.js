@@ -90,8 +90,8 @@ export default class MapFeed extends Component {
   get_nearby_events(cb){
     var loc = globVars.user.get_location()
     
-    console.log(`${BASE_URL}/events?latitude=${loc[0]}&longitude=${loc[1]}&limit=500`)
-    fetch(`${BASE_URL}/events?latitude=${loc[0]}&longitude=${loc[1]}&limit=500`, {
+    console.log(`${BASE_URL}/exploreEvents?latitude=${loc[0]}&longitude=${loc[1]}&limit=500`)
+    fetch(`${BASE_URL}/exploreEvents?latitude=${loc[0]}&longitude=${loc[1]}&limit=500`, {
       method: 'GET',
       headers: fetch_headers,
     })
@@ -331,7 +331,7 @@ export default class MapFeed extends Component {
             return (
               <View style={card_style} key={index}>
                 <View style={styles.cardImage}>
-                  <EventCard event={item} navigation={this.props.navigation} usr={globVars.user}/>
+                  <EventCard event={item} navigation={this.props.navigation}/>
                 </View>
                   <View style={styles.cardDescription}>
                     <Text style={{fontStyle:'italic'}}>

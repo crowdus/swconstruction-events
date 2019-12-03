@@ -19,7 +19,6 @@ export default class EventCard extends React.Component{
 
   render() {
     var item = this.props.event
-    const {navigate} = this.props.navigation;
     var usr = globVars.user
     var hot_idx = item.get_hot_level() - 1
     var color = globVars.hot_colors[hot_idx]

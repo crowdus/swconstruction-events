@@ -81,7 +81,7 @@ export class Feed extends Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({item, index}) =>
-                        <EventCard event={item} navigation={this.props.navigation} usr={usr}/>
+                        <EventCard event={item} navigation={this.props.navigation}/>
                     }
                     keyExtractor={(item, index) => index.toString()}
                 />

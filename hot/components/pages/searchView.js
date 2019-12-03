@@ -35,13 +35,12 @@ export default class Search extends React.Component {
     }).then((response) => response.json()).then((responseJson) => {
         var eventObjects = responseJson['events'].map(item => new Event(item['_id'],
             item['name'], item['desc'], item['start_date'], item['end_date'], item['addr'],
-            item['tags'], item['admins']));
+            item['tags'], item['admins'], item['loc'], item['isBoosted'], item['hot_level']));
         this.setState({eventData: eventObjects});
         this.setState({userData: responseJson['users']});
     }).catch((error) => {
         console.error(error);
     });
-    // console.log(this.state);
   }
 
   render() {
@@ -69,7 +68,7 @@ export default class Search extends React.Component {
               <FlatList
                         data={this.state.eventData}
                         renderItem={({item, index}) =>
-                            <EventCard event={item} navigation={this.props.navigation} usr={usr}/>}
+                            <EventCard event={item} navigation={this.props.navigation}/>}
                         keyExtractor={(item, index) => index.toString()}
               />
           </SafeAreaView>
