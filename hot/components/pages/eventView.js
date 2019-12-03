@@ -356,27 +356,28 @@ export default class EventView extends React.Component {
               </Text>
               {renderAdmins}
 
-              <Text style={{textAlign: "center"}}> {"\n\n"}
-              Attendees: 
+              <Text style={{textAlign: "left"}}> {"\n\n"}
+              Attendees: {"\n"}
               </Text>
 
-              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'interested')}>
-                <Text>
-                  Interested: {"\n"}
+              <TouchableHighlight
+                style={{padding:5}}
+                onPress={() => this.onPress_viewUsers(e, 'interested')}>
+                <Text style={{textAlign: 'center', color:'#1d8cdf', textDecorationLine: "underline"}}>
                   {interested_str}
                 </Text>
               </TouchableHighlight>
-
-              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'going')}>
-                <Text>
-                  Going: {"\n"}
+              <TouchableHighlight
+                style={{padding:5}}
+                onPress={() => this.onPress_viewUsers(e, 'going')}>
+                <Text style={{textAlign: 'center', color:'#1d8cdf', textDecorationLine:"underline"}}>
                   {going_str}
                 </Text>
               </TouchableHighlight>
-
-              <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'checkedIn')}>
-                <Text>
-                  Checked In: {"\n"}
+              <TouchableHighlight
+                style={{padding:5}}
+                onPress={() => this.onPress_viewUsers(e, 'checkedIn')}>
+                <Text style={{textAlign: 'center', color:'#1d8cdf', textDecorationLine: "underline"}}>
                   {checkedIn_str}
                 </Text>
               </TouchableHighlight>
