@@ -122,7 +122,11 @@ export default class CreateEvent extends React.Component {
     return {
         drawerLabel: () => "Create Event",
     }
-};
+  };
+
+  clearForm() {
+    this.setState({value: null})
+  }
 
     /* onForm Submit function */
   onPress = (usr) => {
@@ -148,9 +152,9 @@ export default class CreateEvent extends React.Component {
               }
               else if (resp != 0) {
                 validEvent.set_eventID(resp)
+                this.clearForm()
                 console.log(`switched to events screen for ${resp}`)
                 this.props.navigation.navigate('Event', {evt: validEvent})
-                value = null
               }
               else {
                 Alert.alert('Server Error: Try Again Later!')

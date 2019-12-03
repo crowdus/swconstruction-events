@@ -62,6 +62,7 @@ export default class Registration extends React.Component {
   onPress = async () => {
     console.log('Inside Submit Button in Registration!')
     var value = this.refs.form.getValue();
+    value.username = value.username.toLowerCase()
     const checkdup = await get_user_from_username(value.username);
     if("friends" in checkdup){
       Alert.alert('', 'Username taken', 
@@ -171,7 +172,7 @@ export default class Registration extends React.Component {
               <Text style={{fontSize: 20}}> Registration Requirements: </Text>
               {'\n'}{'\n'}
                 - Username and password may only consist of alphanumeric characters.{'\n'}{'\n'}
-                -Passwords must be at least 10 characters long and contain at least one of each: {'\n'}
+                - Passwords must be at least 10 characters long and contain at least one of each: {'\n'}
                   {'\t'} -Uppercase letter{'\n'}
                   {'\t'} -Lowercase letter{'\n'}
                   {'\t'} -Number{'\n'}{'\n'}

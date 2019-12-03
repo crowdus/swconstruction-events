@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableHighlight, ScrollView, SafeAreaView, FlatList} from 'react-native';
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity, TouchableHighlight, ScrollView, SafeAreaView, FlatList} from 'react-native';
 import {
   Button,
   Alert,
 } from 'react-native';
 import User from '../classes/user.js';
 import TagButton from '../renderables/tagButton'
+import UserButton from '../renderables/userButton'
 import Icon from 'react-native-vector-icons/Octicons'
 import Event from '../classes/event.js';
 import { globVars } from '../classes/core.js';
@@ -14,13 +15,15 @@ import MapView from "react-native-maps";
 var dateFormat = require("dateformat")
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-
+const { width, height } = Dimensions.get("window");
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 export const fetch_headers = {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
 }
+
+const mapHeight = height/5 + height/20
 
 
 function edit_database_event(event,cb){
@@ -68,7 +71,7 @@ export default class EventView extends React.Component {
         }
       }
     }
-  return (<Text> {retStr} </Text>)
+    return (<Text> {retStr} </Text>)
   }
 
   _getLocationAsync = async () => {
@@ -103,15 +106,19 @@ export default class EventView extends React.Component {
   }
 
   onPress_status = (e, status, usr) => {
-    e.add_follower(usr, status, (eventuserid) => {
-      this.getAttendeeStatus(e, usr)
-      if (status == "checkedIn") {
-        var pts = e.get_points()
-        usr.addPoint(e)
-        console.log("check in!")
-        Alert.alert(`Marked as ${status}. You've earned +${pts}! You now have ${usr.get_points()} points`)
-      }
-    })
+    if (this.state.userStatus === "checkedIn") {
+      Alert.alert("Error: You cannot change your status after checking in!")
+    }
+    else {
+      e.add_follower(usr, status, (eventuserid) => {
+        this.getAttendeeStatus(e, usr)
+        if (status == "checkedIn") {
+          var pts = e.get_points()
+          usr.addPoint(e)
+          Alert.alert(`Marked as ${status}. You've earned ${pts}!`)
+        }
+      })
+    }
   }
 
   onPress_viewUsers = (e, status) => {
@@ -304,18 +311,15 @@ export default class EventView extends React.Component {
 
     return (
       <View style={{flex: 1}}>
-
         <View>
-
           <NavigationEvents onDidFocus={()=>this.componentDidMount()}/>
-         
           <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={{height:200, padding: 10}}>
+              <View style={{height:mapHeight, padding: 10, justifyContent: 'center'}}>
                 <MapView
                       style={styles.map}
                       region={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
+                        latitude: e.get_lat(),
+                        longitude: e.get_long(),
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
                 }}/>
@@ -323,94 +327,99 @@ export default class EventView extends React.Component {
                 {e.get_name()}</Text>
               </View>
               <View style={{paddingHorizontal: 40}}>
-              <Text style={{fontStyle: 'italic', color: '#616161'}}>
-                {"\n"}Where: 
-                <Text style={{fontSize: 18, color: 'black', fontStyle: 'normal'}}>{"\n"}{e.get_address()}</Text>
-
-                {"\n\n"}Description: 
-                <Text style={{fontSize: 18, color: 'black', fontStyle: 'normal'}}>{"\n"}{e.get_desc()}</Text>
-
-                {"\n\n"}When: 
-                <Text style={{fontSize: 18, color: 'black', fontStyle: 'normal'}}>{"\n"}
-                {dateFormat(e.get_start_date(), "m/d/yy h:MM TT")}
-                 - 
-                {dateFormat(e.get_end_date(), "m/d/yy h:MM TT")}
-                </Text>
-              </Text>
-              
-
-              <Text style={{fontStyle: 'italic', color: '#616161'}}>
-                {"\n"}Tags: 
-              </Text>
-                <SafeAreaView style={styles.tags_container}>
-                  <FlatList
-                      horizontal = {true}
-                      listKey="tags"
-                      data={e.get_tags()}
-                      renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr} lvl_idx={e.get_hot_level() - 1}/> }
-                      keyExtractor={item => item}
-                  />
-              </SafeAreaView>
-
-                <Text>{"\n\n"}</Text>
-                {boost_disp}
-              
                 <Text style={{fontStyle: 'italic', color: '#616161'}}>
-                {"\n\n"}Hosted By: 
+                  {"\n"}Where: 
+                  <Text style={{fontSize: 18, color: 'black', fontStyle: 'normal'}}>{"\n"}{e.get_address()}</Text>
+
+                  {"\n\n"}Description: 
+                  <Text style={{fontSize: 18, color: 'black', fontStyle: 'normal'}}>{"\n"}{e.get_desc()}</Text>
+
+                  {"\n\n"}When: 
+                  <Text style={{fontSize: 18, color: 'black', fontStyle: 'normal'}}>{"\n"}
+                  {dateFormat(e.get_start_date(), "m/d/yy h:MM TT")}
+                  - 
+                  {dateFormat(e.get_end_date(), "m/d/yy h:MM TT")}
+                  </Text>
+                </Text>
+                
+
+                <Text style={{fontStyle: 'italic', color: '#616161'}}>
+                  {"\n"}Tags: 
+                </Text>
+                  <SafeAreaView style={styles.tags_container}>
+                    <FlatList
+                        horizontal = {true}
+                        listKey="tags"
+                        data={e.get_tags()}
+                        renderItem={({item}) => <TagButton t={item} n={this.props.navigation} usr={usr} lvl_idx={e.get_hot_level() - 1}/> }
+                        keyExtractor={item => item}
+                    />
+                </SafeAreaView>
+                
+                <Text style={{fontStyle: 'italic', color: '#616161'}}>
+                {"\n"}Hosted By: 
                 </Text>
                 {renderAdmins}
-
-                <Text style={{textAlign: "center"}}> {"\n\n"}
-                Attendees: 
+                
+                <Text style={{fontStyle: 'italic', color: '#616161'}}> {"\n\n"}
+                Attendees:
                 </Text>
 
-                <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'interested')}>
-                  <Text>
-                    Interested: {"\n"}
+                <TouchableOpacity
+                  style={{padding:5}}
+                  onPress={() => this.onPress_viewUsers(e, 'interested')}
+                  >
+                  
+                  <Text style={{textAlign: 'left', color:'#1d8cdf', textDecorationLine: "underline"}}>
                     {interested_str}
                   </Text>
-                </TouchableHighlight>
-
-                <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'going')}>
-                  <Text>
-                    Going: {"\n"}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{padding:5}}
+                  onPress={() => this.onPress_viewUsers(e, 'going')}
+                  >
+                  <Text style={{textAlign: 'left', color:'#1d8cdf', textDecorationLine:"underline"}}>
                     {going_str}
                   </Text>
-                </TouchableHighlight>
-
-                <TouchableHighlight onPress={() => this.onPress_viewUsers(e, 'checkedIn')}>
-                  <Text>
-                    Going: {"\n"}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{padding:5}}
+                  onPress={() => this.onPress_viewUsers(e, 'checkedIn')}
+                  >
+                  <Text style={{textAlign: 'left', color:'#1d8cdf', textDecorationLine: "underline"}}>
                     {checkedIn_str}
                   </Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
 
-              <Text>
-                {"\n\n"}Respond: 
+              <Text style={{fontStyle: 'italic', color: '#616161'}}>
+                {"\n"}Respond: 
               </Text>
               <View style={{flexDirection: 'row', justifyContent: "center", alignItems: "center"}}>
               <TouchableHighlight onPress={() => this.onPress_status(e, "going", usr)}>
-                <Text style ={{backgroundColor:
+                <Text style ={{padding: 10,
+                              backgroundColor:
                               this.state.userStatus === "going"
-                                ? "#FCDC4D"
+                                ? "#86d98d"
                                 : "white"
                               }}>
                                 <Text>Going</Text>
                 </Text>
               </TouchableHighlight>
               <TouchableHighlight onPress={() => this.onPress_status(e, "interested", usr)}>
-                <Text style ={{backgroundColor:
+                <Text style ={{padding: 10,
+                              backgroundColor:
                               this.state.userStatus === "interested"
                                 ? "#FCDC4D"
                                 : "white"
                               }}>
-                                <Text>interested</Text>
+                                <Text>Interested</Text>
                 </Text>
               </TouchableHighlight>
               <TouchableHighlight onPress={() => this.onPress_status(e, "declined", usr)}>
-                <Text style ={{backgroundColor:
+                <Text style ={{padding: 10,
+                              backgroundColor:
                               this.state.userStatus === "declined"
-                                ? "#FCDC4D"
+                                ? "#f7a29c"
                                 : "white"
                               }}>
                                 <Text>Declined</Text>
@@ -418,13 +427,12 @@ export default class EventView extends React.Component {
               </TouchableHighlight>
               </View>
               <Text> {"\n"} </Text>
-              <Button
-                title="Check In"
-                color="#f194ff"
+              <View style={{flexDirection: 'row', justifyContent: "center", alignItems: "center"}}>
+              <TouchableHighlight
                 onPress={() => {
                   start = e.get_start_date()
                   end = e.get_end_date()
-                  curr = new Date().getTime()
+                  curr = new Date()
                   if (!(start < curr && curr < end)){
                     Alert.alert("Event Not In Session")
                   }
@@ -441,16 +449,34 @@ export default class EventView extends React.Component {
                     this.onPress_status(e, "checkedIn", usr)
                   }
                 }}
-              />
-              <Text>{"\n\n\n"}</Text>
-              {edit_disp}
+              >
+              <Text style={{fontSize: 16, backgroundColor:
+                  this.state.userStatus === "checkedIn"
+                    ? "#f194ff"
+                    : "white"}}> Check In
+              </Text>
+              </TouchableHighlight>
               </View>
-          </ScrollView>
+          </View>
+         
+          { e.get_admins().includes(current_username) ?
+            <View style={styles.admin_view}>
+            <Text style={{fontSize:18, color: "gray"}}>
+            {"\n"}
+            Admin-Only View
+            </Text>
+            {edit_disp}
+            {boost_disp}
+          </View> 
+          : <Text> {"\n\n"} </Text>
+          }
           
-        </View>
-
+          
+          
+        </ScrollView>
         
       </View>
+    </View>
     );
   }
 }
@@ -458,7 +484,7 @@ export default class EventView extends React.Component {
 const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
-    height: 200,
+    height: mapHeight,
   },
   tags_container: {
     flex: 1,
@@ -484,6 +510,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
+  },
+  admin_view: {
+    padding: 10,
+    justifyContent: 'center'
+    
   }
 });
 
