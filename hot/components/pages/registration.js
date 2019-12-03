@@ -16,6 +16,7 @@ const newUser = t.struct({
   password: t.String
 });
 
+
 /* Set Form Placeholders and input validation settings */
 var options = {
   fields: {
@@ -52,6 +53,10 @@ export default class Registration extends React.Component {
     super(props)
   }
 
+  clearForm() {
+    this.setState({value: null})
+  }
+
   /* onForm Submit function */
   onPress = async () => {
     console.log('Inside Submit Button in Registration!')
@@ -83,6 +88,7 @@ export default class Registration extends React.Component {
             }
           ]
         );
+        this.clearForm();
       } else {
         // reset form
         Alert.alert('', 'Invalid entry', 
