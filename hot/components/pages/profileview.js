@@ -21,6 +21,11 @@ export default class ProfileView extends React.Component {
         console.log("inside edit button")
         this.props.navigation.navigate('EditUser')
       }
+
+      logoutPress = () => {
+        console.log("user logout")
+        this.props.navigation.navigate('LogIn')
+      }
   
     /*static navigationOptions = ({navigation}) => {
       return {
@@ -88,6 +93,11 @@ export default class ProfileView extends React.Component {
               title="Edit"
               color="#f194ff"
               onPress = {this.onPress}
+            />
+            <Button
+              title="Log Out"
+              color="#f194ff"
+              onPress = {this.logoutPress}
             />
           </View>
           <View style={{ flex: 4, flexDirection: "row", justifyContent: "left", alignItems: "center" }}>
