@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, TouchableOpacity} from 'react-native';
+import { Alert, FlatList, StyleSheet, Text, View, SafeAreaView, Header, Button, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {NavigationEvents} from "react-navigation";
 import Event from '../classes/event.js';
@@ -63,7 +63,7 @@ export default class TagView extends Component {
             this.state.t && this.state.data && <SafeAreaView>
                 <Button 
                     title="Follow"
-                    onPress={()=> {usr.follow_tag(this.state.t); console.log(usr.tags);}}
+                    onPress={()=> {usr.follow_tag(this.state.t); console.log(usr.tags); Alert.alert('You have followed '.concat(this.state.t))}}
                 />
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
