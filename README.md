@@ -1,6 +1,6 @@
 # swconstruction-events
 
-This readme is formatted and updated for milestone 3a (iter1). Updated readme is here: https://docs.google.com/document/d/1uISS22fkCqQ3D8fvrr1l310jqnfr7H583nEebYR-3q8/edit?pli=1
+View this README in doc form here: https://docs.google.com/document/d/1hUOcEYu0ORwO3AS0v-t7LvTGwnLvvZce2tmxTg7gHqE/
 
 ## (1-2) Compiling, Running
 In order to compile the project,
@@ -20,7 +20,7 @@ Preferred Method:
 ```
 npm start
 ```
-This will open Metro Bundler in your browser. From here you have a variety of options to view the app. If you have xcode or adb already installed, you can run the app on an iOS simulator or on your android phone over adb. But we recommend installing the “Expo” app on the Google Play or App Store, which will allow you to scan the QR code that shows up on the Metro Bundler web page and run the app on your phone.
+This will open Metro Bundler in your browser. From here you have a variety of options to view the app. If you have xcode or adb already installed, you can run the app on an iOS simulator or on your android phone over adb. But we recommend installing the “Expo” app on the Google Play or App Store, which will allow you to scan the QR code that shows up on the Metro Bundler web page and run the app on your phone. See the document we linked for more details. 
 
 ## (3) Running unit tests:
 
@@ -37,171 +37,40 @@ To Run:
 ``` npm test ```
 
 ## (4) Acceptance Tests
-Some Acceptance Tests to Try
 
-### a) Logging In
+### a) Registration, Login, User Management Tests
 
-Enter the username “TA” and the beta access code “TA” to move to the feed view of the app! 
+#### i) Register a user by clicking the registration button. Try some bad inputs and see that they will be rejected. You can also click the back arrow to take you back to the main login page. Once you put in information that is accepted you will be prompted that a user has created and be asked to login.
 
-### b) Interact with the Feed View
+#### ii) Logging in -- enter your username and password. Successfully doing so will take you to the main feed.
 
-You will be able to scroll through the available events, and, if the tags overflow the feed card, to the left and right to see the full set of them associated with the event. If you click on one of the event cards, you will also be brought to a screen displaying that event’s information in detail.
+#### iii) Editing your profile -- from the main feed click "profile" and edit the information there. Note that changes persist after logging out. 
 
-### c) Add an Event
+#### iv) Logging out -- Click the log out button to take you back to the login screen. 
 
-Navigate to the “Create Event” screen by logging in, and clicking the button on the top right of the feed view. Try entering an event with invalid info (i.e. missing fields, starts after it ends, etc.) and see that the app will not accept the event. Entering reasonable information will add the event, and you will then be taken to the summary page for the new event. From there you can navigate back to the Explore page, which will show the new event. 
+### b) Event Tests
 
-### d) Mark Yourself as Going to an Event
-After clicking any event off your feed, you can see there are three buttons at the bottom of the screen: going, interested, and decline. There is also a button for checking in. You can choose any of these buttons to set your status for the event, and the database will be updated. There will also be a counter that shows how many people have marked themselves as going or interested. Further, the check in button only works if you are within the start and end time of the event. 
+#### i) 
 
-## (5) What was Implemented
+### c) Map Tests
 
-### a) A Barebones Login Screen
+### d) Tag Tests
 
-On this screen, the user is able to enter login -- “beta access” --information that is checked for correctness. If the correct information is entered, the user is brought to the next screen.
+#### i) Scrolling through the feed you see after log-in (and in any similar screens throughout the app including the Admin Events screen, the Going/Interested events screen, the search screen, the tag view, etc.) you will be able to click on tags which will take you to a specific feed showing all the events with a certain tag. 
 
-### b) Feed View
+#### ii) From here, you can click a button at the top of the page that says “follow.” It will display a pop-up saying that you followed the page. This will now show up more often in your feed, which is hard to test, admittedly, but definitely happens.
 
-We implemented a feed which renders the events in the database. The user can scroll through the feed, and click on events to take them to more information about the events. There are also three buttons on the feed view: Explore, which displays a wide variety of events (implemented in this iteration); My Profile; and Create Event. At the moment the latter two buttons do not do anything, but they will be a big focus of future iterations.
+#### iii) After seeing this pop-up, you can use some combination of the back arrows/hamburger menu to get to the “tags following” screen. Here you will be able to see all the tags you are following. Clicking on one of them will take you back to the tag feed for it. Pressing the back arrow will take you to the main feed. 
 
-### c) Event Page
+#### iv) But also from the “tags following” screen you can click the unfollow button, which will remove the tag from your list. You will see it less again. 
 
-We implemented event profiles that are accessible by clicking on events on the feed. The profile displays information about the event, and it allows users to RSVP as “going” or “interested.” 
+#### v) All the changes you make throughout these steps will persist after log out, which encourage you to test as well!
 
-### d) Edit Event
-
-We also made a screen on which the user can edit the detailed information of an event. This screen will come up when the user clicks the “Create event” button from the feed. This screen displays a form, and the user who wants to create an event will be able to fill in each field. We want to note that we took some edge cases into account with this page, especially with the admin and tag fields. For instance, we check for duplicates when we parse these fields. Also, if the user who is creating the event lists themselves as an admin, we remove this as a duplicate as well, because the creator is automatically added as an event admin. 
-
-
-### e) User Page (iteration 2)
-Our user creation screen has a finished UI, and it is connected to our database, but it is not connected to the rest of our app yet. It is ready to be rolled out in iteration 2.
-
-
-### f) Edit User
-
-*Implemented getters and setters for user attributes
-
-*user constructor will check for valid userID, username, firstname, lastname, email, and password.
-
-*userID is generated by the database, so we don’t need to validate
-
-*Username, password, and email must be alphanumeric
-
-*Firstname and lastname must be alphabetical
-
-*Setting username, password, firstname, and lastname will also check for validity
-
-*Implemented get_admin_events()
-	Given a user, retrieve all events that they are an admin of
-	
-*Implemented get_interested_events()
-	Given a user, retrieve all events that they are interested in
-	
-*Implemented get_going_events()
-	Given a user, retrieve all events that they are going to
-	
-*Implemented follow_user(_user)
-	Given a user, follow it as the user.
-	
-*Implemented unfollow_user(_user)
-	Given a user, unfollow it as the user.
-	
-*Implemented follow_event(_user)	
-Given an event, follow it as the user.
-
-*Implemented unfollow_event(_user)
-	Given an event, unfollow it as the user.
-
-**Integrating database functions with User by adding them under the User class and allowing users to query data:**
-
-* get_event_from_id(eventid)
-* get_user_from_id(userID)
-* get_user_from_username(username)
-* get_user_from_email(email)
-* get_events_from_admin(username)
-* get_events_from_userstat(userID, status)
-
-### Database/Backend Functionality
-We build a Node.js/Express server running on Heroku to handle backend logic and database management. We created routes supporting CRUD operations on our databases, which the app accesses by making the appropriate request. In addition, we have also specified API endpoints that are used to compute the main logic of the app. This includes finding the nearest events to you, finding the events your friends are going to, finding all the people going to a certain event, and finding all of the events a person is going to. 
-
-## (6) Who
-* Ross/Elizabeth: Feed view/ navi
-
-* Kenneth/Arthur: Database
-
-* Katherine/Jiayi: User and display
-
-* Melanie/Lindsey: Event
+## (5) Who did What
+* Ross/Elizabeth: Feed view, navigation, tags
+* Kenneth/Arthur: Database, Search
+* Katherine/Jiayi: User related functionality
+* Melanie/Lindsey: Event related functionality, map-view
 
 
 ## (7) Changes
-
-### General Changes
-* We got rid of community, because we realized all the functionality there was duplicated with Tags.
-
-* Null admin and tag attributes used to be empty strings, but they are now represented by empty lists
-
-* Created databases and filled it with test data
-
-* **Followables:** In order to reduce the moving parts of having multiple kinds of connections between objects (ie. user following user, user RSVPing to an event, user following a tag), we added a “followable” superclass with virtual functions to addFollower and removeFollower. 
-
-** As a result, the save_event function no longer exists. This is because event is now a subclass of followable, so instead, if user u wants to follow event e, event e would call add_follower(u)
-
-### Changes to Event
-* We combined the get_going_people and get_interested_people functions in event.js
-* We renamed the event attribute “get_boost” to isBoosted for clarity
-* We’ve added a function is_admin(user) in order to check if a user is an admin of the event in question or not. This will be useful in our 2nd iteration, in which we will allow admins of events to edit and boost them.
-
-### Changes to User:
-For the user class, we implemented quite a few additional functions with the help of the database team. The following functions pertain to database data-retrieval functions:
-* get_event_from_id(eventid)
-* get_user_from_id(userID)
-* get_user_from_username(username)
-* get_user_from_email(email)
-* get_events_from_admin(username)
-* get_events_from_userstat(userID, status)
-
-We did not perform unit tests on the above functions because these were handled by the database team. In addition, since we actively used the database to test all of our functions and used these core functions extensively, there is no way that our tests would run smoothly if these did not, and each core function is strongly associated with their respective user functions.
-
-We also implemented a few additional functions in the user class to reflect certain changes we made to improve efficiency and incorporate the needs of the iteration 1. This involved adding the following functions:
-
-* follow_user(_userID) - This function allows the user to add to his/her list of friends, which is a user attribute. In practice, this function allows a user to “follow” another user.
-
-* unfollow_user(_userID) - unfollow_user undos follow user by removing the given _userID from the list of friends.
-
-* follow_event(_event) - This calls the addFollower function from the event class. 
-
-* unfollow_event(_event)
-
-* get_interested_events()
-
-* get_events_from_userstat(userID, “interested”)
-
-* get_going_events()
-
-* get_events_from_userstat(userID, “going”)
-
-* get_admin_events()
-
-* get_events_from_admin(this.username)
-
-**We did not perform unit tests on the last three functions because these were wrappers with little content besides the database functions they contained (respective sub-points beneath each).**
-
-**Note/clarification:** the User class only has a friends attribute and no “events_interested” attribute or “events_going” attribute because only users can follow other things. Therefore, the way we’ve organized this means that:
-* Followables (unless they are a user) keep track of what users follow them
-Users keep track of what/who they follow 
-
-This way, there is always at least one track record of different relations. Who follows which events are stored in events, and which user1 follows which users2 is stored in the first user1.
-
-## Change of unit tests:
-* **Line 23-33:** the initiation of users have been changed since we added in validation tests for constructors, which rendered the initial inputs such as “” and null invalid and hence we have to modify the initialization with valid inputs.
-
-* **Line 85-104:** added in test cases for User constructor
-Testing get/set Email and Testing follow/unfollow: as implementation of both functions requires call on database data-retrieval functions, we have to add in async/ await so as to make sure data is retrieved before the next line of code runs. Therefore, we modified the unit tests to be async functions and added in “await” in order to achieve correct test results
-Testing validities for users: in order to perform validation checking in both User constructor and setter functions, we refactored the code by creating helper functions like “check_valid_name” and “check_valid_password” and added in corresponding unit tests
-
-* **Line 65-83** set/get userID: as we built up the database, the userID field in User is in fact initialized by the database once an object is created and stored. Therefore, we remove our test cases for set/get userIDs.
-
-* Testing validities for events: When we submitted our test cases, we tested every validity, but now that our database has been implemented, some of these tests have been taken care of by the database. For instance, the validity of the ID is handled by the database. 
-
-* We’ve also changed what constitutes a null event: Now, an event has to have no name, no start/end dates, and no address to be considered a null (and invalid) event. The attributes “tags” and “admins” are optional.
