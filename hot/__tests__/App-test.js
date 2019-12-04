@@ -60,21 +60,21 @@ describe('testing validation functions', () => {
 
 });
 
-describe('testing construct user', () => {
-    // test('testing set_user_id', async () => {
-    //     userone = new User(null, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, ["5dcd241d8a5d632450dea810"]);
-    //     expect(await setUserID(userone)).toBe(true);
-    //     usertwo = new User(null, "calvin67", "calvin", "lee", "calvinlee@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+// describe('testing construct user', () => {
+//     // test('testing set_user_id', async () => {
+//     //     userone = new User(null, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, ["5dcd241d8a5d632450dea810"]);
+//     //     expect(await setUserID(userone)).toBe(true);
+//     //     usertwo = new User(null, "calvin67", "calvin", "lee", "calvinlee@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
 
-    // });
+//     // });
 
-    test('testing ', async () => {
-        const realuser = await constructUser("bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, ["5ddd7061b1e48e771577a390"]);
-        const realuser2 = await constructUser("david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
+//     // test('testing ', async () => {
+//     //     const realuser = await constructUser("bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, ["5ddd7061b1e48e771577a390"]);
+//     //     const realuser2 = await constructUser("david100", "david", "corrie", "davidcorrie@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, []);
         
-        // console.log(realuser);
-    })
-})
+//         // console.log(realuser);
+//     })
+// })
 
 /*describe('testing string comparisons', () => {
     expect(standardize("HI I AM SHOUTING")).toBe("hi i am shouting");
