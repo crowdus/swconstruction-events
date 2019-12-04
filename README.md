@@ -38,6 +38,8 @@ To Run:
 
 ## (4) Acceptance Tests
 
+See the doc for more details! This is just a summary.
+
 ### a) Registration, Login, User Management Tests
 
 #### i) Register a user by clicking the registration button. 
@@ -95,9 +97,12 @@ Also from the “tags following” screen you can click the unfollow button, whi
 
 Search for an existing event, user, or tag, and click on results to follow/interact with those entities.
 
-## (5) Who did What
+## (5) Who did What, Changes, and More Specific Functionality Details
 
-More or less, this was the breakdown of labor. But see the document for more specifics!
+More or less, this was the breakdown of labor. See the design review doc for more details on the features, the changes we made to them, and labour breakdown.
+
+https://docs.google.com/document/d/1qLQc4piI1Fhwj53qcmOKRyCQ5pcnpsbZ0ulvBZ8rWPU/edit#heading=h.to3hu8f8c1et
+
 * Ross/Elizabeth: Feed view, navigation, tags
 * Kenneth/Arthur: Database, Search
 * Katherine/Jiayi: User related functionality
