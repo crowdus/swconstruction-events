@@ -106,10 +106,11 @@ export default class Event extends Followable {
         this.end_date = null
         this.addr = ""
         this.loc = null
-        this.isBoosted = null
+        this.isBoosted = false
         this.tags = []
         this.admins = []
         this.points = null
+        this.hot_level = 1
     }
 
     // Checks if an event is a null instance of event
@@ -118,7 +119,7 @@ export default class Event extends Followable {
              && this.addr == ""
              && this.start_date == null
              && this.end_date == null
-             && this.isBoosted == null)
+            )
     }
 
     /* ------------------- Getters & Setters  ----------------------------- */

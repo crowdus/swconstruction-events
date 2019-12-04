@@ -33,6 +33,9 @@ export default class MapFeed extends Component {
     this.myRef = React.createRef();
     this._getLocationAsync();
     var loc = globVars.user.get_location()
+    if (loc.length == 0) {
+      loc = [41.7886,-87.5987]
+    }
     this.state = {
       region: {
         latitude: loc[0],
@@ -96,7 +99,9 @@ export default class MapFeed extends Component {
 
   get_nearby_events(cb){
     var loc = globVars.user.get_location()
-    
+    if (loc.length == 0){
+      loc = [41.7886,-87.5987] //default to uchicago campus
+    }
     console.log(`${BASE_URL}/exploreEvents?userId=${globVars.user.getUserID()}&latitude=${loc[0]}&longitude=${loc[1]}&limit=5000`)
     fetch(`${BASE_URL}/exploreEvents?userId=${globVars.user.getUserID()}&latitude=${loc[0]}&longitude=${loc[1]}&limit=5000`, {
       method: 'GET',

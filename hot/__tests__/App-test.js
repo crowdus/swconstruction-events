@@ -451,7 +451,7 @@ test('event constructor!', function() {
     expect(bad_event.get_admins()).toEqual([])
     expect(bad_event.get_address()).toBe("")
     expect(bad_event.get_tags()).toEqual([])
-    expect(bad_event.is_boosted() == null).toBeTruthy()
+    expect(bad_event.is_boosted() == false).toBeTruthy()
     expect(bad_event.get_points()).toBe(null)
 
 
@@ -553,7 +553,7 @@ test('booboobooboosted !', function() {
     expect(event2.is_boosted()).toBeFalsy()
     expect(event.set_boost()).toBe(null)
     expect(event2.set_boost(alice)).toBeTruthy()
-    expect(event.is_boosted()).toBe(null)
+    expect(event.is_boosted() == false).toBeTruthy()
     expect(event2.is_boosted()).toBeTruthy()
 })
 
