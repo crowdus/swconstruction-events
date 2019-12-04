@@ -56,7 +56,17 @@ export default class TagsFollowing extends Component {
                     renderItem={({item, index}) => 
                     <View style={styles.tagContainer}>
                         <TouchableOpacity style={styles.tagName} onPress={function () {navigate('TagView', {tag:item, usr:globVars.user})}}><Text>{item}</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.followbutton} onPress={async ()=> {globVars.user.unfollow_tag(item); this.setState({'user': globVars.user})} }>
+                        <TouchableOpacity style={styles.followbutton} onPress={async ()=> {
+                                const value = await globVars.user.unfollow_tag(item);
+                                if (value) {
+                                    var result = await change_user_database(globVars.user)
+                                    this.setState({'user': globVars.user})
+                                }
+                                else {
+                                    Alert.alert("Unfollowing failed. Try Again!")
+                                }
+                                console.log(globVars.user.tags);
+                            } }>
                             <Text>Unfollow</Text>
                         </TouchableOpacity>
                     </View>}
