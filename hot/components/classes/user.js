@@ -411,7 +411,6 @@ export default class User extends Followable {
       else if (this.tags.includes(tag))
         return false
       this.tags.push(tag);
-      change_user_database(this)
       return true;
     }
 
@@ -419,7 +418,6 @@ export default class User extends Followable {
       if (! this.tags.includes(tag))
         return false
       this.tags = this.tags.filter(e => e !== tag)
-      change_user_database(this)
       return true
     }
 

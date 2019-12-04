@@ -63,7 +63,17 @@ export default class TagView extends Component {
             this.state.t && this.state.data && <SafeAreaView>
                 <Button 
                     title="Follow"
-                    onPress={()=> {usr.follow_tag(this.state.t); console.log(usr.tags); Alert.alert('You have followed '.concat(this.state.t))}}
+                    onPress={ async () => {
+                        const value = await usr.follow_tag(this.state.t);
+                        if (value){
+                            var result = await change_user_database(usr)
+                            Alert.alert('You have followed '.concat(this.state.t))
+                        }
+                        else {
+                            Alert.alert("Following fails. Try Again!")
+                        }
+                        console.log(usr.tags);
+                    }}
                 />
                 <NavigationEvents onDidFocus={()=>this.componentDidMount()} />
                 <FlatList
