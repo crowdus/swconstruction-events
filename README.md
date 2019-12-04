@@ -40,37 +40,65 @@ To Run:
 
 ### a) Registration, Login, User Management Tests
 
-#### i) Register a user by clicking the registration button. Try some bad inputs and see that they will be rejected. You can also click the back arrow to take you back to the main login page. Once you put in information that is accepted you will be prompted that a user has created and be asked to login.
+#### i) Register a user by clicking the registration button. 
+Try some bad inputs and see that they will be rejected. You can also click the back arrow to take you back to the main login page. Once you put in information that is accepted you will be prompted that a user has created and be asked to login.
 
-#### ii) Logging in -- enter your username and password. Successfully doing so will take you to the main feed.
+#### ii) Logging in
+Enter your username and password. Successfully doing so will take you to the main feed.
 
-#### iii) Editing your profile -- from the main feed click "profile" and edit the information there. Note that changes persist after logging out. 
+#### iii) Editing your profile
+From the main feed click "profile" and edit the information there. Note that changes persist after logging out. 
 
-#### iv) Logging out -- Click the log out button to take you back to the login screen. 
+#### iv) Logging out
+Click the log out button to take you back to the login screen. 
+
+#### v) Follow/Unfollow a user
+From the user public profile screen (accessed through the event view or search) you can follow/unfollow users, which will show up in the "Users Following" nav item in the drawer navigator.
 
 ### b) Event Tests
 
-#### i) 
+#### i) View an event
+Click one of the event cards on the main feed. This will take you to a page displaying its details.
+
+#### ii) Change your status
+Use the going/interested/declined buttons to change your status. Note that the changes persist when you change pages/log out.
+
+#### iii) View events you are going to
+Use the Going/Interested events screen in the drawer navigator to view events you have marked as going or interested.
+
+#### iv) Change the hot level of an event
+If you mark yourself as going and the event crosses a certain numeric threshold, the event card will change color to mark its increasing hotness. Look at our document for those specific thresholds.
+
+#### v) Create an event
+Click the create event screen in the drawer navigator to create an event. Try some bad inputs; they will not work. If you set yourself as "Admin" by entering your username you will be able to see this event in the Admin events screen in the drawer navigator. By entering existing or new tags your event will also be linked to those tags. View the event in the feed/search afterwards
 
 ### c) Map Tests
+Scroll around the map, and flip through the cards on the bottom to explore events. Click one of them to take you to the appropriate event screen.
 
 ### d) Tag Tests
 
-#### i) Scrolling through the feed you see after log-in (and in any similar screens throughout the app including the Admin Events screen, the Going/Interested events screen, the search screen, the tag view, etc.) you will be able to click on tags which will take you to a specific feed showing all the events with a certain tag. 
+#### i) Tag View
+Scrolling through the feed you see after log-in (and in any similar screens throughout the app including the Admin Events screen, the Going/Interested events screen, the search screen, the tag view, etc.) you will be able to click on tags which will take you to a specific feed showing all the events with a certain tag. 
 
-#### ii) From here, you can click a button at the top of the page that says “follow.” It will display a pop-up saying that you followed the page. This will now show up more often in your feed, which is hard to test, admittedly, but definitely happens.
+#### ii) Follow a tag
+From here, you can click a button at the top of the page that says “follow.” It will display a pop-up saying that you followed the page. This will now show up more often in your feed, which is hard to test, admittedly, but definitely happens.
 
-#### iii) After seeing this pop-up, you can use some combination of the back arrows/hamburger menu to get to the “tags following” screen. Here you will be able to see all the tags you are following. Clicking on one of them will take you back to the tag feed for it. Pressing the back arrow will take you to the main feed. 
+#### iii) View Tags you follow
+After seeing this pop-up, you can use some combination of the back arrows/hamburger menu to get to the “tags following” screen. Here you will be able to see all the tags you are following. Clicking on one of them will take you back to the tag feed for it. Pressing the back arrow will take you to the main feed. 
 
-#### iv) But also from the “tags following” screen you can click the unfollow button, which will remove the tag from your list. You will see it less again. 
+#### iv) Unfollow a tag
+Also from the “tags following” screen you can click the unfollow button, which will remove the tag from your list. You will see it less again. 
 
-#### v) All the changes you make throughout these steps will persist after log out, which encourage you to test as well!
+#### v) All the changes you make throughout these steps will persist after log out, which we encourage you to test as well!
+
+### e) Search
+
+Search for an existing event, user, or tag, and click on results to follow/interact with those entities.
 
 ## (5) Who did What
+
+More or less, this was the breakdown of labor. But see the document for more specifics!
 * Ross/Elizabeth: Feed view, navigation, tags
 * Kenneth/Arthur: Database, Search
 * Katherine/Jiayi: User related functionality
 * Melanie/Lindsey: Event related functionality, map-view
-
-
-## (7) Changes
