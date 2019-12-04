@@ -282,30 +282,60 @@ export default class EventView extends React.Component {
     var numFriendsInt = this.state.interested_friends.length
     var numFriendsGoing = this.state.going_friends.length
     var numFriendsCheckedIn = this.state.checkedin_friends.length
-
-    var interested_str = (
-      <Text> 
-        {numFriendsInt} friends
-        and {this.state.interested_people.length - numFriendsInt} other(s)
-        marked 'Interested' 
-    </Text>)
+    var interested_str;
+    if (numFriendsInt != 0){
+      interested_str = (
+        <Text> 
+          {numFriendsInt} friends
+          and {this.state.interested_people.length - numFriendsInt} other(s)
+          marked 'Interested' 
+      </Text>)
+    }
+    else{
+      interested_str = (
+        <Text> 
+          {this.state.interested_people.length - numFriendsInt} other(s)
+          marked 'Interested' 
+      </Text>)
+    }
+   
 
     var boost_disp = this.boost_display(e, usr)
     var edit_disp = this.edit_display(e, usr)
-
-    var going_str = (
-      <Text> 
-        {numFriendsGoing} friends
-        and {this.state.going_people.length - numFriendsGoing} other(s)
-        marked 'Going' 
-    </Text>)
-
-    var checkedIn_str = (
-      <Text> 
-        {numFriendsCheckedIn} friends
-        and {this.state.checkedin_people.length - numFriendsCheckedIn} other(s)
-        marked 'Checked In' 
-    </Text>)
+    var going_str;
+    if (numFriendsGoing != 0){
+      going_str = (
+        <Text> 
+          {numFriendsGoing} friends
+          and {this.state.going_people.length - numFriendsGoing} other(s)
+          marked 'Going' 
+      </Text>)
+    }
+    else {
+      going_str = (
+        <Text> 
+          {this.state.going_people.length - numFriendsGoing} other(s)
+          marked 'Going' 
+      </Text>)
+    }
+   
+    var checkedIn_str;
+    if (numFriendsCheckedIn != 0){
+      checkedIn_str = (
+        <Text> 
+          {numFriendsCheckedIn} friends
+          and {this.state.checkedin_people.length - numFriendsCheckedIn} other(s)
+          marked 'Checked In' 
+      </Text>)
+    }
+    else{
+      checkedIn_str = (
+        <Text> 
+          {this.state.checkedin_people.length - numFriendsCheckedIn} other(s)
+          marked 'Checked In' 
+      </Text>)
+    }
+    
 
     return (
       <View style={{flex: 1}}>
