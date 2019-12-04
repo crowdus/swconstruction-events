@@ -52,6 +52,10 @@ export class Feed extends Component {
     // Shows the feed
     render() {
         var usr = globVars.user
+        console.log("I am in feed, user is:")
+        console.log(globVars.user)
+        console.log("printing out type of globvars:")
+        console.log(typeof(globVars.user))
         if (this.state.loc) {
             //console.log(this.url())
             fetch(this.url(), {

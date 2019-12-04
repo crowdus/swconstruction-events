@@ -1,4 +1,5 @@
 /* Core file for non class specific items (eg. shared/global variables) */
+import User from '../classes/user'
 
 export const BASE_URL = 'https://hot-backend.herokuapp.com'
 

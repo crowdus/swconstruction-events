@@ -102,15 +102,17 @@ export default class EditUser extends React.Component {
                 console.log(value.username)
                 var valid = isGoodUser(value.username, value.firstname, value.lastname, value.email, value.password)
                 console.log(valid)
-                if (valid) {
+                if (valid) { 
                     var validUser = new User(usr._id, value.username, value.firstname, value.lastname, value.email, usr.datejoined, value.password, 0, []);
                     console.log("start updating database")
                     var result = change_user_database(validUser) 
                     Alert.alert("Successfully updated!")
                     var updateduser = await get_user_from_id(usr._id)
+                    console.log("updated user is: ")
                     console.log(updateduser)
-                    globVars.user = updateduser
-                    console.log(globVars.user)
+                    //console.log("globvars.user user is: ")
+                    globVars.user = validUser
+                    //console.log(globVars.user)
                     this.props.navigation.navigate('EditUser')
                 }
                 else {
