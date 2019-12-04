@@ -189,11 +189,6 @@ describe('testing getters and setters', () => {
         expect(await bobby.setEmail("giww23#@%$@^@#")).toBe(false);
         expect(await bobby.setEmail("bobby@gsnail.com")).toBe(true);
         expect(bobby.getEmail()).toBe("bobby@gsnail.com");
-
-        expect(await alice.setEmail("ryleehancock@gmail.com")).toBe(false);
-        expect(await alice.setEmail("bobby@uchicago.edu")).toBe(true);
-        expect(await alice.setEmail("alicegmail.com")).toBe(false);
-        expect(alice.getEmail()).toBe("bobby@uchicago.edu");
     }, 30000);
 
     test("testing set/get Date", () => {
