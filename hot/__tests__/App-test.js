@@ -60,6 +60,12 @@ describe('testing validation functions', () => {
 
 });
 
+
+// This part of the unit test is meant to test whether the constructor
+// is working well with the database. Since running this test repeatedly 
+// will destroy our db, we commented this part out after we confirm that 
+// the function works
+
 // describe('testing construct user', () => {
 //     // test('testing set_user_id', async () => {
 //     //     userone = new User(null, "bobby1234", "bobby", "johnson", "bobbyjohnson@gmail.com", (new Date('2019-01-02')), "Fonghong28", 0, ["5dcd241d8a5d632450dea810"]);
