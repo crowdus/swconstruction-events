@@ -127,39 +127,19 @@ describe('testing getters and setters', () => {
         //can contain alphabet only/ alphabet + number
         
         
-        var realuser = await get_user_from_id("5dddad5b2c94dc00172c059c")
-        //console.log(realuser);
+        var realuser = await get_user_from_id("5de632692ddbac00172de5d2")
+        console.log(realuser);
         realuser = convert(realuser);
         expect(await realuser.setUserName("")).toBe(false);
         expect(await realuser.setUserName("iambobby!")).toBe(false);
         realuser = await get_user_from_id(realuser._id);
         realuser = convert(realuser);
-        expect(realuser.getUserName()).toBe("st0020");
+        expect(realuser.getUserName()).toBe("Jiayitest");
         
-        expect(await realuser.setUserName("st0020iscool")).toBe(true);
+        expect(await realuser.setUserName("Jiayitestiscool")).toBe(true);
         //console.log(realuser);
-
-        expect(await realuser.setUserName("bobbyiscool")).toBe(true);
-        realuser = await get_user_from_id(realuser._id);
-        realuser = convert(realuser);
-        expect(realuser.username).toBe("st0020");
-
-        expect(await bobby.setUserName("")).toBe(false);
-        expect(await bobby.setUserName("iambobby!")).toBe(false);
-        expect(bobby.getUserName()).toBe("bobby1234");
-        expect(await bobby.setUserName("bobbyiscool")).toBe(true);
-        expect(bobby.getUserName()).toBe("bobbyiscool");
-        expect(await bobby.setUserName("bobby1234")).toBe(false); //this one exists in the database already
-        expect(bobby.getUserName()).toBe("bobbyiscool");
-        expect(await bobby.setUserName("2357>#$%")).toBe(false);
-        expect(bobby.getUserName()).toBe("bobbyiscool");
-
-        // // check for repeated username
-        expect(await alice.setUserName("am0002")).toBe(true);
-        expect(alice.getUserName()).toBe("am0002");
-        expect(await alice.setUserName("alice")).toBe(true);
-        expect(alice.getUserName()).toBe("alice"); //all alphanumeric, passes
-
+        expect(await realuser.setUserName("dijon")).toBe(false); // this one exists in database already
+        expect(await realuser.setUserName("Jiayitest")).toBe(true); //resets test
     }, 30000);
 
     test("testing get/set FirstName", () => {
