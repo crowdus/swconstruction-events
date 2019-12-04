@@ -84,7 +84,10 @@ export default class EditUser extends React.Component {
     onPress = async (usr) => {
         var value = this.refs.form.getValue();
         const checkdup = await get_user_from_username(value.username);
-        if(("friends" in checkdup) && !(checkdup._id == usr._id)){
+        console.log(checkdup._id);
+        console.log(usr._id);
+        console.log ("check" + (checkdup._id == usr._id))
+        if(("friends" in checkdup) && (checkdup._id != usr._id)){
           console.log(checkdup._id == usr._id)
           Alert.alert('', 'Username taken', 
           [
