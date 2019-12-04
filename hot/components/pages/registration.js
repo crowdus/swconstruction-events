@@ -171,7 +171,7 @@ export default class Registration extends React.Component {
             <Text>
               <Text style={{fontSize: 20}}> Registration Requirements: </Text>
               {'\n'}{'\n'}
-                - Username and password may only consist of alphanumeric characters.{'\n'}{'\n'}
+                - Username, first name and last name may only consist of alphanumeric characters.{'\n'}{'\n'}
                 - Passwords must be at least 10 characters long and contain at least one of each: {'\n'}
                   {'\t'} -Uppercase letter{'\n'}
                   {'\t'} -Lowercase letter{'\n'}
