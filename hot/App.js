@@ -2,7 +2,7 @@ import Geocoder from 'react-native-geocoding';
 
 const APIKEY = 'AIzaSyB9z1Rab2_34wUVl177HhwEAGa4nh2SnSk'
 
-import { Feed, AdminEvents } from './components/pages/feed.js';
+import { Feed, AdminEvents, UpcomingEvents } from './components/pages/feed.js';
 import TagButton from './components/renderables/tagButton.js';
 import TagView from './components/pages/tagView.js';
 
@@ -110,6 +110,37 @@ const adminNavigator = createStackNavigator({
     FriendView: { screen: UserView },
 }); 
 
+const upcomingNavigator = createStackNavigator({
+    Expl2: { screen: UpcomingEvents,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <View style={{paddingLeft: 10, flexDirection: 'row'}}><Icon name='three-bars' size={26} color='#222' onPress={() => navigation.toggleDrawer()} style={{alignSelf: 'center', marginTop: -5}} /><Text style={{fontSize: 26, alignSelf: 'center', marginTop: -5}}>   Explore</Text></View>,
+            drawerLabel: () => "Going/Interested Events",
+        }),
+    },
+    Event: { 
+        screen: EventView,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <HeaderBackButton onPress={()=>navigation.goBack(null)} />,
+            drawerLabel: () => null
+        }),
+    },
+    TagView: { 
+        screen: TagView,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <HeaderBackButton onPress={()=>navigation.goBack(null)} />,
+            drawerLabel: () => null
+        }),
+    },
+    ViewListUsers: {screen: ViewListUsers,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <HeaderBackButton onPress={()=>navigation.goBack(null)} />,
+            drawerLabel: () => null
+        }),
+    },
+    UserView: { screen: ProfileView },
+    FriendView: { screen: UserView },
+}); 
+
 
 const regNavigator = createStackNavigator({
   Registration: { 
@@ -141,6 +172,11 @@ const MainNavigator = createDrawerNavigator({
   AdminEvents: { screen: adminNavigator,  
       navigationOptions: ({navigation}) => ({
         drawerLabel: () => "Admin Events",
+      }),
+  },
+  UpcomingEvents: { screen: upcomingNavigator,  
+      navigationOptions: ({navigation}) => ({
+        drawerLabel: () => "Going/Interested Events",
       }),
   },
   TagsFollowing: { screen: TagsFollowing },

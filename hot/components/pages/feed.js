@@ -35,9 +35,7 @@ export class Feed extends Component {
             loc : null
         }
         this._getLocationAsync();
-        this.url = () => {
-            return 'http://hot-backend.herokuapp.com/events/'
-        };
+        this.url = () => 'http://hot-backend.herokuapp.com/exploreEvents/feed?userId='.concat(globVars.user.getUserID()).concat('&latitude=').concat(this.state.loc['coords']['latitude']).concat('&longitude=').concat(this.state.loc['coords']['longitude'])
     }
 
     _getLocationAsync = async () => {
@@ -55,6 +53,7 @@ export class Feed extends Component {
     render() {
         var usr = globVars.user
         if (this.state.loc) {
+            //console.log(this.url())
             fetch(this.url(), {
                 method: 'GET',
             }).then((response) => response.json())
